@@ -21,11 +21,11 @@ class SanctumTest extends TestCase
     {
         Sanctum::actingAs(
             factory(User::class)->create(),
-            ['view-tasks']
+            ['*']
         );
 
         $response = $this->get('/api/user');
-
+        dd($response);
         $response->assertOk();
     }
 
@@ -36,19 +36,13 @@ class SanctumTest extends TestCase
      */
     public function testLoginWithCredentialsTest()
     {
-        $user = factory(User::class)->create();
+        $user =  factory(User::class)->create();
 
-        $cookieResponse = $this->get('/sanctum/csrf-cookie');
-
-        dd($cookieResponse->cookie('cookies'));
-
-        $response = $this->post('/login', [
+        $response = $this->post('api/login', [
             'email' => $user->email,
-            'password' => $user->password
-        ], [
-            'X-XSRF-TOKEN' => $cookieResponse->cookies,
+            'password' => 'password'
         ]);
 
-        $response->assertOk();
+        $response->dump();
     }
 }
