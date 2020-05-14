@@ -10,7 +10,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SanctumTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * A basic test example.
@@ -25,7 +24,7 @@ class SanctumTest extends TestCase
         );
 
         $response = $this->get('/api/user');
-        dd($response);
+
         $response->assertOk();
     }
 
@@ -36,13 +35,38 @@ class SanctumTest extends TestCase
      */
     public function testLoginWithCredentialsTest()
     {
-        $user =  factory(User::class)->create();
+        $user = factory(User::class)->create();
 
         $response = $this->post('api/login', [
             'email' => $user->email,
             'password' => 'password'
         ]);
 
-        $response->dump();
+        $response->assertOk();
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testUserEndpoint()
+    {
+        $user = factory(User::class)->create();
+
+        $r = $this->post('api/login', [
+            'email' => $user->email,
+            'password' => 'password'
+        ]);
+
+        $r->assertOk();
+
+        $token = $r->baseResponse->content();
+
+        $response2 = $this->get('api/user', [
+            'Authentication' => 'Bearer ' . $token
+        ]);
+
+        $response2->dump();
     }
 }
