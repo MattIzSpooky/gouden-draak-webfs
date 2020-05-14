@@ -5,6 +5,7 @@ export default {
 
   state: {
     authenticated: false,
+    bearerToken: '',
     user: null
   },
 
@@ -24,14 +25,18 @@ export default {
 
     SET_USER(state: any, value: any) {
       state.user = value
+    },
+
+    SET_BEARER_TOKEN(state: any, value: string) {
+      state.bearerToken = value
     }
   },
 
   actions: {
-    async signIn({dispatch}: any, credentials: any) {
+    async signIn({commit, dispatch}: any, credentials: any) {
       await axios.get('/sanctum/csrf-cookie')
-      await axios.post('/login', credentials)
-
+      const response = await axios.post('/api/login', credentials)
+      commit('SET_BEARER_TOKEN', response.data)
       return dispatch('me')
     },
     async signOut({dispatch}: any) {
@@ -39,8 +44,12 @@ export default {
 
       return dispatch('me')
     },
-    me({commit}: any) {
-      return axios.get('/api/user').then((response) => {
+    me({commit, state}: any) {
+      return axios.get('/api/user', {
+        headers: {
+          Authorization: `Bearer ${state.bearerToken}`
+        }
+      }).then((response) => {
         commit('SET_AUTHENTICATED', true)
         commit('SET_USER', response.data)
       }).catch(() => {

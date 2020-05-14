@@ -7,6 +7,7 @@ import store from './store/index'
 Vue.config.productionTip = false
 
 axios.defaults.withCredentials = true
+axios.defaults.xsrfCookieName = 'XSRF-TOKEN'
 axios.defaults.baseURL = 'http://localhost:8000/'
 
 store.dispatch('auth/me').then(() => {
