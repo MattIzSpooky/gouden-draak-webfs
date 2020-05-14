@@ -26,4 +26,4 @@ Route::post('/login', function (Request $request) {
     }
 
     return $user->createToken($request->email)->plainTextToken;
-});
+})->name('login');

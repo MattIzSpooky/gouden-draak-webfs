@@ -8,11 +8,12 @@ use Laravel\Sanctum\Sanctum;
 use Illuminate\Testing\TestResponse;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class SanctumTest extends TestCase
+class SanctumLoginTest extends TestCase
 {
+    use RefreshDatabase;
 
     /**
-     * A basic test example.
+     * A basic login
      *
      * @return void
      */
@@ -29,7 +30,7 @@ class SanctumTest extends TestCase
     }
 
     /**
-     * A basic test example.
+     * A basic login with credientials
      *
      * @return void
      */
@@ -43,30 +44,38 @@ class SanctumTest extends TestCase
         ]);
 
         $response->assertOk();
+
+        $token = $response->baseResponse->content();
+
+        $userResponse = $this->get('api/user', [
+            'Authorization' => 'Bearer ' . $token
+        ]);
+
+        $userResponse->assertOk();
     }
 
     /**
-     * A basic test example.
+     * A basic login with credientials
      *
      * @return void
      */
-    public function testUserEndpoint()
+    public function testLoginWithWrongCredentialsTest()
     {
         $user = factory(User::class)->create();
 
-        $r = $this->post('api/login', [
+        $response = $this->post('api/login', [
             'email' => $user->email,
-            'password' => 'password'
+            'password' => 'passworddddddddd'
         ]);
 
-        $r->assertOk();
+        $response->assertStatus(302);
 
-        $token = $r->baseResponse->content();
+        $token = $response->baseResponse->content();
 
-        $response2 = $this->get('api/user', [
-            'Authentication' => 'Bearer ' . $token
+        $userResponse = $this->get('api/user', [
+            'Authorization' => 'Bearer ' . $token
         ]);
 
-        $response2->dump();
+        $userResponse->assertStatus(302);
     }
 }
