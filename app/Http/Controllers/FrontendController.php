@@ -1,12 +1,12 @@
 <?php
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
+
+use Illuminate\Contracts\Routing\ResponseFactory;
 
 class FrontendController extends Controller
 {
-    // For public application
-    public function app()
+    public function __invoke(ResponseFactory $response)
     {
-        return view('app');
+        return $response->view('app');
     }
 }
