@@ -33,7 +33,7 @@ export default {
     async signOut () {
       await this.signOutAction();
 
-      this.$router.replace({ name: 'home' });
+      await this.$router.replace({ name: 'home' });
     }
   }
 };

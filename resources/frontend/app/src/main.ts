@@ -10,10 +10,14 @@ axios.defaults.withCredentials = true;
 axios.defaults.xsrfCookieName = 'XSRF-TOKEN';
 axios.defaults.baseURL = 'http://localhost:8000/';
 
-store.dispatch('auth/me').then(() => {
-  new Vue({
-    router,
-    store,
-    render: h => h(App)
-  }).$mount('#app');
+axios.interceptors.request.use(function (config) {
+  config.headers.Authorization = `Bearer ${(store.state as any).auth.bearerToken}`;
+
+  return config;
 });
+
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app');

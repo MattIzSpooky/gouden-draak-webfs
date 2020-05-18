@@ -39,7 +39,7 @@ export default {
     async submit () {
       await this.signIn(this.form);
 
-      this.$router.replace({ name: 'home' });
+      await this.$router.replace({ name: 'home' });
     }
   }
 };

@@ -34,32 +34,25 @@ export default {
 
   actions: {
     async signIn({commit, dispatch}: any, credentials: any) {
-      await axios.get('/sanctum/csrf-cookie');
       const response = await axios.post('/api/login', credentials);
       commit('SET_BEARER_TOKEN', response.data);
       return dispatch('me');
     },
     async signOut({dispatch, state}: any) {
-      await axios.post('/api/logout', null, {
-        headers: {
-          Authorization: `Bearer ${state.bearerToken}`
-        }
-      });
+      await axios.post('/api/logout');
 
       return dispatch('me');
     },
-    me({commit, state}: any) {
-      return axios.get('/api/user', {
-        headers: {
-          Authorization: `Bearer ${state.bearerToken}`
-        }
-      }).then((response) => {
+    async me({commit}: any) {
+      try {
+        const response = await axios.get('/api/user');
+
         commit('SET_AUTHENTICATED', true);
         commit('SET_USER', response.data);
-      }).catch(() => {
+      } catch (e) {
         commit('SET_AUTHENTICATED', false);
         commit('SET_USER', null);
-      });
+      }
     }
   }
 };
