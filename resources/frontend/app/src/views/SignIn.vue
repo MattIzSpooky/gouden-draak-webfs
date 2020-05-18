@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import {mapActions} from 'vuex';
 
 export default {
   name: 'SignIn',
 
-  data () {
+  data() {
     return {
       form: {
         badge: '',
@@ -36,10 +36,10 @@ export default {
       signIn: 'auth/signIn'
     }),
 
-    async submit () {
+    async submit() {
       await this.signIn(this.form);
 
-      await this.$router.replace({ name: 'home' });
+      await this.$router.replace({name: 'home'});
     }
   }
 };

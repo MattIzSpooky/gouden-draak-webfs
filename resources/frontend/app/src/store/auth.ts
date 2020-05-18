@@ -1,6 +1,13 @@
 import axios from 'axios';
+import {Module} from 'vuex';
 
-export default {
+export interface GlobalAuthState {
+  authenticated: boolean;
+  bearerToken: string;
+  user: object | null;
+}
+
+const authModule: Module<GlobalAuthState, never> = {
   namespaced: true,
 
   state: {
@@ -10,40 +17,41 @@ export default {
   },
 
   getters: {
-    authenticated(state: any) {
+    authenticated(state: GlobalAuthState) {
       return state.authenticated;
     },
-    user(state: any) {
+    user(state: GlobalAuthState) {
       return state.user;
     }
   },
 
   mutations: {
-    SET_AUTHENTICATED(state: any, value: any) {
+    SET_AUTHENTICATED(state: GlobalAuthState, value: boolean) {
       state.authenticated = value;
     },
 
-    SET_USER(state: any, value: any) {
+    SET_USER(state: GlobalAuthState, value: object | null) {
       state.user = value;
     },
 
-    SET_BEARER_TOKEN(state: any, value: string) {
+    SET_BEARER_TOKEN(state: GlobalAuthState, value: string) {
       state.bearerToken = value;
     }
   },
 
   actions: {
-    async signIn({commit, dispatch}: any, credentials: any) {
+    async signIn({commit, dispatch}, credentials: object) {
       const response = await axios.post('/api/login', credentials);
       commit('SET_BEARER_TOKEN', response.data);
+
       return dispatch('me');
     },
-    async signOut({dispatch, state}: any) {
+    async signOut({dispatch}) {
       await axios.post('/api/logout');
 
       return dispatch('me');
     },
-    async me({commit}: any) {
+    async me({commit}) {
       try {
         const response = await axios.get('/api/user');
 
@@ -56,3 +64,5 @@ export default {
     }
   }
 };
+
+export default authModule;

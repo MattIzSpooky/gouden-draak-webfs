@@ -11,6 +11,8 @@ axios.defaults.xsrfCookieName = 'XSRF-TOKEN';
 axios.defaults.baseURL = 'http://localhost:8000/';
 
 axios.interceptors.request.use(function (config) {
+  // FIXME: fix typing
+  // eslint-disable-next-line
   config.headers.Authorization = `Bearer ${(store.state as any).auth.bearerToken}`;
 
   return config;
