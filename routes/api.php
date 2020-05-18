@@ -10,7 +10,7 @@ use Illuminate\Validation\ValidationException;
 Route::namespace('API')->group(function () {
     Route::namespace('Auth')->group(function () {
         Route::post('/login', 'LoginController')->name('login');
-        Route::post('/logout', 'LogoutController')->name('logout');
+        Route::post('/logout', 'LogoutController')->middleware(['auth:sanctum'])->name('logout');
     });
 
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
