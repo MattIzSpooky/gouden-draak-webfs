@@ -13,7 +13,7 @@ class SanctumLoginTest extends TestCase
     use RefreshDatabase;
 
     /**
-     *
+     * @group auth
      * @return void
      */
     public function testLoginTest()
@@ -29,7 +29,7 @@ class SanctumLoginTest extends TestCase
     }
 
     /**
-     *
+     * @group auth
      * @return void
      */
     public function testLogoutTest()
@@ -59,7 +59,7 @@ class SanctumLoginTest extends TestCase
     }
 
     /**
-     *
+     * @group auth
      * @return void
      */
     public function testLoginWithCredentialsTest()
@@ -83,7 +83,7 @@ class SanctumLoginTest extends TestCase
     }
 
     /**
-     *
+     * @group auth
      * @return void
      */
     public function testLoginWithWrongCredentialsTest()
