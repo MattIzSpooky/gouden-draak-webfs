@@ -13,7 +13,6 @@ class SanctumLoginTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * A basic login
      *
      * @return void
      */
@@ -30,7 +29,36 @@ class SanctumLoginTest extends TestCase
     }
 
     /**
-     * A basic login with credientials
+     *
+     * @return void
+     */
+    public function testLogoutTest()
+    {
+        $user = factory(User::class)->create();
+
+        $loginResponse = $this->post('api/login', [
+            'badge' => $user->badge,
+            'password' => 'password'
+        ]);
+
+        $loginResponse->assertOk();
+
+        $token = $loginResponse->baseResponse->content();
+
+        $userResponse = $this->get('api/user', [
+            'Authorization' => 'Bearer ' . $token
+        ]);
+
+        $userResponse->assertOk();
+
+        $logoutResponse = $this->post('/api/logout');
+
+        $logoutResponse->assertOk();
+
+        $this->assertDatabaseMissing('personal_access_tokens', ['tokenable_id' => $user->id]);
+    }
+
+    /**
      *
      * @return void
      */
@@ -38,14 +66,14 @@ class SanctumLoginTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->post('api/login', [
-            'email' => $user->email,
+        $loginResponse = $this->post('api/login', [
+            'badge' => $user->badge,
             'password' => 'password'
         ]);
 
-        $response->assertOk();
+        $loginResponse->assertOk();
 
-        $token = $response->baseResponse->content();
+        $token = $loginResponse->baseResponse->content();
 
         $userResponse = $this->get('api/user', [
             'Authorization' => 'Bearer ' . $token
@@ -55,7 +83,6 @@ class SanctumLoginTest extends TestCase
     }
 
     /**
-     * A basic login with credientials
      *
      * @return void
      */
@@ -64,8 +91,8 @@ class SanctumLoginTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->post('api/login', [
-            'email' => $user->email,
-            'password' => 'passworddddddddd'
+            'badge' => $user->badge,
+            'password' => 'passwordddddddd'
         ]);
 
         $response->assertStatus(302);

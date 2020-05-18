@@ -19,14 +19,14 @@ class LoginController extends Controller
      */
     public function __invoke(LoginRequest $request, Hasher $hasher)
     {
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('badge', $request->badge)->first();
 
         if (!$user || !$hasher->check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+                'badge' => ['incorrect badge'],
             ]);
         }
 
-        return $user->createToken($request->email)->plainTextToken;
+        return $user->createToken($request->badge)->plainTextToken;
     }
 }
