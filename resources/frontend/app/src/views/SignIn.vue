@@ -1,8 +1,8 @@
 <template>
   <form action="#" @submit.prevent="submit">
     <div>
-      <label for="email">Email address</label>
-      <input type="text" name="email" id="email" v-model="form.email">
+      <label for="email">Badge</label>
+      <input type="text" name="email" id="email" v-model="form.badge">
     </div>
     <div>
       <label for="password">Password</label>
@@ -17,8 +17,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { mapActions } from 'vuex'
+import { mapActions } from 'vuex';
 
 export default {
   name: 'SignIn',
@@ -26,10 +25,10 @@ export default {
   data () {
     return {
       form: {
-        email: '',
+        badge: '',
         password: ''
       }
-    }
+    };
   },
 
   methods: {
@@ -38,10 +37,10 @@ export default {
     }),
 
     async submit () {
-      await this.signIn(this.form)
+      await this.signIn(this.form);
 
-      this.$router.replace({ name: 'home' })
+      this.$router.replace({ name: 'home' });
     }
   }
-}
+};
 </script>

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 export default {
   namespaced: true,
@@ -11,38 +11,42 @@ export default {
 
   getters: {
     authenticated(state: any) {
-      return state.authenticated
+      return state.authenticated;
     },
     user(state: any) {
-      return state.user
+      return state.user;
     }
   },
 
   mutations: {
     SET_AUTHENTICATED(state: any, value: any) {
-      state.authenticated = value
+      state.authenticated = value;
     },
 
     SET_USER(state: any, value: any) {
-      state.user = value
+      state.user = value;
     },
 
     SET_BEARER_TOKEN(state: any, value: string) {
-      state.bearerToken = value
+      state.bearerToken = value;
     }
   },
 
   actions: {
     async signIn({commit, dispatch}: any, credentials: any) {
-      await axios.get('/sanctum/csrf-cookie')
-      const response = await axios.post('/api/login', credentials)
-      commit('SET_BEARER_TOKEN', response.data)
-      return dispatch('me')
+      await axios.get('/sanctum/csrf-cookie');
+      const response = await axios.post('/api/login', credentials);
+      commit('SET_BEARER_TOKEN', response.data);
+      return dispatch('me');
     },
-    async signOut({dispatch}: any) {
-      await axios.post('/logout')
+    async signOut({dispatch, state}: any) {
+      await axios.post('/api/logout', null, {
+        headers: {
+          Authorization: `Bearer ${state.bearerToken}`
+        }
+      });
 
-      return dispatch('me')
+      return dispatch('me');
     },
     me({commit, state}: any) {
       return axios.get('/api/user', {
@@ -50,12 +54,12 @@ export default {
           Authorization: `Bearer ${state.bearerToken}`
         }
       }).then((response) => {
-        commit('SET_AUTHENTICATED', true)
-        commit('SET_USER', response.data)
+        commit('SET_AUTHENTICATED', true);
+        commit('SET_USER', response.data);
       }).catch(() => {
-        commit('SET_AUTHENTICATED', false)
-        commit('SET_USER', null)
-      })
+        commit('SET_AUTHENTICATED', false);
+        commit('SET_USER', null);
+      });
     }
   }
-}
+};
