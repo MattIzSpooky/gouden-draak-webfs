@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class LogoutController extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Handle the incoming request for logout.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
