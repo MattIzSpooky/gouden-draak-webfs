@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 
 class LogoutController extends Controller
@@ -14,7 +13,7 @@ class LogoutController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, ResponseFactory $response)
+    public function __invoke(Request $request)
     {
         return $request->user()->tokens()->delete();
     }
