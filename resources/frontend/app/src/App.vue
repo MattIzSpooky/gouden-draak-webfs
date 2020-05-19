@@ -1,21 +1,24 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <template v-if="!authenticated">
-        <router-link to="/signin">Sign in</router-link> |
-      </template>
-      <template v-else>
-        <router-link to="/account">{{ user.name }}</router-link> |
-        <a href="#" @click.prevent="signOut">Sign out</a>
-      </template>
-    </div>
+<!--    <div id="nav">-->
+<!--      <router-link to="/">Home</router-link>-->
+<!--      |-->
+<!--      <template v-if="!authenticated">-->
+<!--        <router-link to="/signin">Sign in</router-link>-->
+<!--        |-->
+<!--      </template>-->
+<!--      <template v-else>-->
+<!--        <router-link to="/account">{{ user.name }}</router-link>-->
+<!--        |-->
+<!--        <a href="#" @click.prevent="signOut">Sign out</a>-->
+<!--      </template>-->
+<!--    </div>-->
     <router-view/>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import {mapGetters, mapActions} from 'vuex';
 
 export default {
   computed: {
@@ -30,11 +33,15 @@ export default {
       signOutAction: 'auth/signOut'
     }),
 
-    async signOut () {
+    async signOut() {
       await this.signOutAction();
 
-      await this.$router.replace({ name: 'home' });
+      await this.$router.replace({name: 'home'});
     }
   }
 };
 </script>
+
+<style lang="scss">
+  @import "styles/website";
+</style>
