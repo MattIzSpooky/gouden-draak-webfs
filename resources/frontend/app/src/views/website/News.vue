@@ -8,6 +8,9 @@
         <p>
           {{news.text}}
         </p>
+        <small>
+          {{transformToDutchDate(news.created_at)}}
+        </small>
       </td>
     </tr>
     <tr>
@@ -36,6 +39,10 @@ import {Paginated} from '@/types/paginated';
 })
 export default class News extends Vue {
     private paginatedNews: Paginated<News> | null = null;
+
+    transformToDutchDate(ISOString: string) {
+      return new Date(ISOString).toLocaleDateString('nl');
+    }
 
     async created() {
       const response = await axios.get<Paginated<News>>(`/api/news?page=${this.$route.query.page}`);
