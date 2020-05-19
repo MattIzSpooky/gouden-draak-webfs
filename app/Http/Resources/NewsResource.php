@@ -17,7 +17,7 @@ class NewsResource extends JsonResource
         return [
             'title' => $this->title,
             'text' => $this->text,
-            'created_at' => $this->created_at->toDateString()
+            'created_at' => $this->created_at->toIso8601String()
         ];
     }
 }
