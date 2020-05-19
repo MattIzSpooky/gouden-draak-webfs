@@ -1,5 +1,6 @@
 <?php
 
+use App\MenuAddition;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -15,5 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(NewsSeeder::class);
         $this->call(DishTypeSeeder::class);
+        $this->call(MenuAdditionSeeder::class);
     }
 }
