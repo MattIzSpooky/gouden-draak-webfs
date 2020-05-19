@@ -11,6 +11,6 @@ $factory->define(Dish::class, function (Faker $faker) {
         'name' => $faker->word,
         'description' => $faker->text(100),
         'price' => $faker->randomFloat(2, 1, 100),
-        'dish_type_id' => DishType::all()->random()->pluck('id')
+        'dish_type_id' => 1
     ];
 });

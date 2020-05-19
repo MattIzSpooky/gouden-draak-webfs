@@ -13,6 +13,8 @@ Route::namespace('API')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('dish')->name('dish.')->group(function () {
             Route::get('types', 'DishTypeController')->name('types');
+            Route::get('additions', 'MenuAdditionController')->name('additions');
         });
+        Route::apiResource('menu', 'MenuItemController');
     });
 });
