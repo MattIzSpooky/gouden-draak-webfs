@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::namespace('API')->group(function () {
@@ -11,7 +10,9 @@ Route::namespace('API')->group(function () {
         Route::post('/logout', 'LogoutController')->middleware(['auth:sanctum'])->name('logout');
     });
 
-    Route::middleware('auth:sanctum')->get('/user', function () {
-        return 'Succes';
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::prefix('dish')->name('dish.')->group(function () {
+            Route::get('types', 'DishTypeController')->name('types');
+        });
     });
 });
