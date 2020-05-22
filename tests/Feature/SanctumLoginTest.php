@@ -23,7 +23,7 @@ class SanctumLoginTest extends TestCase
             ['*']
         );
 
-        $response = $this->get('/api/user');
+        $response = $this->get('/api/info');
 
         $response->assertOk();
     }
@@ -45,7 +45,7 @@ class SanctumLoginTest extends TestCase
 
         $token = $loginResponse->baseResponse->content();
 
-        $userResponse = $this->get('api/user', [
+        $userResponse = $this->get('api/info', [
             'Authorization' => 'Bearer ' . $token
         ]);
 
@@ -75,7 +75,7 @@ class SanctumLoginTest extends TestCase
 
         $token = $loginResponse->baseResponse->content();
 
-        $userResponse = $this->get('api/user', [
+        $userResponse = $this->get('api/info', [
             'Authorization' => 'Bearer ' . $token
         ]);
 
@@ -99,7 +99,7 @@ class SanctumLoginTest extends TestCase
 
         $token = $response->baseResponse->content();
 
-        $userResponse = $this->get('api/user', [
+        $userResponse = $this->get('api/info', [
             'Authorization' => 'Bearer ' . $token
         ]);
 
