@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MenuItemResource extends JsonResource
+class OrderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +16,9 @@ class MenuItemResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'menu_number' => $this->menu_number,
-            'addition' => $this->addition,
-            'amount' => $this->whenPivotLoaded('order_items', function () {
-                return $this->pivot->amount;
-            }),
-            'dish' => new DishResource($this->dish)
+            'paid_at' => $this->paid_at === null ? null : $this->paid_at->toIso8601String(),
+            'created_at' => $this->created_at->toIso8601String(),
+            'items' => MenuItemResource::collection($this->items)
         ];
     }
 }

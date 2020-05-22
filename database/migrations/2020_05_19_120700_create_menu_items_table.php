@@ -17,8 +17,9 @@ class CreateMenuItemsTable extends Migration
             $table->id();
             $table->integer('menu_number');
             $table->char('addition')->nullable();
-            $table->foreignId('dish_id')->constrained();
+            $table->foreignId('dish_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['menu_number', 'addition', 'dish_id']);
 

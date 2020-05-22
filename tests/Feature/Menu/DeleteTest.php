@@ -27,7 +27,7 @@ class DeleteTest extends TestCase
 
         $response->assertStatus(200);
 
-        $this->assertDatabaseMissing('menu_items', ['id' =>  1]);
+        $this->assertSoftDeleted('menu_items', ['id' =>  1]);
 
         $this->assertDatabaseMissing('dishes', ['id' =>  1]);
     }

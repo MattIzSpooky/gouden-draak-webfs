@@ -19,8 +19,8 @@ class IndexTest extends TestCase
      */
     public function testOverviewExample()
     {
-        $this->seed(UserSeeder::class);
-        $this->seed(MenuAdditionSeeder::class);
+        $this->artisan('migrate:fresh');
+        $this->seed();
 
         Sanctum::actingAs(
             factory(User::class)->create(),
