@@ -15,6 +15,7 @@ class AddUserRoleAsForeignKeyToTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->foreignId('user_role_id')->constrained('user_roles');
+            $table->dropColumn('is_admin');
         });
     }
 

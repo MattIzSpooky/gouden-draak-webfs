@@ -22,6 +22,7 @@ Route::namespace('API')->group(function () {
         });
         Route::apiResource('news', 'NewsController')->except('index')->middleware('role:admin');
         Route::apiResource('menu', 'MenuItemController')->middleware('role:admin');
+        Route::apiResource('users', 'UserController')->middleware('role:admin');
         Route::get('orders', 'OrderController@index')->middleware('role:admin,kassa,waitress');
     });
 });

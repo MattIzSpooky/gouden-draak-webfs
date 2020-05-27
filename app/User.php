@@ -13,13 +13,15 @@ class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
+    protected $perPage = 25;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'password', 'badge', 'user_role_id'
     ];
 
     /**
