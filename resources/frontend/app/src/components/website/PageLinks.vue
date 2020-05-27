@@ -3,13 +3,13 @@
     <!-- TODO: fix this garbage -->
     <tr :style="{'background-image': 'url(' + require('../../assets/images/menu_bg_gradient.png') + ')'}">
       <td valign="middle">
-        <router-link to="/menu">Menukaart</router-link>
+        <router-link class="page-link" to="/menu">Menukaart</router-link>
       </td>
       <td valign="middle">
-        <router-link to="/news">Nieuws</router-link>
+        <router-link class="page-link" to="/news">Nieuws</router-link>
       </td>
       <td valign="middle">
-        <router-link to="/contact">Contact</router-link>
+        <router-link class="page-link" to="/contact">Contact</router-link>
       </td>
     </tr>
   </table>
@@ -20,3 +20,11 @@ export default {
   name: 'PageLinks'
 };
 </script>
+
+<style lang="scss">
+ .page-link {
+   display: inline-block;
+   color: white;
+   width: 177px;
+ }
+</style>

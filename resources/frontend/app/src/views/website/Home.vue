@@ -1,7 +1,9 @@
 <template>
  <dragon-page>
    <tr style="padding-top:50px">
+     <td style="width: 50px"/>
      <td align="center" style='border:1px solid black;background:floralwhite'>
+       <br/>
        <h3>Al jaren is De Gouden Draak een begrip als het gaat om de beste afhaalgerechten in 's-Hertogenbosch.<br>
          Graag trakteren we u op authentieke gerechten uit de Cantonese keuken.</h3>
        <br>
@@ -46,6 +48,7 @@
        </h3>
        <h1>Prijs: €21,00</h1>
      </td>
+     <td style="width: 50px"/>
    </tr>
  </dragon-page>
 </template>

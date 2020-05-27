@@ -3,10 +3,12 @@
     <table style="padding:5px;width:100%;border-collapse: collapse">
       <tr style="height:50px;background-color:red">
         <td style="text-align:center;width:30%;color:yellow;font-size:30px">
-          <img style="vertical-align: middle;" src="../../assets/images/dragon-small.png" alt="Golden Dragon"
+          <img class="dragon-img-left" style="vertical-align: middle;" src="../../assets/images/dragon-small.png"
+               alt="Golden Dragon"
                height="50px">
           <span style="font-family:'chinese_takeawayregular'">De Gouden Draak</span>
-          <img style="vertical-align: middle;" src="../../assets/images/dragon-small-flipped.png" alt="Golden Dragon"
+          <img class="dragon-img-right" style="vertical-align: middle;"
+               src="../../assets/images/dragon-small-flipped.png" alt="Golden Dragon"
                height="50px">
         </td>
         <td>
@@ -17,10 +19,12 @@
           </a>
         </td>
         <td style="text-align:center;width:30%;color:yellow;font-size:30px">
-          <img style="vertical-align: middle;" src="../../assets/images/dragon-small.png" alt="Golden Dragon"
+          <img class="dragon-img-left" style="vertical-align: middle;" src="../../assets/images/dragon-small.png"
+               alt="Golden Dragon"
                height="50px">
           <span style="font-family:'chinese_takeawayregular'">De Gouden Draak</span>
-          <img style="vertical-align: middle;" src="../../assets/images/dragon-small-flipped.png" alt="Golden Dragon"
+          <img class="dragon-img-right" style="vertical-align: middle;"
+               src="../../assets/images/dragon-small-flipped.png" alt="Golden Dragon"
                height="50px">
         </td>
       </tr>
@@ -147,3 +151,13 @@ export default {
   components: {PageLinks}
 };
 </script>
+
+<style lang="scss">
+  .dragon-img-left {
+    padding: 0 9px 0 0;
+  }
+
+  .dragon-img-right {
+    padding: 0 0 0 9px;
+  }
+</style>
