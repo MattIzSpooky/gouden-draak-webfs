@@ -12,14 +12,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class StoreTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * @group users
      * @return void
      */
     public function testStoreUser()
     {
+        $this->artisan('migrate:fresh');
         $this->seed(UserRoleSeeder::class);
 
         $waitress = [

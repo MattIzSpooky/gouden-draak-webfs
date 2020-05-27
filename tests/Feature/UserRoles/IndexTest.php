@@ -1,26 +1,25 @@
 <?php
 
-namespace Tests\Feature\Users;
+namespace Tests\Feature\UserRoles;
 
 use App\User;
 use App\UserRole;
 use Tests\TestCase;
+use UserRoleSeeder;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use UserRoleSeeder;
 
 class IndexTest extends TestCase
 {
     /**
-     * @group users
+     * @group roles
      * @return void
      */
-    public function testUserIndexPage()
+    public function testOverview()
     {
         $this->artisan('migrate:fresh');
         $this->seed(UserRoleSeeder::class);
-        factory(User::class, 5)->create(['user_role_id' => UserRole::WAITRESS]);
         $user = factory(User::class)->create(['user_role_id' => UserRole::ADMIN]);
 
         Sanctum::actingAs(
@@ -28,19 +27,15 @@ class IndexTest extends TestCase
             ['*']
         );
 
-        $response = $this->get('/api/users');
+        $response = $this->get('/api/users/roles');
 
         $response->assertOk();
 
         $response->assertJsonStructure([
             'data' => [[
+                'id',
                 'name',
-                'badge',
-                'role' => [
-                    'id',
-                    'name',
-                    'dutch_name'
-                ]
+                'dutch_name'
             ]]
         ]);
     }

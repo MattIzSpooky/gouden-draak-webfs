@@ -13,14 +13,13 @@ use Illuminate\Support\Facades\Hash;
 
 class UpdateTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * @group users
      * @return void
      */
     public function testUpdateUser()
     {
+        $this->artisan('migrate:fresh');
         $this->seed(UserRoleSeeder::class);
         $password = Hash::make('Hello');
         $waitress = factory(User::class)
@@ -57,6 +56,7 @@ class UpdateTest extends TestCase
      */
     public function testUpdatePasswordUser()
     {
+        $this->artisan('migrate:fresh');
         $this->seed(UserRoleSeeder::class);
         $waitress = factory(User::class)->create(['user_role_id' => UserRole::WAITRESS]);
         $user = factory(User::class)->create(['user_role_id' => UserRole::ADMIN]);

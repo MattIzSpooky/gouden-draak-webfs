@@ -11,14 +11,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * @group users
      * @return void
      */
     public function testUserShowPage()
     {
+        $this->artisan('migrate:fresh');
         $this->seed(UserRoleSeeder::class);
         $waitress = factory(User::class)->create(['user_role_id' => UserRole::WAITRESS]);
         $user = factory(User::class)->create(['user_role_id' => UserRole::ADMIN]);
