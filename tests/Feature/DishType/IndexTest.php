@@ -7,8 +7,8 @@ use UserSeeder;
 use DishTypeSeeder;
 use Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use UserRoleSeeder;
 
 class IndexTest extends TestCase
 {
@@ -20,6 +20,7 @@ class IndexTest extends TestCase
      */
     public function testDishTypeOverviewTest()
     {
+        $this->seed(UserRoleSeeder::class);
         $this->seed(UserSeeder::class);
         $this->seed(DishTypeSeeder::class);
 

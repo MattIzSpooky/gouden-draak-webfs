@@ -3,7 +3,10 @@
 namespace Tests\Feature\News;
 
 use App\News;
+use App\User;
+use App\UserRole;
 use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdateTest extends TestCase
@@ -16,6 +19,11 @@ class UpdateTest extends TestCase
      */
     public function testNewsUpdateCorrectTest()
     {
+        Sanctum::actingAs(
+            factory(User::class)->create(['user_role_id' => UserRole::ADMIN]),
+            ['*']
+        );
+
         $news = factory(News::class)->create();
         $data  = ['title' => 'Test', 'text' => 'hello'];
 
@@ -33,6 +41,11 @@ class UpdateTest extends TestCase
      */
     public function testNewsStoreValidationErrorTest()
     {
+        Sanctum::actingAs(
+            factory(User::class)->create(['user_role_id' => UserRole::ADMIN]),
+            ['*']
+        );
+
         $news = factory(News::class)->create();
         $data  = ['title' => '', 'text' => 'hello'];
 

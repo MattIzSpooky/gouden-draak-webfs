@@ -3,6 +3,7 @@
 namespace Tests\Feature\Orders;
 
 use App\User;
+use App\UserRole;
 use Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
 
@@ -18,7 +19,7 @@ class ShowTest extends TestCase
         $this->seed();
 
         Sanctum::actingAs(
-            factory(User::class)->create(),
+            factory(User::class)->create(['user_role_id' => UserRole::ADMIN]),
             ['*']
         );
 

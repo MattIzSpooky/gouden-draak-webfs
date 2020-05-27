@@ -3,6 +3,7 @@
 namespace Tests\Feature\Menu;
 
 use App\User;
+use App\UserRole;
 use Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,7 +20,7 @@ class IndexTest extends TestCase
         $this->seed();
 
         Sanctum::actingAs(
-            factory(User::class)->create(),
+            factory(User::class)->create(['user_role_id' => UserRole::ADMIN]),
             ['*']
         );
 

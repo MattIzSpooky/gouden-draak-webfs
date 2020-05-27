@@ -3,6 +3,7 @@
 namespace Tests\Feature\Menu;
 
 use App\User;
+use App\UserRole;
 use Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -17,7 +18,7 @@ class StoreTest extends TestCase
     public function testStoreMenuItemTest()
     {
         Sanctum::actingAs(
-            factory(User::class)->create(),
+            factory(User::class)->create(['user_role_id' => UserRole::ADMIN]),
             ['*']
         );
 
@@ -61,7 +62,7 @@ class StoreTest extends TestCase
     public function testStoreMenuItemsWithValidationErrorsTest()
     {
         Sanctum::actingAs(
-            factory(User::class)->create(),
+            factory(User::class)->create(['user_role_id' => UserRole::ADMIN]),
             ['*']
         );
 
