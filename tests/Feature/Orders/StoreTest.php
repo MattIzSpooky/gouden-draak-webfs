@@ -2,9 +2,12 @@
 
 namespace Tests\Feature\Orders;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\User;
+use App\UserRole;
 use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class StoreTest extends TestCase
 {
@@ -16,6 +19,11 @@ class StoreTest extends TestCase
     {
         $this->artisan('migrate:fresh');
         $this->seed();
+
+        Sanctum::actingAs(
+            factory(User::class)->create(['user_role_id' => UserRole::ADMIN]),
+            ['*']
+        );
 
         $data = [
             'paid_at' => null,

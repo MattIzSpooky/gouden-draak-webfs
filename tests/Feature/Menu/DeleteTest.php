@@ -4,6 +4,7 @@ namespace Tests\Feature\Menu;
 
 use App\MenuItem;
 use App\User;
+use App\UserRole;
 use Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
 
@@ -19,7 +20,7 @@ class DeleteTest extends TestCase
         $this->seed();
 
         Sanctum::actingAs(
-            factory(User::class)->create(),
+            factory(User::class)->create(['user_role_id' => UserRole::ADMIN]),
             ['*']
         );
 

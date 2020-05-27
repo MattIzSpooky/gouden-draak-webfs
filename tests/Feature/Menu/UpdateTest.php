@@ -2,8 +2,9 @@
 
 namespace Tests\Feature\Menu;
 
-use App\MenuItem;
 use App\User;
+use App\MenuItem;
+use App\UserRole;
 use Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
 
@@ -19,7 +20,7 @@ class UpdateTest extends TestCase
         $this->seed();
 
         Sanctum::actingAs(
-            factory(User::class)->create(),
+            factory(User::class)->create(['user_role_id' => UserRole::ADMIN]),
             ['*']
         );
 
@@ -47,7 +48,7 @@ class UpdateTest extends TestCase
     public function testUpdateMenuItemsWithValidationErrorsTest()
     {
         Sanctum::actingAs(
-            factory(User::class)->create(),
+            factory(User::class)->create(['user_role_id' => UserRole::ADMIN]),
             ['*']
         );
 
