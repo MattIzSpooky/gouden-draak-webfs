@@ -15,10 +15,7 @@ Route::namespace('API')->group(function () {
     });
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::get('info', function () {
-            // FIXME: temporary fix for feature tests
-            return 'You are logged in!';
-        });
+        Route::get('info', 'InfoController');
         Route::prefix('dish')->name('dish.')->group(function () {
             Route::get('types', 'DishTypeController')->name('types');
             Route::get('additions', 'MenuAdditionController')->name('additions');
