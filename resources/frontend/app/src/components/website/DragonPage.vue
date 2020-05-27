@@ -153,6 +153,8 @@ export default {
 </script>
 
 <style lang="scss">
+  @import "../../styles/website.scss";
+
   .dragon-img-left {
     padding: 0 9px 0 0;
   }

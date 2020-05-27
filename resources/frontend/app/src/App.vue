@@ -1,18 +1,5 @@
 <template>
   <div id="app">
-<!--    <div id="nav">-->
-<!--      <router-link to="/">Home</router-link>-->
-<!--      |-->
-<!--      <template v-if="!authenticated">-->
-<!--        <router-link to="/signin">Sign in</router-link>-->
-<!--        |-->
-<!--      </template>-->
-<!--      <template v-else>-->
-<!--        <router-link to="/account">{{ user.name }}</router-link>-->
-<!--        |-->
-<!--        <a href="#" @click.prevent="signOut">Sign out</a>-->
-<!--      </template>-->
-<!--    </div>-->
     <router-view/>
   </div>
 </template>
@@ -41,7 +28,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-  @import "styles/website";
-</style>

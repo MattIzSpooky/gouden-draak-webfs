@@ -7,6 +7,11 @@ export interface GlobalAuthState {
   user: object | null;
 }
 
+export type LoginCredentials = {
+  badge: string;
+  password: string;
+}
+
 const authModule: Module<GlobalAuthState, never> = {
   namespaced: true,
 
@@ -40,7 +45,7 @@ const authModule: Module<GlobalAuthState, never> = {
   },
 
   actions: {
-    async signIn({commit, dispatch}, credentials: object) {
+    async signIn({commit, dispatch}, credentials: LoginCredentials) {
       const response = await axios.post('/api/login', credentials);
       commit('SET_BEARER_TOKEN', response.data);
 
