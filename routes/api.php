@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('API')->group(function () {
     Route::get('news', 'NewsController@index')->name('news.index');
-    Route::post('orders', 'OrderController@store')->middleware('role:customer,admin,waitress,kassa');
+
     Route::get('orders/{order}', 'OrderController@show')->middleware('role:customer,admin,waitress,kassa');
 
     Route::namespace('Auth')->group(function () {
@@ -15,6 +15,7 @@ Route::namespace('API')->group(function () {
     });
 
     Route::middleware('auth:sanctum')->group(function () {
+        Route::post('orders', 'OrderController@store')->middleware('role:customer,admin,waitress,kassa');
         Route::get('info', 'InfoController');
         Route::prefix('dish')->name('dish.')->group(function () {
             Route::get('types', 'DishTypeController')->name('types');

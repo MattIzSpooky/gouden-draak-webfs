@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
 
@@ -25,6 +24,6 @@ class CheckRole
             }
         }
 
-        return Response::deny('Not allowed', HttpResponse::HTTP_UNAUTHORIZED);
+        return response('Not allowed', HttpResponse::HTTP_UNAUTHORIZED);
     }
 }

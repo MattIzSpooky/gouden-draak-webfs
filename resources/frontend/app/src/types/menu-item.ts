@@ -1,10 +1,11 @@
 import {Dish} from '@/types/dish';
 
-export type MenuItemApiCollection = {
+export type MenuItemApiResource = {
   data: MenuItem[];
 }
 
 export type MenuItem = {
+  id: number;
   addition: string;
   dish: Dish;
   menu_number: number;

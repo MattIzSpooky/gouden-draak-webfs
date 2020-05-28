@@ -7,10 +7,5 @@
         "f:serve": "cd resources/frontend/app && npm run serve",
         "f:build": "cd resources/frontend/app && npm run build",
         "f:lint": "cd resources/frontend/app && npm run lint"
-    },
-    "devDependencies": {
-        "bootstrap": "^4.0.0",
-        "jquery": "^3.2",
-        "popper.js": "^1.12"
     }
 }

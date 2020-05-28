@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div>
-      {{name}}
+    <div class="row d-flex justify-content-center">
+      <h3>{{name}}</h3>
     </div>
     <table class="table">
       <tr v-for="item in menuItems" :key="item.id">
@@ -28,14 +28,20 @@
 import {Component, Emit, Prop, Vue} from 'vue-property-decorator';
 import {MenuItem} from '@/types/menu-item';
 
-@Component
+  @Component
 export default class MenuItemTable extends Vue {
-  @Prop(String) public readonly name!: string;
-  @Prop(Array) public readonly menuItems!: MenuItem[];
+    @Prop(String) public readonly name!: string;
+    @Prop(Array) public readonly menuItems!: MenuItem[];
 
-  @Emit('menuItemClick')
-  onMenuItemClick(menuItem: MenuItem) {
-    return menuItem;
-  }
+    @Emit('menuItemClick')
+    onMenuItemClick(menuItem: MenuItem) {
+      return menuItem;
+    }
 };
 </script>
+
+<style scoped lang="scss">
+  td {
+    text-align: center;
+  }
+</style>
