@@ -32,6 +32,12 @@ export default class OrderTable extends Vue {
 
     @Watch('orderedMenuItems', { deep: true })
     onOrderedMenuItemsChanged() {
+      const toBeRemovedIndex = this.orderedMenuItems.findIndex(i => i.amount <= 0);
+
+      if (toBeRemovedIndex !== -1) {
+        this.orderedMenuItems.splice(toBeRemovedIndex, 1);
+      }
+
       const price = this.orderedMenuItems.reduce((accumulator: number, item) => {
         let totalDishValue = 0;
         for (let i = 0; i < item.amount; i++) {
@@ -39,6 +45,7 @@ export default class OrderTable extends Vue {
         }
         return accumulator + totalDishValue;
       }, 0);
+
       this.emitTotalValue(price);
     }
 };
