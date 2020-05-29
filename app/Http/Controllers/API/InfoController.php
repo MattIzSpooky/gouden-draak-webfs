@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
+use Illuminate\Contracts\Auth\Guard;
 
 class InfoController extends Controller
 {
@@ -14,8 +16,8 @@ class InfoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, Guard $guard)
     {
-        return Response::HTTP_OK;
+        return new UserResource($guard->user());
     }
 }

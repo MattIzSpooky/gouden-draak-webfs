@@ -15,7 +15,7 @@ Route::namespace('API')->group(function () {
     });
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::get('info', 'InfoController')->name('info');
+        Route::get('user', 'InfoController')->name('auth.user');
         Route::prefix('dish')->name('dish.')->group(function () {
             Route::get('types', 'DishTypeController')->name('types');
             Route::get('additions', 'MenuAdditionController')->name('additions');

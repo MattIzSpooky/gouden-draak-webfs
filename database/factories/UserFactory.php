@@ -23,6 +23,6 @@ $factory->define(User::class, function (Faker $faker) {
         'name' => $faker->name,
         'badge' => $faker->unique()->randomNumber(5),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        'user_role_id' => UserRole::all()->random(1)->pluck('id')->first()
+        'user_role_id' => UserRole::ADMIN
     ];
 });
