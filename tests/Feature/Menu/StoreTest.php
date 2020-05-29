@@ -79,4 +79,31 @@ class StoreTest extends TestCase
 
         $response->assertStatus(302);
     }
+
+    /**
+     * @group menusStore
+     * @return void
+     */
+    public function testStoreMenuItemsWithNullableFieldsTest()
+    {
+        $this->artisan('migrate:fresh');
+        $this->seed();
+
+        Sanctum::actingAs(
+            factory(User::class)->create(['user_role_id' => UserRole::ADMIN]),
+            ['*']
+        );
+
+        $data = [
+            'name' => 'Test',
+            'price' => '15.65',
+            'description' => 'dddddd',
+            'dish_type_id' => 1,
+            'menu_number' => 5,
+            'addition' => null
+        ];
+
+        $response = $this->post('/api/menu', $data);
+        $response->assertStatus(201);
+    }
 }

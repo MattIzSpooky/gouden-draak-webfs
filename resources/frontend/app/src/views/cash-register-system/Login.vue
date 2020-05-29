@@ -79,6 +79,7 @@ export default class Login extends Vue {
 
 <style lang="scss">
   @import "~bootstrap";
+  @import '~bootstrap-vue/src/index.scss';
 
   .full-height {
     min-height: 100vh;

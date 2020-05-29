@@ -6,6 +6,7 @@ use App\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\OrderRequest;
 use App\Http\Resources\OrderResource;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -28,11 +29,11 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         /** @var Order */
-        $order = Order::create($request->only('paid_at'));
-        $items = \json_decode($request->get('items'));
+        $order = Order::create(['paid_at' => null]);
+        $items = $request->get('items');
 
         foreach ($items as $item) {
-            $order->items()->attach($item->id, ['amount' => $item->amount]);
+            $order->items()->attach($item['id'], ['amount' => $item['amount']]);
         }
 
         return (new OrderResource($order))->response();
@@ -47,5 +48,25 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         return new OrderResource($order);
+    }
+
+    /**
+     * Update the specified resource.
+     *
+     * @param  \App\Order  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function update(OrderRequest $request, Order $order)
+    {
+        /** @var Order */
+        $order->update(['paid_at' => null]);
+        $items = $request->get('items');
+
+        $order->items()->detach();
+        foreach ($items as $item) {
+            $order->items()->attach($item['id'], ['amount' => $item['amount']]);
+        }
+
+        return (new OrderResource($order))->response();
     }
 }

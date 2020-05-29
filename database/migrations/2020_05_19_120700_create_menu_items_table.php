@@ -15,7 +15,7 @@ class CreateMenuItemsTable extends Migration
     {
         Schema::create('menu_items', function (Blueprint $table) {
             $table->id();
-            $table->integer('menu_number');
+            $table->integer('menu_number')->nullable();
             $table->char('addition')->nullable();
             $table->foreignId('dish_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
