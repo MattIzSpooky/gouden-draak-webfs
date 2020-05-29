@@ -19,11 +19,6 @@ class UserRoleSeeder extends Seeder
                 'dutch_name' => 'Administrator'
             ],
             [
-                'id' => UserRole::CUSTOMER,
-                'name' => 'customer',
-                'dutch_name' => 'klant'
-            ],
-            [
                 'id' => UserRole::WAITRESS,
                 'name' => 'waitress',
                 'dutch_name' => 'Serveerster'
