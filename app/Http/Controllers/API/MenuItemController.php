@@ -31,8 +31,7 @@ class MenuItemController extends Controller
      */
     public function index()
     {
-        return MenuItem::all();
-        return MenuItemResource::collection(MenuItem::all());
+        return ['data' => MenuItem::with(['dish.type'])->get()->groupBy('dish.type.type')];
     }
 
     /**
