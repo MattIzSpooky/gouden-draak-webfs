@@ -31,6 +31,7 @@ class MenuItemController extends Controller
      */
     public function index()
     {
+        return MenuItem::all();
         return MenuItemResource::collection(MenuItem::all());
     }
 

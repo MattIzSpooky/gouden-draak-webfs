@@ -25,7 +25,7 @@ class IndexTest extends TestCase
         );
 
         $response = $this->get('/api/menu');
-
+        dd($response->json());
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
