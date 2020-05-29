@@ -29,7 +29,7 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         /** @var Order */
-        $order = Order::create(['paid_at' => Carbon::now()]);
+        $order = Order::create(['paid_at' => null]);
         $items = $request->get('items');
 
         foreach ($items as $item) {
@@ -48,5 +48,25 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         return new OrderResource($order);
+    }
+
+    /**
+     * Update the specified resource.
+     *
+     * @param  \App\Order  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function update(OrderRequest $request, Order $order)
+    {
+        /** @var Order */
+        $order->update(['paid_at' => null]);
+        $items = $request->get('items');
+
+        $order->items()->detach();
+        foreach ($items as $item) {
+            $order->items()->attach($item['id'], ['amount' => $item['amount']]);
+        }
+
+        return (new OrderResource($order))->response();
     }
 }
