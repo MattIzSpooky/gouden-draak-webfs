@@ -31,7 +31,8 @@ class MenuItemController extends Controller
      */
     public function index()
     {
-        return ['data' => MenuItem::with(['dish.type'])->get()->groupBy('dish.type.type')];
+        $items = MenuItem::with(['dish.type'])->get()->groupBy('dish.type.type');
+        return $this->response->json(['data' => $items]);
     }
 
     /**

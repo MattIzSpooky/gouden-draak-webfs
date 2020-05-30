@@ -25,23 +25,21 @@ class IndexTest extends TestCase
         );
 
         $response = $this->get('/api/menu');
-        dd($response->json());
+
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
             'data' => [
-                [
-                    'id',
-                    'menu_number',
-                    'addition',
-                    'dish' => [
+                '*' => [
+                    [
                         'id',
-                        'name',
-                        'price',
-                        'descriptions',
-                        'dish_type' => [
+                        'menu_number',
+                        'addition',
+                        'dish_id',
+                        'dish' => [
                             'id',
-                            'type'
+                            'name',
+                            'price',
                         ]
                     ]
                 ]

@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('API')->group(function () {
     Route::get('news', 'NewsController@index')->name('news.index');
-    Route::apiResource('menu', 'MenuItemController');
     Route::post('orders', 'OrderController@store')->name('orders.store');
 
     Route::namespace('Auth')->group(function () {
@@ -21,7 +20,7 @@ Route::namespace('API')->group(function () {
             Route::get('additions', 'MenuAdditionController')->name('additions');
         });
         Route::apiResource('news', 'NewsController')->except('index')->middleware('role:admin');
-        //Route::apiResource('menu', 'MenuItemController')->middleware('role:admin');
+        Route::apiResource('menu', 'MenuItemController')->middleware('role:admin');
         Route::get('users/roles', 'RoleController')->name('users.roles')->middleware('role:admin');
         Route::apiResource('users', 'UserController')->middleware('role:admin');
         Route::apiResource('orders', 'OrderController')->except(['destroy', 'store'])->middleware('role:admin,waitress,kassa');
