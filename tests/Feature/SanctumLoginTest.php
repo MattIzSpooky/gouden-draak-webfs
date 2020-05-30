@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\User;
 use Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
-use Illuminate\Testing\TestResponse;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SanctumLoginTest extends TestCase
@@ -23,7 +22,7 @@ class SanctumLoginTest extends TestCase
             ['*']
         );
 
-        $response = $this->get('/api/info');
+        $response = $this->get('/api/user');
 
         $response->assertOk();
     }
@@ -45,7 +44,7 @@ class SanctumLoginTest extends TestCase
 
         $token = $loginResponse->baseResponse->content();
 
-        $userResponse = $this->get('api/info', [
+        $userResponse = $this->get('api/user', [
             'Authorization' => 'Bearer ' . $token
         ]);
 
@@ -75,7 +74,7 @@ class SanctumLoginTest extends TestCase
 
         $token = $loginResponse->baseResponse->content();
 
-        $userResponse = $this->get('api/info', [
+        $userResponse = $this->get('api/user', [
             'Authorization' => 'Bearer ' . $token
         ]);
 
@@ -99,7 +98,7 @@ class SanctumLoginTest extends TestCase
 
         $token = $response->baseResponse->content();
 
-        $userResponse = $this->get('api/info', [
+        $userResponse = $this->get('api/user', [
             'Authorization' => 'Bearer ' . $token
         ]);
 

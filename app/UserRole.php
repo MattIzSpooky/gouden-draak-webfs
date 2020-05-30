@@ -8,8 +8,7 @@ class UserRole extends Model
 {
     public $timestamps = false;
 
-    public const CUSTOMER = 1;
-    public const ADMIN = 2;
-    public const KASSA = 3;
-    public const WAITRESS = 4;
+    public const ADMIN = 3;
+    public const KASSA = 2;
+    public const WAITRESS = 1;
 }
