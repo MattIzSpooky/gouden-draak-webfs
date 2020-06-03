@@ -24,9 +24,12 @@ export default class NewMenuItem extends Vue {
     public dishTypes: DishType[] = [];
 
     async beforeCreate() {
-      const response = await axios.get<DishTypeResource>('/api/dish/types');
+      const dishTypeResponse = await axios.get<DishTypeResource>('/api/dish/types');
 
-      this.dishTypes.push(...response.data.data);
+      this.dishTypes.push(...dishTypeResponse.data.data);
+
+      const menuNumberAdditionResponse = await axios.get<never[]>('api/dish/additions');
+      console.log(menuNumberAdditionResponse.data);
     }
 
     public submit(formData: never) {
