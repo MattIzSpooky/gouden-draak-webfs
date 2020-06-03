@@ -30,16 +30,14 @@ class ShowTest extends TestCase
 
         $response->assertJsonStructure([
             'data' => [
-
                 'id',
-                'menu_number',
+                'menuNumber',
                 'addition',
                 'dish' => [
                     'id',
                     'name',
                     'price',
-                    'descriptions',
-                    'dish_type' => [
+                    'dishType' => [
                         'id',
                         'type'
                     ]

@@ -47,7 +47,7 @@ class UserController extends Controller
         $user = User::create([
             'name' =>  $request->input('name'),
             'badge' =>  $request->input('badge'),
-            'user_role_id' =>  $request->input('user_role_id'),
+            'user_role_id' =>  $request->input('userRoleId'),
             'password' => $hasher->make($request->input('password')),
         ]);
 
@@ -82,7 +82,7 @@ class UserController extends Controller
             'name' => $request->input('name'),
             'badge' => $request->input('badge'),
             'password' =>  $password,
-            'user_role_id' => $request->input('user_role_id'),
+            'user_role_id' => $request->input('userRoleId'),
         ]) ? $this->response->json(['message' => 'Successful updated'], Response::HTTP_OK)
             : $this->response->json(['message' => 'Something went wrong'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }

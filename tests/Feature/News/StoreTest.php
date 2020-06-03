@@ -34,7 +34,7 @@ class StoreTest extends TestCase
             'data' => [
                 'title',
                 'text',
-                'created_at',
+                'createdAt',
             ]
         ]);
 

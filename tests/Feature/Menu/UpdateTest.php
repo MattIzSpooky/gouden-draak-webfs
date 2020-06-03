@@ -28,8 +28,8 @@ class UpdateTest extends TestCase
             'name' => 'Test',
             'price' => '15',
             'description' => 'ss',
-            'dish_type_id' => 1,
-            'menu_number' => 5,
+            'dishTypeId' => 1,
+            'menuNumber' => 5,
             'addition' => ''
         ];
 
@@ -56,8 +56,8 @@ class UpdateTest extends TestCase
             'name' => 'Test',
             'price' => '15.6978sssss',
             'description' => '',
-            'dish_type_id' => 1,
-            'menu_number' => 5,
+            'dishTypeId' => 1,
+            'menuNumber' => 5,
             'addition' => 'SDSDDS'
         ];
 

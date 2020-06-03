@@ -24,10 +24,10 @@ class StoreTest extends TestCase
 
         $data = [
             'name' => 'Test',
-            'price' => '15.69',
+            'price' => 15.69,
             'description' => 'Helloo',
-            'dish_type_id' => 1,
-            'menu_number' => 150,
+            'dishTypeId' => 1,
+            'menuNumber' => 150,
             'addition' => 'X'
         ];
 
@@ -37,16 +37,15 @@ class StoreTest extends TestCase
 
         $response->assertJsonStructure([
             'data' => [
-
                 'id',
-                'menu_number',
+                'menuNumber',
                 'addition',
                 'dish' => [
                     'id',
                     'name',
                     'price',
-                    'descriptions',
-                    'dish_type' => [
+                    'description',
+                    'dishType' => [
                         'id',
                         'type'
                     ]
@@ -70,8 +69,8 @@ class StoreTest extends TestCase
             'name' => 'Test',
             'price' => '15.6978',
             'description' => '',
-            'dish_type_id' => 1,
-            'menu_number' => 5,
+            'dishTypeId' => 1,
+            'menuNumber' => 5,
             'addition' => ''
         ];
 
@@ -98,8 +97,8 @@ class StoreTest extends TestCase
             'name' => 'Test',
             'price' => '15.65',
             'description' => 'dddddd',
-            'dish_type_id' => 1,
-            'menu_number' => 5,
+            'dishTypeId' => 1,
+            'menuNumber' => 5,
             'addition' => null
         ];
 
