@@ -39,7 +39,7 @@ class IndexTest extends TestCase
                 'role' => [
                     'id',
                     'name',
-                    'dutch_name'
+                    'dutchName'
                 ]
             ]]
         ]);

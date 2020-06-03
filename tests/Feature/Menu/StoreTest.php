@@ -24,10 +24,10 @@ class StoreTest extends TestCase
 
         $data = [
             'name' => 'Test',
-            'price' => '15.69',
+            'price' => 15.69,
             'description' => 'Helloo',
-            'dish_type_id' => 1,
-            'menu_number' => 150,
+            'dishTypeId' => 1,
+            'menuNumber' => 150,
             'addition' => 'X'
         ];
 
@@ -37,16 +37,15 @@ class StoreTest extends TestCase
 
         $response->assertJsonStructure([
             'data' => [
-
                 'id',
-                'menu_number',
+                'menuNumber',
                 'addition',
                 'dish' => [
                     'id',
                     'name',
                     'price',
-                    'descriptions',
-                    'dish_type' => [
+                    'description',
+                    'dishType' => [
                         'id',
                         'type'
                     ]
@@ -70,8 +69,8 @@ class StoreTest extends TestCase
             'name' => 'Test',
             'price' => '15.6978',
             'description' => '',
-            'dish_type_id' => 1,
-            'menu_number' => 5,
+            'dishTypeId' => 1,
+            'menuNumber' => 5,
             'addition' => ''
         ];
 
@@ -98,12 +97,88 @@ class StoreTest extends TestCase
             'name' => 'Test',
             'price' => '15.65',
             'description' => 'dddddd',
-            'dish_type_id' => 1,
-            'menu_number' => 5,
+            'dishTypeId' => 1,
+            'menuNumber' => 5,
             'addition' => null
         ];
 
         $response = $this->post('/api/menu', $data);
         $response->assertStatus(201);
+    }
+
+    /**
+     * @group menus
+     * @return void
+     */
+    public function testStoreMenuItemTestWithUniqueValues()
+    {
+        Sanctum::actingAs(
+            factory(User::class)->create(['user_role_id' => UserRole::ADMIN]),
+            ['*']
+        );
+
+        $data = [
+            'name' => 'Test',
+            'price' => 15.69,
+            'description' => 'Helloo',
+            'dishTypeId' => 1,
+            'menuNumber' => 150,
+            'addition' => 'X'
+        ];
+
+        $response = $this->post('/api/menu', $data);
+
+        $secondData = [
+            'name' => 'Test',
+            'price' => 15.69,
+            'description' => 'Helloo',
+            'dishTypeId' => 1,
+            'menuNumber' => 150,
+            'addition' => 'X'
+        ];
+
+        $secondResponse = $this->post('/api/menu', $secondData);
+
+        $secondResponse->assertStatus(302);
+    }
+
+    /**
+     * @group menus
+     * @return void
+     */
+    public function testStoreMenuItemTestWithSameUniqueValues()
+    {
+        Sanctum::actingAs(
+            factory(User::class)->create(['user_role_id' => UserRole::ADMIN]),
+            ['*']
+        );
+
+        $data = [
+            'name' => 'Test',
+            'price' => 15.69,
+            'description' => 'Helloo',
+            'dishTypeId' => 1,
+            'menuNumber' => 200,
+            'addition' => 'X'
+        ];
+
+        $response = $this->post('/api/menu', $data);
+
+        $secondData = [
+            'name' => 'Test',
+            'price' => 15.69,
+            'description' => 'Helloo',
+            'dishTypeId' => 1,
+            'menuNumber' => 200,
+            'addition' => 'B'
+        ];
+
+        $secondResponse = $this->post('/api/menu', $secondData);
+
+        $secondResponse->assertStatus(201);
+
+        $this->assertDatabaseHas('menu_items', ['menu_number' => 200, 'addition' => 'B']);
+        $this->assertDatabaseHas('menu_items', ['menu_number' => 200, 'addition' => 'X']);
+        $this->assertDatabaseMissing('menu_items', ['menu_number' => 200, 'addition' => 'A']);
     }
 }

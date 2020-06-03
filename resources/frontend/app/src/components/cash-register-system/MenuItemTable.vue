@@ -6,7 +6,7 @@
     <table class="table">
       <tr v-for="item in menuItems" :key="item.id">
         <td>
-          {{item.menu_number}}{{item.addition}}.
+            {{item.menuNumber}}{{item.addition}}.
         </td>
         <td>
           {{item.dish.name}}
@@ -14,7 +14,7 @@
         <td>
           € {{item.dish.price}}
         </td>
-        <td>
+        <td v-if="hasClickAction">
           <button type="button" class="btn btn-primary" @click="onMenuItemClick(item)">
             Toevoegen
           </button>
@@ -28,10 +28,14 @@
 import {Component, Emit, Prop, Vue} from 'vue-property-decorator';
 import {MenuItem} from '@/types/menu-item';
 
-  @Component
+@Component
 export default class MenuItemTable extends Vue {
     @Prop(String) public readonly name!: string;
     @Prop(Array) public readonly menuItems!: MenuItem[];
+    @Prop({
+      default: true,
+      type: Boolean
+    }) public readonly hasClickAction!: boolean;
 
     @Emit('menuItemClick')
     onMenuItemClick(menuItem: MenuItem) {

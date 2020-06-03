@@ -33,7 +33,7 @@ class UpdateTest extends TestCase
 
         $data = [
             'name' => 'Hello',
-            'user_role_id' => UserRole::ADMIN,
+            'userRoleId' => UserRole::ADMIN,
             'password' => null,
             'badge' =>  $waitress->badge
         ];
@@ -69,7 +69,7 @@ class UpdateTest extends TestCase
         $data = [
             'id' => $waitress->id,
             'name' => $waitress->name,
-            'user_role_id' => $waitress->user_role_id,
+            'userRoleId' => $waitress->user_role_id,
             'badge' =>  $waitress->badge,
             'password' => 'Hello12345',
         ];

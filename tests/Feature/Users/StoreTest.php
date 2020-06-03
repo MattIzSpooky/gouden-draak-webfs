@@ -25,7 +25,7 @@ class StoreTest extends TestCase
             'name' => 'Hans Muller',
             'badge' => 12345,
             'password' => 'test123',
-            'user_role_id' => UserRole::WAITRESS
+            'userRoleId' => UserRole::WAITRESS
         ];
 
         $user = factory(User::class)->create(['user_role_id' => UserRole::ADMIN]);
@@ -46,7 +46,7 @@ class StoreTest extends TestCase
                 'role' => [
                     'id',
                     'name',
-                    'dutch_name'
+                    'dutchName'
                 ]
             ]
         ]);

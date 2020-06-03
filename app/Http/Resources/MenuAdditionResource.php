@@ -14,8 +14,6 @@ class MenuAdditionResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'addition' => $this->character
-        ];
+        return $this->character;
     }
 }

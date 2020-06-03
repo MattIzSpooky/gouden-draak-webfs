@@ -7,6 +7,6 @@ export default function auth({next, router}: RouteMiddleware) {
   if ((store.state as any).auth.bearerToken === '') {
     return router.push({name: 'login'});
   }
-
+  console.log('checking auth');
   return next();
 }

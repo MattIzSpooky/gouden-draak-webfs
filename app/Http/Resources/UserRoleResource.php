@@ -17,7 +17,7 @@ class UserRoleResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'dutch_name' => $this->dutch_name
+            'dutchName' => $this->dutch_name
         ];
     }
 }

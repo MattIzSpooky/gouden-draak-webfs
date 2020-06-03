@@ -29,7 +29,11 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         /** @var Order */
-        $order = Order::create(['paid_at' => null]);
+        $order = Order::create([
+            'paid_at' =>
+            Carbon::parse($request->input('paidAt'))
+        ]);
+
         $items = $request->get('items');
 
         foreach ($items as $item) {
@@ -59,7 +63,7 @@ class OrderController extends Controller
     public function update(OrderRequest $request, Order $order)
     {
         /** @var Order */
-        $order->update(['paid_at' => null]);
+        $order->update(['paid_at' => Carbon::parse($request->input('paidAt'))]);
         $items = $request->get('items');
 
         $order->items()->detach();

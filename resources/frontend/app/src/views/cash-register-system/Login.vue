@@ -11,11 +11,11 @@
         <form action="#" @submit.prevent="submit">
           <div class="form-group">
             <label for="badge">Badge Nummer</label>
-            <input type="number" class="form-control" id="badge" v-model="form.badge">
+            <input required type="number" class="form-control" id="badge" v-model="form.badge">
           </div>
           <div class="form-group">
             <label for="password">Wachtwoord</label>
-            <input type="password" class="form-control" id="password" v-model="form.password">
+            <input required type="password" class="form-control" id="password" v-model="form.password">
           </div>
           <div>
             <button type="submit" class="btn" v-bind:class="{
@@ -35,7 +35,7 @@
 <script lang="ts">
 import {mapActions} from 'vuex';
 import {Component, Vue} from 'vue-property-decorator';
-import {LoginCredentials} from '@/store/auth';
+import {LoginCredentials} from '@/types/user';
 
 @Component({
   methods: {

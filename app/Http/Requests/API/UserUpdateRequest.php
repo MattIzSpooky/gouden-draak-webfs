@@ -27,7 +27,7 @@ class UserUpdateRequest extends FormRequest
             'name' => ['required', 'max:255'],
             'badge' => ['required',  'digits_between:2,5', 'unique:users,badge,' . $this->user->id],
             'password' => ['nullable'],
-            'user_role_id' => ['required', 'integer', 'exists:user_roles,id']
+            'userRoleId' => ['required', 'integer', 'exists:user_roles,id']
         ];
     }
 }

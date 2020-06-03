@@ -32,9 +32,7 @@ class IndexTest extends TestCase
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
-            'data' => [
-                ['addition']
-            ]
+            'data'
         ]);
     }
 }

@@ -15,10 +15,12 @@ Route::namespace('API')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('user', 'InfoController')->name('auth.user');
+
         Route::prefix('dish')->name('dish.')->group(function () {
             Route::get('types', 'DishTypeController')->name('types');
             Route::get('additions', 'MenuAdditionController')->name('additions');
         });
+
         Route::apiResource('news', 'NewsController')->except('index')->middleware('role:admin');
         Route::apiResource('menu', 'MenuItemController')->middleware('role:admin');
         Route::get('users/roles', 'RoleController')->name('users.roles')->middleware('role:admin');

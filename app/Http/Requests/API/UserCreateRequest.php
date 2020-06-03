@@ -27,7 +27,7 @@ class UserCreateRequest extends FormRequest
             'name' => ['required', 'max:255'],
             'badge' => ['required', 'digits_between:2,5', 'unique:users'],
             'password' => ['required', 'max:255'],
-            'user_role_id' => ['required', 'integer', 'exists:user_roles,id']
+            'userRoleId' => ['required', 'integer', 'exists:user_roles,id']
         ];
     }
 }

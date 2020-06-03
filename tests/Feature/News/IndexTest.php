@@ -31,7 +31,7 @@ class IndexTest extends TestCase
             'data' => [[
                 'title',
                 'text',
-                'created_at',
+                'createdAt',
             ]],
             'links',
             'meta'
