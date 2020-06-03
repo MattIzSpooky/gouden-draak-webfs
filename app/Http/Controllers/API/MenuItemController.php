@@ -31,7 +31,7 @@ class MenuItemController extends Controller
      */
     public function index()
     {
-        $items = MenuItem::orderBy('id')->with(['dish.type'])
+        $items = MenuItem::orderBy('menu_number')->with(['dish.type'])
             ->get()->groupBy('dish.type.type')->mapToGroups(function ($item, $key) {
                 return [
                     collect([
