@@ -17,8 +17,9 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
 import axios from 'axios';
-import {MenuItemApiResource, MenuItemsGroupedWithType} from '@/types/menu-item';
+import {MenuItemsGroupedWithType} from '@/types/menu-item';
 import MenuItemTable from '@/components/cash-register-system/MenuItemTable.vue';
+import {ApiResource} from '@/types/api';
 
   @Component({
     components: {MenuItemTable}
@@ -27,7 +28,7 @@ export default class Dishes extends Vue {
     private menuItems: MenuItemsGroupedWithType[] = [];
 
     async created() {
-      const response = await axios.get<MenuItemApiResource>('/api/menu');
+      const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
       this.menuItems = response.data.data;
     }
 };

@@ -34,7 +34,7 @@ class MenuItemRequest extends FormRequest
                 'numeric',
                 'unique:menu_items,menu_number,NULL,addition' . $this->input('addition'),
             ],
-            'addition' => ['nullable', 'exists:menu_additions,character']
+            'addition' => ['nullable', 'unique:menu_items,addition,NULL,addition' . $this->input('addition')]
         ];
     }
 

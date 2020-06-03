@@ -1,9 +1,6 @@
 <template>
   <cash-register-page>
-    <transition
-      name="fade"
-      mode="out-in"
-    >
+    <transition name="fade" mode="out-in">
       <router-view/>
     </transition>
   </cash-register-page>

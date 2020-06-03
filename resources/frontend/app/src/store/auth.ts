@@ -1,15 +1,11 @@
 import axios from 'axios';
 import {Module} from 'vuex';
+import {LoginCredentials, User} from '@/types/user';
 
 export interface GlobalAuthState {
   authenticated: boolean;
   bearerToken: string;
-  user: object | null;
-}
-
-export type LoginCredentials = {
-  badge: string;
-  password: string;
+  user: User | null;
 }
 
 const authModule: Module<GlobalAuthState, never> = {
@@ -35,7 +31,7 @@ const authModule: Module<GlobalAuthState, never> = {
       state.authenticated = value;
     },
 
-    SET_USER(state: GlobalAuthState, value: object | null) {
+    SET_USER(state: GlobalAuthState, value: User | null) {
       state.user = value;
     },
 

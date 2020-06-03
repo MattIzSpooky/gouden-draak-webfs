@@ -1,8 +1,9 @@
-import {MenuItemApiResource} from "@/types/menu-item";
+import {MenuItem} from "@/types/menu-item";
+import {ApiResource} from "@/types/api";
 
-export type OrderApiResource = {
+export type NewOrderRequest = {
   id: number;
-  paidAt: string;
+  paidAt: string | null;
   createdAt: string;
-  items: MenuItemApiResource
+  items: ApiResource<MenuItem[]>
 }

@@ -1,9 +1,5 @@
 import {Dish} from '@/types/dish';
 
-export type MenuItemApiResource = {
-  data: MenuItemsGroupedWithType[];
-}
-
 export type MenuItemsGroupedWithType = {
   type: string;
   items: MenuItem[];
@@ -14,6 +10,15 @@ export type MenuItem = {
   addition: string;
   dish: Dish;
   menuNumber: number;
+}
+
+export type NewMenuItemType = {
+  name: string;
+  price: number;
+  description: string;
+  dishTypeId: number;
+  addition: string | null;
+  menuNumber: number | null;
 }
 
 export type OrderedMenuItem = MenuItem & {

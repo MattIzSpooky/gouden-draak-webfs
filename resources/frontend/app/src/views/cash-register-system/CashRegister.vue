@@ -62,12 +62,13 @@
 import axios from 'axios';
 import {Component, Vue} from 'vue-property-decorator';
 import CashRegisterPage from '@/components/cash-register-system/CashRegisterPage.vue';
-import {MenuItem, MenuItemApiResource, MenuItemsGroupedWithType, OrderedMenuItem} from '@/types/menu-item';
+import {MenuItem, MenuItemsGroupedWithType, OrderedMenuItem} from '@/types/menu-item';
 import OrderTable from '@/components/cash-register-system/OrderTable.vue';
 import MenuItemTable from '@/components/cash-register-system/MenuItemTable.vue';
 
 import {BModal} from 'bootstrap-vue';
-import {OrderApiResource} from '@/types/order';
+import {NewOrderRequest} from '@/types/order';
+import {ApiResource} from '@/types/api';
 
   @Component({
     components: {
@@ -88,8 +89,8 @@ export default class CashRegister extends Vue {
     }
 
     async created() {
-      const response = await axios.get<MenuItemApiResource>('/api/menu');
-      console.log(response.data);
+      const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
+
       this.menuItems = response.data.data;
     }
 
@@ -104,7 +105,7 @@ export default class CashRegister extends Vue {
       }));
 
       try {
-        await axios.post<OrderApiResource>('/api/orders', {
+        await axios.post<NewOrderRequest>('/api/orders', {
           items
         });
         this.modalContent = 'Verkoop succesvol!';

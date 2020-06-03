@@ -5,7 +5,9 @@
         Nieuw gerecht aanmaken
       </div>
       <div class="card-body">
-        <create-dish-form :dish-types="dishTypes" @onSubmit="submit"/>
+        <create-dish-form :dish-types="dishTypes" :menu-number-additions="menuAdditions" @onSubmit="submit">
+          <error-alert :error="error" v-if="hasErrors"/>
+        </create-dish-form>
       </div>
     </div>
   </div>
@@ -13,28 +15,47 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
-import {DishType, DishTypeResource} from '@/types/dish';
+import {DishType} from '@/types/dish';
 import axios from 'axios';
 import CreateDishForm from '@/components/cash-register-system/CreateDishForm.vue';
+import {NewMenuItemType} from '@/types/menu-item';
+import {ApiResource, ApiValidationError} from '@/types/api';
+import ErrorAlert from '@/components/cash-register-system/ErrorAlert.vue';
+import router from '@/router';
 
 @Component({
-  components: {CreateDishForm}
+  components: {ErrorAlert, CreateDishForm}
 })
 export default class NewMenuItem extends Vue {
-    public dishTypes: DishType[] = [];
+  public dishTypes: DishType[] = [];
+  public menuAdditions: string[] = [];
+  public error: ApiValidationError<NewMenuItemType> | null = null;
 
-    async beforeCreate() {
-      const dishTypeResponse = await axios.get<DishTypeResource>('/api/dish/types');
+  get hasErrors() {
+    return this.error && this.error.message !== '';
+  }
 
-      this.dishTypes.push(...dishTypeResponse.data.data);
+  async beforeCreate() {
+    const dishTypeResponse = await axios.get<ApiResource<DishType[]>>('/api/dish/types');
 
-      const menuNumberAdditionResponse = await axios.get<never[]>('api/dish/additions');
-      console.log(menuNumberAdditionResponse.data);
+    this.dishTypes.push(...dishTypeResponse.data.data);
+
+    const menuNumberAdditionResponse = await axios.get<ApiResource<string[]>>('api/dish/additions');
+    this.menuAdditions.push(...menuNumberAdditionResponse.data.data);
+  }
+
+  public async submit(formData: NewMenuItemType) {
+    try {
+      await axios.post('/api/menu', formData);
+      await router.push({name: 'dishes'});
+    } catch (e) {
+      const errorObject = e.response.data as ApiValidationError<NewMenuItemType>;
+      this.error = {
+        message: errorObject.message,
+        errors: errorObject.errors
+      };
     }
-
-    public submit(formData: never) {
-      console.log(formData);
-    }
+  }
 };
 </script>
 

@@ -6,10 +6,6 @@ export type Dish = {
   name: string;
 }
 
-export type DishTypeResource = {
-  data: DishType[];
-}
-
 export type DishType = {
   id: number;
   type: DishTypeName;
