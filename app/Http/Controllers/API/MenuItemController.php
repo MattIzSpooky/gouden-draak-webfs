@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MenuItemResource;
 use App\Http\Requests\API\MenuItemRequest;
+use App\Http\Resources\MenuResourceCollection;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
 class MenuItemController extends Controller
@@ -31,17 +32,9 @@ class MenuItemController extends Controller
      */
     public function index()
     {
-        $items = MenuItem::orderBy('menu_number')->with(['dish.type'])
-            ->get()->groupBy('dish.type.type')->mapToGroups(function ($item, $key) {
-                return [
-                    collect([
-                        'type' => $key,
-                        'items' => $item
-                    ])
-                ];
-            })->flatten(1);
+        $collection = MenuItem::orderBy('menu_number')->with(['dish.type'])->get();
 
-        return $this->response->json(['data' => $items]);
+        return new MenuResourceCollection($collection);
     }
 
     /**

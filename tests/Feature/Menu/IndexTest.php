@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class IndexTest extends TestCase
 {
     /**
-     * @group menus
+     * @group menuss
      * @return void
      */
     public function testOverviewMenuTest()
@@ -25,6 +25,7 @@ class IndexTest extends TestCase
         );
 
         $response = $this->get('/api/menu');
+
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
@@ -34,9 +35,8 @@ class IndexTest extends TestCase
                     'items' => [
                         [
                             'id',
-                            'menu_number',
+                            'menuNumber',
                             'addition',
-                            'dish_id',
                             'dish' => [
                                 'id',
                                 'name',
