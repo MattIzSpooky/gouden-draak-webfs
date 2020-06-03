@@ -18,8 +18,8 @@ class DishResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'price' => $this->price,
-            'descriptions' => $this->description,
-            'dish_type' => new DishTypeResource($this->type)
+            'description' => $this->description,
+            'dishType' => new DishTypeResource($this->type)
         ];
     }
 }

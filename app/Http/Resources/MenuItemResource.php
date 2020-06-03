@@ -16,7 +16,7 @@ class MenuItemResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'menu_number' => $this->menu_number,
+            'menuNumber' => $this->menu_number,
             'addition' => $this->addition,
             'amount' => $this->whenPivotLoaded('order_items', function () {
                 return $this->pivot->amount;
