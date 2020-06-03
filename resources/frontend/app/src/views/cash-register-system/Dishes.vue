@@ -1,0 +1,38 @@
+<template>
+  <div>
+    <div class="card m-3">
+      <div class="card-header">
+        Menu
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item p-0" v-for="itemObject in menuItems" :key="itemObject.type">
+          <menu-item-table :name="itemObject.type" :menuItems="itemObject.items" :has-click-action="false"/>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import {Component, Vue} from 'vue-property-decorator';
+import axios from 'axios';
+import {MenuItemApiResource, MenuItemsGroupedWithType} from '@/types/menu-item';
+import MenuItemTable from '@/components/cash-register-system/MenuItemTable.vue';
+
+@Component({
+  components: {MenuItemTable}
+})
+export default class Dishes extends Vue {
+    private menuItems: MenuItemsGroupedWithType[] = [];
+
+    async created() {
+      const response = await axios.get<MenuItemApiResource>('/api/menu');
+      console.log(response.data);
+      this.menuItems = response.data.data;
+    }
+};
+</script>
+
+<style scoped>
+
+</style>

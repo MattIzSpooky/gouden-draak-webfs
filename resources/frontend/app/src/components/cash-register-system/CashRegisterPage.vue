@@ -11,20 +11,11 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav m-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Kassa</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Gerechten</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Verkoop overzicht</a>
-            </li>
+          <CashRegisterLinks>
             <li class="nav-item">
               <button type="button" class="btn btn-link nav-link" @click="clickSignOut">Log uit</button>
             </li>
-          </ul>
+          </CashRegisterLinks>
         </div>
       </nav>
     </section>
@@ -37,8 +28,10 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
 import {mapActions} from 'vuex';
+import CashRegisterLinks from '@/components/cash-register-system/CashRegisterLinks.vue';
 
   @Component({
+    components: {CashRegisterLinks},
     methods: {
       ...mapActions({
         signOut: 'auth/signOut'

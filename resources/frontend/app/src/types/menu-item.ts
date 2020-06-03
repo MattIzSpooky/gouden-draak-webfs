@@ -1,7 +1,12 @@
 import {Dish} from '@/types/dish';
 
 export type MenuItemApiResource = {
-  data: MenuItem[];
+  data: MenuItemsGroupedWithType[];
+}
+
+export type MenuItemsGroupedWithType = {
+  type: string;
+  items: MenuItem[];
 }
 
 export type MenuItem = {

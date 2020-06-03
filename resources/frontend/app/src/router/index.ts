@@ -33,15 +33,26 @@ const routes: Array<RouteConfig> = [
   {
     path: '/login',
     name: 'login',
-    component: () => import(/* webpackChunkName: "login" */ '../views/cash-register-system/Login.vue')
+    component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/Login.vue')
   },
   {
     path: '/kassa',
-    name: 'cash-register-system',
     component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/Index.vue'),
     meta: {
       middleware: [auth]
-    }
+    },
+    children: [
+      {
+        path: '',
+        name: 'cash-register-system',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/CashRegister.vue')
+      },
+      {
+        path: 'gerechten',
+        name: 'dishes',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/Dishes.vue')
+      }
+    ]
   }
 ];
 
