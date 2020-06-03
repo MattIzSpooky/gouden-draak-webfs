@@ -1,5 +1,6 @@
 <template>
   <div>
+    <router-link class="btn btn-primary" :to="{name: 'new-dish'}">Nieuwe menu item aanmaken</router-link>
     <div class="card m-3">
       <div class="card-header">
         Menu
@@ -19,15 +20,14 @@ import axios from 'axios';
 import {MenuItemApiResource, MenuItemsGroupedWithType} from '@/types/menu-item';
 import MenuItemTable from '@/components/cash-register-system/MenuItemTable.vue';
 
-@Component({
-  components: {MenuItemTable}
-})
+  @Component({
+    components: {MenuItemTable}
+  })
 export default class Dishes extends Vue {
     private menuItems: MenuItemsGroupedWithType[] = [];
 
     async created() {
       const response = await axios.get<MenuItemApiResource>('/api/menu');
-      console.log(response.data);
       this.menuItems = response.data.data;
     }
 };

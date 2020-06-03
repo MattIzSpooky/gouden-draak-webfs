@@ -27,8 +27,8 @@ class MenuItemRequest extends FormRequest
             'name' => ['required', 'max:255'],
             'price' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'],
             'description' => ['required', 'max:1500'],
-            'dish_type_id' => ['required', 'exists:dish_types,id'],
-            'menu_number' => ['required', 'numeric'],
+            'dishTypeId' => ['required', 'exists:dish_types,id'],
+            'menuNumber' => ['required', 'numeric'],
             'addition' => ['nullable', 'exists:menu_additions,character']
         ];
     }

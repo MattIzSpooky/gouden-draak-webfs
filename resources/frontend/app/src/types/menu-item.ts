@@ -13,7 +13,7 @@ export type MenuItem = {
   id: number;
   addition: string;
   dish: Dish;
-  menu_number: number;
+  menuNumber: number;
 }
 
 export type OrderedMenuItem = MenuItem & {

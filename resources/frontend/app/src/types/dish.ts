@@ -1,9 +1,13 @@
 export type Dish = {
   id: number;
   description: string;
-  dish_type: DishType;
+  dishType: DishType;
   price: number;
   name: string;
+}
+
+export type DishTypeResource = {
+  data: DishType[];
 }
 
 export type DishType = {

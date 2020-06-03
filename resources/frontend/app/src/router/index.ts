@@ -50,7 +50,12 @@ const routes: Array<RouteConfig> = [
       {
         path: 'gerechten',
         name: 'dishes',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/Dishes.vue')
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/dish/Dishes.vue')
+      },
+      {
+        path: 'gerechten/nieuw',
+        name: 'new-dish',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/dish/NewMenuItem.vue')
       }
     ]
   }

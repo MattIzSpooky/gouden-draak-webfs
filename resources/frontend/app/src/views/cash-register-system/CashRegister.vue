@@ -122,7 +122,7 @@ export default class CashRegister extends Vue {
 
     onMenuItemClick(menuItem: MenuItem) {
       const item = this.orderedItems
-        .find(i => i.menu_number === menuItem.menu_number && i.addition === menuItem.addition);
+        .find(i => i.menuNumber === menuItem.menuNumber && i.addition === menuItem.addition);
 
       if (item) {
         item.amount++;

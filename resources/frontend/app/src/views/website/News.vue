@@ -9,7 +9,7 @@
           {{news.text}}
         </p>
         <small>
-          {{transformToDutchDate(news.created_at)}}
+            {{transformToDutchDate(news.createdAt)}}
         </small>
       </td>
     </tr>

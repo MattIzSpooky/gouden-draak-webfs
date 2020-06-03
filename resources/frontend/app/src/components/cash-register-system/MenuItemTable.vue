@@ -6,7 +6,7 @@
     <table class="table">
       <tr v-for="item in menuItems" :key="item.id">
         <td>
-          {{item.menu_number}}{{item.addition}}.
+            {{item.menuNumber}}{{item.addition}}.
         </td>
         <td>
           {{item.dish.name}}

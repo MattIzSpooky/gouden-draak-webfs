@@ -2,7 +2,7 @@ import {MenuItemApiResource} from "@/types/menu-item";
 
 export type OrderApiResource = {
   id: number;
-  paid_at: string;
-  created_at: string;
+  paidAt: string;
+  createdAt: string;
   items: MenuItemApiResource
 }

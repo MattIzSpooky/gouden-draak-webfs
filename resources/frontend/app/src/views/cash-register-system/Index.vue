@@ -1,6 +1,11 @@
 <template>
   <cash-register-page>
-    <router-view></router-view>
+    <transition
+      name="fade"
+      mode="out-in"
+    >
+      <router-view/>
+    </transition>
   </cash-register-page>
 </template>
 
@@ -16,3 +21,20 @@ import CashRegisterPage from '@/components/cash-register-system/CashRegisterPage
 export default class Index extends Vue {
 };
 </script>
+
+<style scoped lang="scss">
+  @import "~bootstrap";
+  @import '~bootstrap-vue/src/index.scss';
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition-duration: 0.3s;
+    transition-property: opacity;
+    transition-timing-function: ease;
+  }
+
+  .fade-enter,
+  .fade-leave-active {
+    opacity: 0
+  }
+</style>
