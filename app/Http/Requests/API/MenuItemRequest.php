@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\API;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MenuItemRequest extends FormRequest
@@ -32,9 +31,13 @@ class MenuItemRequest extends FormRequest
             'menuNumber' => [
                 'required',
                 'numeric',
-                'unique:menu_items,menu_number,NULL,addition' . $this->input('addition'),
+                'unique:menu_items,menu_number,NULL,NULL,addition,' . $this->input('addition')
             ],
-            'addition' => ['nullable', 'unique:menu_items,addition,NULL,addition' . $this->input('addition')]
+            'addition' => [
+                'nullable',
+                'regex:/^[A-Z]{1}$/',
+                'exists:menu_additions,character'
+            ]
         ];
     }
 

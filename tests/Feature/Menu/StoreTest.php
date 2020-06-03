@@ -141,4 +141,44 @@ class StoreTest extends TestCase
 
         $secondResponse->assertStatus(302);
     }
+
+    /**
+     * @group menus
+     * @return void
+     */
+    public function testStoreMenuItemTestWithSameUniqueValues()
+    {
+        Sanctum::actingAs(
+            factory(User::class)->create(['user_role_id' => UserRole::ADMIN]),
+            ['*']
+        );
+
+        $data = [
+            'name' => 'Test',
+            'price' => 15.69,
+            'description' => 'Helloo',
+            'dishTypeId' => 1,
+            'menuNumber' => 200,
+            'addition' => 'X'
+        ];
+
+        $response = $this->post('/api/menu', $data);
+
+        $secondData = [
+            'name' => 'Test',
+            'price' => 15.69,
+            'description' => 'Helloo',
+            'dishTypeId' => 1,
+            'menuNumber' => 200,
+            'addition' => 'B'
+        ];
+
+        $secondResponse = $this->post('/api/menu', $secondData);
+
+        $secondResponse->assertStatus(201);
+
+        $this->assertDatabaseHas('menu_items', ['menu_number' => 200, 'addition' => 'B']);
+        $this->assertDatabaseHas('menu_items', ['menu_number' => 200, 'addition' => 'X']);
+        $this->assertDatabaseMissing('menu_items', ['menu_number' => 200, 'addition' => 'A']);
+    }
 }
