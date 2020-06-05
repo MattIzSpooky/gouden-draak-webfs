@@ -106,10 +106,6 @@ export default class DishForm extends Vue {
       };
     }
 
-    created() {
-      console.log(this.formData);
-    }
-
     clearMenuNumber() {
       this.formData.menuNumber = null;
     }

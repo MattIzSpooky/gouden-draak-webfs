@@ -70,14 +70,22 @@ import {BModal} from 'bootstrap-vue';
 import {NewOrderRequest} from '@/types/order';
 import {ApiResource} from '@/types/api';
 
-  @Component({
-    components: {
-      OrderTable,
-      CashRegisterPage,
-      MenuItemTable,
-      BModal
-    }
-  })
+@Component({
+  components: {
+    OrderTable,
+    CashRegisterPage,
+    MenuItemTable,
+    BModal
+  },
+  async beforeRouteEnter(to, _, next) {
+    const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
+    const menuItems = response.data.data;
+
+    next((vm: CashRegister) => {
+      vm.menuItems = menuItems;
+    });
+  }
+})
 export default class CashRegister extends Vue {
     private menuItems: MenuItemsGroupedWithType[] = [];
     private orderedItems: OrderedMenuItem[] = [];
@@ -86,12 +94,6 @@ export default class CashRegister extends Vue {
 
     $refs!: {
       dialog: BModal;
-    }
-
-    async created() {
-      const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
-
-      this.menuItems = response.data.data;
     }
 
     onTotalValueChange(value: number) {

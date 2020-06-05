@@ -27,15 +27,18 @@ import MenuItemTable from '@/components/cash-register-system/MenuItemTable.vue';
 import {ApiResource} from '@/types/api';
 
   @Component({
-    components: {MenuItemTable}
+    components: {MenuItemTable},
+    async beforeRouteEnter(to, _, next) {
+      const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
+      const menuItems = response.data.data;
+
+      next((vm: Dishes) => {
+        vm.menuItems = menuItems;
+      });
+    }
   })
 export default class Dishes extends Vue {
     private menuItems: MenuItemsGroupedWithType[] = [];
-
-    async created() {
-      const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
-      this.menuItems = response.data.data;
-    }
 
     async onItemClick(menuItem: MenuItem) {
       await this.$router.push({
@@ -47,7 +50,3 @@ export default class Dishes extends Vue {
     }
 };
 </script>
-
-<style scoped>
-
-</style>
