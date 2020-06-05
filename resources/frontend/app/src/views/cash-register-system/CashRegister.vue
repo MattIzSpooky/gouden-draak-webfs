@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <loader>
     <div class="row">
       <div class="col-md-7">
         <div class="card m-3">
@@ -55,7 +55,7 @@
     <b-modal ref="dialog">
       {{modalContent}}
     </b-modal>
-  </div>
+  </loader>
 </template>
 
 <script lang="ts">
@@ -65,27 +65,32 @@ import CashRegisterPage from '@/components/cash-register-system/CashRegisterPage
 import {MenuItem, MenuItemsGroupedWithType, OrderedMenuItem} from '@/types/menu-item';
 import OrderTable from '@/components/cash-register-system/OrderTable.vue';
 import MenuItemTable from '@/components/cash-register-system/MenuItemTable.vue';
+import store from '@/store/index';
 
 import {BModal} from 'bootstrap-vue';
 import {NewOrderRequest} from '@/types/order';
 import {ApiResource} from '@/types/api';
+import Loader from '@/components/cash-register-system/Loader.vue';
 
-@Component({
-  components: {
-    OrderTable,
-    CashRegisterPage,
-    MenuItemTable,
-    BModal
-  },
-  async beforeRouteEnter(to, _, next) {
-    const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
-    const menuItems = response.data.data;
+  @Component({
+    components: {
+      OrderTable,
+      CashRegisterPage,
+      MenuItemTable,
+      BModal,
+      Loader
+    },
+    async beforeRouteEnter(to, _, next) {
+      await store.dispatch('network/toggleLoad');
 
-    next((vm: CashRegister) => {
-      vm.menuItems = menuItems;
-    });
-  }
-})
+      next(async (vm: CashRegister) => {
+        const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
+        vm.menuItems = response.data.data;
+
+        await vm.$store.dispatch('network/toggleLoad');
+      });
+    }
+  })
 export default class CashRegister extends Vue {
     private menuItems: MenuItemsGroupedWithType[] = [];
     private orderedItems: OrderedMenuItem[] = [];

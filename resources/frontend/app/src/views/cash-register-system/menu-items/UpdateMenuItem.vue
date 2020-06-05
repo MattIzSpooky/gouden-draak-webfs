@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <loader>
     <div class="card m-3">
       <div class="card-header">
         Menu item bewerken.
@@ -8,7 +8,7 @@
         <dish-form :dish-types="dishTypes" :menu-number-additions="menuAdditions" :form-data="menuItem" :error="error" @onSubmit="onSubmit"/>
       </div>
     </div>
-  </div>
+  </loader>
 </template>
 
 <script lang="ts">
@@ -20,10 +20,14 @@ import {MenuItem, MenuItemRequest} from '@/types/menu-item';
 import {ApiResource, ApiValidationError} from '@/types/api';
 import ErrorAlert from '@/components/cash-register-system/ErrorAlert.vue';
 import router from '@/router';
+import Loader from '@/components/cash-register-system/Loader.vue';
+import store from '@/store';
 
   @Component({
-    components: {ErrorAlert, DishForm},
+    components: {ErrorAlert, DishForm, Loader},
     async beforeRouteEnter(to, _, next) {
+      await store.dispatch('network/toggleLoad');
+
       const requests = await Promise.all([
         axios.get<ApiResource<DishType[]>>('/api/dish/types'),
         axios.get<ApiResource<string[]>>('api/dish/additions'),
@@ -34,7 +38,7 @@ import router from '@/router';
       const menuNumberAdditionResponse = requests[1];
       const menuItemRequest = requests[2];
 
-      next((vm: UpdateMenuItem) => {
+      next(async(vm: UpdateMenuItem) => {
         vm.dishTypes = dishTypeResponse.data.data;
         vm.menuAdditions = menuNumberAdditionResponse.data.data;
         const item = menuItemRequest.data.data;
@@ -46,6 +50,8 @@ import router from '@/router';
           addition: item.addition,
           menuNumber: item.menuNumber
         };
+
+        await vm.$store.dispatch('network/toggleLoad');
       });
     }
   })
@@ -77,7 +83,3 @@ export default class UpdateMenuItem extends Vue {
     }
 };
 </script>
-
-<style scoped>
-
-</style>
