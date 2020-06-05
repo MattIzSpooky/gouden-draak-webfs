@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MenuItemResource;
 use App\Http\Requests\API\MenuItemRequest;
+use App\Http\Requests\MenuItemUpdateRequest;
 use App\Http\Resources\MenuResourceCollection;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
@@ -79,9 +80,9 @@ class MenuItemController extends Controller
      * @param  \App\MenuItem  $menuItem
      * @return \Illuminate\Http\Response
      */
-    public function update(MenuItemRequest $request, MenuItem $menu)
+    public function update(MenuItemUpdateRequest $request, MenuItem $menu)
     {
-        $item = $menu->update([
+        $menu->update([
             'menu_number' => $request->input('menuNumber'),
             'addition' => $request->input(['addition'])
         ]);

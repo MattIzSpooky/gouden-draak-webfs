@@ -35,6 +35,14 @@ import {Paginated} from '@/types/paginated';
 @Component({
   components: {
     DragonPage
+  },
+  async beforeRouteEnter(to, _, next) {
+    const response = await axios.get<Paginated<News>>(`/api/news?page=${this.$route.query.page}`);
+    const paginatedNews = response.data;
+
+    next((vm: News) => {
+      vm.paginatedNews = paginatedNews;
+    });
   }
 })
 export default class News extends Vue {
@@ -42,11 +50,6 @@ export default class News extends Vue {
 
     transformToDutchDate(ISOString: string) {
       return new Date(ISOString).toLocaleDateString('nl');
-    }
-
-    async created() {
-      const response = await axios.get<Paginated<News>>(`/api/news?page=${this.$route.query.page}`);
-      this.paginatedNews = response.data;
     }
 
     async nextPage() {

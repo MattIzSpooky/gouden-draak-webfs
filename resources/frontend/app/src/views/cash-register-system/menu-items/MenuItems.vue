@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <loader>
     <router-link class="btn btn-primary" :to="{name: 'new-dish'}">Nieuwe menu item aanmaken</router-link>
     <div class="card m-3">
       <div class="card-header">
@@ -16,7 +16,7 @@
         </li>
       </ul>
     </div>
-  </div>
+  </loader>
 </template>
 
 <script lang="ts">
@@ -25,17 +25,26 @@ import axios from 'axios';
 import {MenuItem, MenuItemsGroupedWithType} from '@/types/menu-item';
 import MenuItemTable from '@/components/cash-register-system/MenuItemTable.vue';
 import {ApiResource} from '@/types/api';
+import Loader from '@/components/cash-register-system/Loader.vue';
+import store from '@/store';
 
   @Component({
-    components: {MenuItemTable}
+    components: {MenuItemTable, Loader},
+    async beforeRouteEnter(to, _, next) {
+      await store.dispatch('network/toggleLoad');
+
+      const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
+      const menuItems = response.data.data;
+
+      next(async(vm: Dishes) => {
+        vm.menuItems = menuItems;
+
+        await vm.$store.dispatch('network/toggleLoad');
+      });
+    }
   })
 export default class Dishes extends Vue {
     private menuItems: MenuItemsGroupedWithType[] = [];
-
-    async created() {
-      const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
-      this.menuItems = response.data.data;
-    }
 
     async onItemClick(menuItem: MenuItem) {
       await this.$router.push({
@@ -47,7 +56,3 @@ export default class Dishes extends Vue {
     }
 };
 </script>
-
-<style scoped>
-
-</style>

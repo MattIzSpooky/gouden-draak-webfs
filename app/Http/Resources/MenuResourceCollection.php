@@ -17,7 +17,7 @@ class MenuResourceCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => $this->collection->groupBy('dish.type.type')->mapToGroups(function (Collection $items, $key) {
+            'data' => $this->collection->sortBy('dish.type.type')->groupBy('dish.type.type')->mapToGroups(function (Collection $items, $key) {
                 return [
                     collect([
                         'type' => $key,
@@ -26,7 +26,7 @@ class MenuResourceCollection extends ResourceCollection
                         })
                     ])
                 ];
-            })->flatten(1),
+            })->flatten(1)
         ];
     }
 }

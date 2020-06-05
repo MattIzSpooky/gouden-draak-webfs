@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <loader>
     <div class="card m-3">
       <div class="card-header">
         Nieuw gerecht aanmaken
@@ -8,7 +8,7 @@
         <dish-form :dish-types="dishTypes" :menu-number-additions="menuAdditions" :error="error" @onSubmit="submit"/>
       </div>
     </div>
-  </div>
+  </loader>
 </template>
 
 <script lang="ts">
@@ -16,31 +16,38 @@ import {Component, Vue} from 'vue-property-decorator';
 import {DishType} from '@/types/dish';
 import axios from 'axios';
 import DishForm from '@/components/cash-register-system/DishForm.vue';
-import {MenuItemRequest} from '@/types/menu-item';
 import {ApiResource, ApiValidationError} from '@/types/api';
 import ErrorAlert from '@/components/cash-register-system/ErrorAlert.vue';
 import router from '@/router';
+import {MenuItemRequest} from '@/types/menu-item';
+import Loader from '@/components/cash-register-system/Loader.vue';
+import store from '@/store';
 
 @Component({
-  components: {ErrorAlert, DishForm}
+  components: {ErrorAlert, DishForm, Loader},
+  async beforeRouteEnter(to, _, next) {
+    await store.dispatch('network/toggleLoad');
+
+    const requests = await Promise.all([
+      axios.get<ApiResource<DishType[]>>('/api/dish/types'),
+      axios.get<ApiResource<string[]>>('api/dish/additions')
+    ]);
+
+    const dishTypeResponse = requests[0];
+    const menuNumberAdditionResponse = requests[1];
+
+    next(async (vm: NewMenuItem) => {
+      vm.dishTypes = dishTypeResponse.data.data;
+      vm.menuAdditions = menuNumberAdditionResponse.data.data;
+
+      await vm.$store.dispatch('network/toggleLoad');
+    });
+  }
 })
 export default class NewMenuItem extends Vue {
   public dishTypes: DishType[] = [];
   public menuAdditions: string[] = [];
   public error: ApiValidationError<MenuItemRequest> | null = null;
-
-  get hasErrors() {
-    return this.error && this.error.message !== '';
-  }
-
-  async beforeCreate() {
-    const dishTypeResponse = await axios.get<ApiResource<DishType[]>>('/api/dish/types');
-
-    this.dishTypes.push(...dishTypeResponse.data.data);
-
-    const menuNumberAdditionResponse = await axios.get<ApiResource<string[]>>('api/dish/additions');
-    this.menuAdditions.push(...menuNumberAdditionResponse.data.data);
-  }
 
   public async submit(formData: MenuItemRequest) {
     try {
