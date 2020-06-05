@@ -36,7 +36,7 @@
       </div>
       <div class="form-group">
         <label for="dishType">Gerecht soort</label>
-        <select class="form-control" required id="dishType" v-model="formData.dishTypeId"
+        <select class="form-control" required id="dishType" v-model.number="formData.dishTypeId"
                 :class="{'is-invalid': error && error.errors.dishTypeId}">
           <option v-for="dishtype in dishTypes" :key="dishtype.id" :value="dishtype.id">{{dishtype.type}}</option>
         </select>
@@ -48,7 +48,7 @@
       </div>
       <div class="form-group">
         <label for="menuNumber">Menu number</label>
-        <input v-model="formData.menuNumber" type="number" min="0" class="form-control" id="menuNumber"
+        <input v-model.number="formData.menuNumber" type="number" min="0" class="form-control" id="menuNumber"
                :class="{'is-invalid': error && error.errors.menuNumber}">
         <div v-if="error && error.errors.menuNumber">
           <p v-for="error in error.errors.menuNumber" :key="error" class="text-danger">
