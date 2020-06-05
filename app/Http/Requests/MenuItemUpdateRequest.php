@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\API;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MenuItemRequest extends FormRequest
+class MenuItemUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,25 +31,13 @@ class MenuItemRequest extends FormRequest
             'menuNumber' => [
                 'required',
                 'numeric',
-                'unique:menu_items,menu_number,NULL,NULL,addition,' . $this->input('addition'),
+                'exists:menu_items,menu_number'
             ],
             'addition' => [
                 'nullable',
                 'regex:/^[A-Z]{1}$/',
                 'exists:menu_additions,character'
             ]
-        ];
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'menuNumber.unique' => 'Given menuNumber and addition are not unique'
         ];
     }
 }
