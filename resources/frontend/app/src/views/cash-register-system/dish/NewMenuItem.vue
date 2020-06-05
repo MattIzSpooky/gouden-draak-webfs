@@ -5,8 +5,8 @@
         Nieuw gerecht aanmaken
       </div>
       <div class="card-body">
-        <create-dish-form :dish-types="dishTypes" :menu-number-additions="menuAdditions" @onSubmit="submit">
-          <error-alert :error="error" v-if="hasErrors"/>
+        <create-dish-form :dish-types="dishTypes" :menu-number-additions="menuAdditions" :error="error" @onSubmit="submit">
+<!--          <error-alert :error="error" v-if="hasErrors"/>-->
         </create-dish-form>
       </div>
     </div>

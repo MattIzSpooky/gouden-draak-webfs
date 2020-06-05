@@ -4,5 +4,5 @@ export type ApiResource<T> = {
 
 export type ApiValidationError<TRequest> = {
   message: string;
-  errors: { [key in keyof TRequest]: string[] };
+  errors: { [key in keyof TRequest]?: string[] };
 }
