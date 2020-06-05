@@ -31,7 +31,6 @@ class MenuItemUpdateRequest extends FormRequest
             'menuNumber' => [
                 'required',
                 'numeric',
-                'exists:menu_items,menu_number'
             ],
             'addition' => [
                 'nullable',
