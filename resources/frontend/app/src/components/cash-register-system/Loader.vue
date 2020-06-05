@@ -24,12 +24,12 @@ export default class Loader extends Vue {
 
 <style scoped lang="scss">
   .loader {
-    border: 16px solid #f3f3f3;
-    border-top: 16px solid #3498db;
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
     border-radius: 50%;
     width: 120px;
     height: 120px;
-    animation: spin 2s linear infinite;
+    animation: spin 1.3s linear infinite;
   }
 
   @keyframes spin {
@@ -38,6 +38,6 @@ export default class Loader extends Vue {
   }
 
   .full-height {
-    min-height: 100vh;
+    min-height: 82vh;
   }
 </style>
