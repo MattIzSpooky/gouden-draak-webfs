@@ -5,9 +5,7 @@
         Nieuw gerecht aanmaken
       </div>
       <div class="card-body">
-        <create-dish-form :dish-types="dishTypes" :menu-number-additions="menuAdditions" :error="error" @onSubmit="submit">
-<!--          <error-alert :error="error" v-if="hasErrors"/>-->
-        </create-dish-form>
+        <dish-form :dish-types="dishTypes" :menu-number-additions="menuAdditions" :error="error" @onSubmit="submit"/>
       </div>
     </div>
   </div>
@@ -17,19 +15,19 @@
 import {Component, Vue} from 'vue-property-decorator';
 import {DishType} from '@/types/dish';
 import axios from 'axios';
-import CreateDishForm from '@/components/cash-register-system/CreateDishForm.vue';
-import {NewMenuItemType} from '@/types/menu-item';
+import DishForm from '@/components/cash-register-system/DishForm.vue';
+import {MenuItemRequest} from '@/types/menu-item';
 import {ApiResource, ApiValidationError} from '@/types/api';
 import ErrorAlert from '@/components/cash-register-system/ErrorAlert.vue';
 import router from '@/router';
 
 @Component({
-  components: {ErrorAlert, CreateDishForm}
+  components: {ErrorAlert, DishForm}
 })
 export default class NewMenuItem extends Vue {
   public dishTypes: DishType[] = [];
   public menuAdditions: string[] = [];
-  public error: ApiValidationError<NewMenuItemType> | null = null;
+  public error: ApiValidationError<MenuItemRequest> | null = null;
 
   get hasErrors() {
     return this.error && this.error.message !== '';
@@ -44,12 +42,12 @@ export default class NewMenuItem extends Vue {
     this.menuAdditions.push(...menuNumberAdditionResponse.data.data);
   }
 
-  public async submit(formData: NewMenuItemType) {
+  public async submit(formData: MenuItemRequest) {
     try {
       await axios.post('/api/menu', formData);
       await router.push({name: 'dishes'});
     } catch (e) {
-      const errorObject = e.response.data as ApiValidationError<NewMenuItemType>;
+      const errorObject = e.response.data as ApiValidationError<MenuItemRequest>;
       this.error = {
         message: errorObject.message,
         errors: errorObject.errors

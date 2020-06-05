@@ -110,7 +110,7 @@ export default class CashRegister extends Vue {
         });
         this.modalContent = 'Verkoop succesvol!';
         this.onClickDelete();
-      } catch (e) {
+      } catch {
         this.modalContent = 'Er is iets misgegaan!';
       }
 

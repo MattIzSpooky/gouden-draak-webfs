@@ -14,9 +14,9 @@
         <td>
           € {{item.dish.price}}
         </td>
-        <td v-if="hasClickAction">
+        <td v-if="hasClickListener">
           <button type="button" class="btn btn-primary" @click="onMenuItemClick(item)">
-            Toevoegen
+            {{clickActionText}}
           </button>
         </td>
       </tr>
@@ -32,10 +32,15 @@ import {MenuItem} from '@/types/menu-item';
 export default class MenuItemTable extends Vue {
     @Prop(String) public readonly name!: string;
     @Prop(Array) public readonly menuItems!: MenuItem[];
+
     @Prop({
-      default: true,
-      type: Boolean
-    }) public readonly hasClickAction!: boolean;
+      default: 'Toevoegen',
+      type: String
+    }) public readonly clickActionText!: string;
+
+    get hasClickListener() {
+      return !!this.$listeners.menuItemClick;
+    }
 
     @Emit('menuItemClick')
     onMenuItemClick(menuItem: MenuItem) {
