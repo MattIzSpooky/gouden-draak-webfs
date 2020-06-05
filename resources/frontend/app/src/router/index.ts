@@ -50,12 +50,18 @@ const routes: Array<RouteConfig> = [
       {
         path: 'gerechten',
         name: 'dishes',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/dish/Dishes.vue')
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/menu-items/MenuItems.vue')
       },
       {
         path: 'gerechten/nieuw',
         name: 'new-dish',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/dish/NewMenuItem.vue')
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/menu-items/NewMenuItem.vue')
+      },
+      {
+        path: 'gerecht/:id',
+        name: 'edit-dish',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/menu-items/UpdateMenuItem.vue'),
+        props: true
       }
     ]
   }

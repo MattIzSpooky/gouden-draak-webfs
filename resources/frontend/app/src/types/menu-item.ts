@@ -12,7 +12,7 @@ export type MenuItem = {
   menuNumber: number;
 }
 
-export type NewMenuItemType = {
+export type MenuItemRequest = {
   name: string;
   price: number;
   description: string;

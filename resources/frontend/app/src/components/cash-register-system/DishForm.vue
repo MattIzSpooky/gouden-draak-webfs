@@ -17,7 +17,7 @@
       <div class="form-group">
         <label for="dishPrice">Prijs gerecht</label>
         <input type="number" required v-model.number="formData.price" min="0" step='0.01' class="form-control"
-               id="dishPrice" :class="{'is-invalid': error && error.errors.price}">
+               :class="{'is-invalid': error && error.errors.price}" id="dishPrice">
         <div v-if="error && error.errors.price">
           <p v-for="error in error.error.price" :key="error" class="text-danger">
             {{error}}
@@ -48,8 +48,8 @@
       </div>
       <div class="form-group">
         <label for="menuNumber">Menu number</label>
-        <input v-model="formData.menuNumber" type="number" min="0" class="form-control"
-               :class="{'is-invalid': error && error.errors.menuNumber}" id="menuNumber">
+        <input v-model="formData.menuNumber" type="number" min="0" class="form-control" id="menuNumber"
+               :class="{'is-invalid': error && error.errors.menuNumber}">
         <div v-if="error && error.errors.menuNumber">
           <p v-for="error in error.errors.menuNumber" :key="error" class="text-danger">
             {{error}}
@@ -59,7 +59,8 @@
       </div>
       <div class="form-group">
         <label for="menuNumberAddition">Menu toevoeging</label>
-        <select v-model="formData.addition" class="form-control" id="menuNumberAddition">
+        <select v-model="formData.addition" class="form-control" id="menuNumberAddition"
+                :class="{'is-invalid': error && error.errors.addition}">
           <option v-for="addition in menuNumberAdditions" :key="addition" :value="addition">{{addition}}</option>
         </select>
         <div v-if="error && error.errors.addition">
@@ -69,7 +70,7 @@
         </div>
         <button type="button" class="btn btn-primary btn-sm mt-1" @click="clearMenuNumberAdditions">Leeg maken</button>
       </div>
-      <button type="submit" class="btn btn-primary">Product aanmaken</button>
+      <button type="submit" class="btn btn-primary">Opslaan</button>
     </form>
   </div>
 </template>
@@ -77,35 +78,36 @@
 <script lang="ts">
 import {Component, Emit, Prop, Vue} from 'vue-property-decorator';
 import {DishType} from '@/types/dish';
-import {NewMenuItemType} from '@/types/menu-item';
+import {MenuItemRequest} from '@/types/menu-item';
 import {ApiValidationError} from '@/types/api';
 
-@Component
-export default class CreateDishForm extends Vue {
-    @Prop(Array) public readonly dishTypes!: DishType[];
-    @Prop(Array) public readonly menuNumberAdditions!: string[];
-    @Prop(Object) public readonly error!: ApiValidationError<NewMenuItemType>;
-
-    private formData: NewMenuItemType = {
-      name: '',
-      price: 0.00,
-      description: '',
-      dishTypeId: 0,
-      addition: null,
-      menuNumber: null
-    };
-
-    $refs!: {
-      menuNumberAddition: HTMLSelectElement;
-      menuNumber: HTMLInputElement;
-    };
+  @Component
+export default class DishForm extends Vue {
+    @Prop(Array) public dishTypes!: DishType[];
+    @Prop(Array) public menuNumberAdditions!: string[];
+    @Prop(Object) public readonly error!: ApiValidationError<MenuItemRequest>;
+    @Prop({
+      default: () => ({
+        name: '',
+        price: 0.00,
+        description: '',
+        dishTypeId: 0,
+        addition: null,
+        menuNumber: null
+      }),
+      type: Object
+    }) private readonly formData!: MenuItemRequest;
 
     @Emit('onSubmit')
-    emitForm(): NewMenuItemType {
+    emitForm(): MenuItemRequest {
       return {
         ...this.formData,
         price: +this.formData.price.toFixed(2)
       };
+    }
+
+    created() {
+      console.log(this.formData);
     }
 
     clearMenuNumber() {

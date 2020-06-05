@@ -7,7 +7,12 @@
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item p-0" v-for="itemObject in menuItems" :key="itemObject.type">
-          <menu-item-table :name="itemObject.type" :menuItems="itemObject.items" :has-click-action="false"/>
+          <menu-item-table
+            :name="itemObject.type"
+            :menuItems="itemObject.items"
+            click-action-text="Bewerken"
+            @menuItemClick="onItemClick"
+          />
         </li>
       </ul>
     </div>
@@ -17,7 +22,7 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
 import axios from 'axios';
-import {MenuItemsGroupedWithType} from '@/types/menu-item';
+import {MenuItem, MenuItemsGroupedWithType} from '@/types/menu-item';
 import MenuItemTable from '@/components/cash-register-system/MenuItemTable.vue';
 import {ApiResource} from '@/types/api';
 
@@ -30,6 +35,15 @@ export default class Dishes extends Vue {
     async created() {
       const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
       this.menuItems = response.data.data;
+    }
+
+    async onItemClick(menuItem: MenuItem) {
+      await this.$router.push({
+        name: 'edit-dish',
+        params: {
+          id: menuItem.id.toString()
+        }
+      });
     }
 };
 </script>
