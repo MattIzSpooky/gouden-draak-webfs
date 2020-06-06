@@ -37,7 +37,7 @@ import {Paginated} from '@/types/paginated';
     DragonPage
   },
   async beforeRouteEnter(to, _, next) {
-    const response = await axios.get<Paginated<News>>(`/api/news?page=${this.$route.query.page}`);
+    const response = await axios.get<Paginated<News>>(`/api/news?page=${to.query.page}`);
     const paginatedNews = response.data;
 
     next((vm: News) => {
