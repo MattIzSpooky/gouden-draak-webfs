@@ -23,10 +23,10 @@
 import {Component, Vue} from 'vue-property-decorator';
 import axios from 'axios';
 import {MenuItem, MenuItemsGroupedWithType} from '@/types/menu-item';
-import MenuItemTable from '@/components/cash-register-system/MenuItemTable.vue';
 import {ApiResource} from '@/types/api';
-import Loader from '@/components/cash-register-system/Loader.vue';
 import store from '@/store';
+import MenuItemTable from '@/components/cash-register-system/menu-items/MenuItemTable.vue';
+import Loader from '@/components/cash-register-system/common/Loader.vue';
 
   @Component({
     components: {MenuItemTable, Loader},

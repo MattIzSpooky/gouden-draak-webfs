@@ -5,7 +5,7 @@
         Menu item bewerken.
       </div>
       <div class="card-body">
-        <dish-form :dish-types="dishTypes" :menu-number-additions="menuAdditions" :form-data="menuItem" :error="error" @onSubmit="onSubmit"/>
+        <menu-item-form :dish-types="dishTypes" :menu-number-additions="menuAdditions" :form-data="menuItem" :error="error" @onSubmit="onSubmit"/>
       </div>
     </div>
   </loader>
@@ -15,16 +15,15 @@
 import {Component, Vue} from 'vue-property-decorator';
 import {DishType} from '@/types/dish';
 import axios from 'axios';
-import DishForm from '@/components/cash-register-system/DishForm.vue';
 import {MenuItem, MenuItemRequest} from '@/types/menu-item';
 import {ApiResource, ApiValidationError} from '@/types/api';
-import ErrorAlert from '@/components/cash-register-system/ErrorAlert.vue';
 import router from '@/router';
-import Loader from '@/components/cash-register-system/Loader.vue';
 import store from '@/store';
+import MenuItemForm from '@/components/cash-register-system/menu-items/MenuItemForm.vue';
+import Loader from '@/components/cash-register-system/common/Loader.vue';
 
   @Component({
-    components: {ErrorAlert, DishForm, Loader},
+    components: {MenuItemForm, Loader},
     async beforeRouteEnter(to, _, next) {
       await store.dispatch('network/toggleLoad');
 
