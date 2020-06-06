@@ -53,6 +53,7 @@
         </div>
       </div>
       <button type="submit" class="btn btn-primary" :disabled="!canSubmit" >Opslaan</button>
+      <slot></slot>
     </form>
   </div>
 </template>

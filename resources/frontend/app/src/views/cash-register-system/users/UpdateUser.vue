@@ -4,7 +4,9 @@
       Nieuwe gebruiker aanmaken
     </div>
     <div class="card-body">
-      <user-form :user-roles="userRoles" :error="error" :form-data="userForm" :is-edit="true" @onSubmit="onSubmit"/>
+      <user-form :user-roles="userRoles" :error="error" :form-data="userForm" :is-edit="true" @onSubmit="onSubmit">
+        <button type="submit" class="btn btn-danger ml-3" @click="deleteUser">Verwijderen</button>
+      </user-form>
     </div>
   </div>
 </template>
@@ -72,6 +74,11 @@ export default class NewUser extends Vue {
           errors: errorObject.errors
         };
       }
+    }
+
+    async deleteUser() {
+      await axios.delete(`/api/users/${this.$route.params.id}`);
+      await router.push({name: 'users'});
     }
 };
 </script>
