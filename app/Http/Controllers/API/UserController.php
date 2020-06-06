@@ -6,7 +6,6 @@ use App\User;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
-use App\Http\Requests\API\UserRequest;
 use App\Http\Requests\API\UserCreateRequest;
 use App\Http\Requests\API\UserUpdateRequest;
 use Illuminate\Contracts\Hashing\Hasher;
@@ -29,18 +28,18 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return UserResource::collection(User::paginate());
+        return UserResource::collection(User::paginate())->response();
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(UserCreateRequest $request, Hasher $hasher)
     {
@@ -58,19 +57,20 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(User $user)
     {
-        return new UserResource($user);
+        return (new UserResource($user))->response();
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @param UserUpdateRequest $request
+     * @param \App\User $user
+     * @param Hasher $hasher
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UserUpdateRequest $request, User $user, Hasher $hasher)
     {
@@ -91,7 +91,7 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(User $user)
     {

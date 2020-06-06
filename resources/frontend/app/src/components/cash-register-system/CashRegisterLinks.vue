@@ -20,11 +20,11 @@ export default class CashRegisterLinks extends Vue {
       {
         routeName: 'dishes',
         shownName: 'Gerechten'
+      },
+      {
+        routeName: 'users',
+        shownName: 'Gebruikers'
       }
     ];
 };
 </script>
-
-<style scoped>
-
-</style>

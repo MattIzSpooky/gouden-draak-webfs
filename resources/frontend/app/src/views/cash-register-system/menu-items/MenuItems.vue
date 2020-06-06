@@ -1,6 +1,6 @@
 <template>
   <loader>
-    <router-link class="btn btn-primary" :to="{name: 'new-dish'}">Nieuwe menu item aanmaken</router-link>
+    <router-link class="btn btn-primary" :to="{name: 'new-user'}">Nieuwe menu item aanmaken</router-link>
     <div class="card m-3">
       <div class="card-header">
         Menu
