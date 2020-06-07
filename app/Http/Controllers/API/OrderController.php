@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Order;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\API\OrderRequest;
-use App\Http\Resources\OrderResource;
 use Carbon\Carbon;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\OrderResource;
+use App\Http\Requests\API\OrderRequest;
+use App\Http\Requests\API\OrderFilterRequest;
 
 class OrderController extends Controller
 {
@@ -18,6 +19,18 @@ class OrderController extends Controller
     public function index()
     {
         return OrderResource::collection(Order::paginate());
+    }
+
+    /**
+     * Display a listing of the resource on a specified date range.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(OrderFilterRequest $request)
+    {
+        /** @var Order */
+        $orders = Order::query()->whereBetween('created_at', [$request->input('from'), $request->input('to')]);
+        return OrderResource::collection($orders->paginate());
     }
 
     /**

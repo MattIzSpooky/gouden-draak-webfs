@@ -26,6 +26,11 @@ Route::namespace('API')->group(function () {
         Route::apiResource('menu', 'MenuItemController')->except('index')->middleware('role:admin');
         Route::get('users/roles', 'RoleController')->name('users.roles')->middleware('role:admin');
         Route::apiResource('users', 'UserController')->middleware('role:admin');
-        Route::apiResource('orders', 'OrderController')->except(['destroy', 'store'])->middleware('role:admin,waitress,kassa');
+
+
+        Route::middleware('role:admin,waitress,kassa')->group(function () {
+            Route::get('orders/filter', 'OrderController@filter')->name('orders.filter');
+            Route::apiResource('orders', 'OrderController')->except(['destroy', 'store']);
+        });
     });
 });
