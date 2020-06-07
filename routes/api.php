@@ -23,10 +23,14 @@ Route::namespace('API')->group(function () {
         });
 
         Route::apiResource('news', 'NewsController')->except('index')->middleware('role:admin');
-        Route::apiResource('menu', 'MenuItemController')->except('index')->middleware('role:admin');
+
         Route::get('users/roles', 'RoleController')->name('users.roles')->middleware('role:admin');
         Route::apiResource('users', 'UserController')->middleware('role:admin');
 
+        Route::middleware('role:admin')->group(function () {
+            Route::post('menu/restore/{id}', 'MenuItemController@restore')->name('menu.restore');
+            Route::apiResource('menu', 'MenuItemController')->except('index');
+        });
 
         Route::middleware('role:admin,waitress,kassa')->group(function () {
             Route::get('orders/filter', 'OrderController@filter')->name('orders.filter');
