@@ -31,7 +31,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        return NewsResource::collection(News::paginate());
+        return NewsResource::collection(News::orderBy('created_at', 'desc')->paginate());
     }
 
     /**

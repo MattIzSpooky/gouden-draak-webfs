@@ -98,6 +98,22 @@ const routes: Array<RouteConfig> = [
         meta: {
           middleware: [auth]
         }
+      },
+      {
+        path: 'nieuws',
+        name: 'news-kassa',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/news/News.vue'),
+        meta: {
+          middleware: [auth]
+        }
+      },
+      {
+        path: 'nieuws/nieuw',
+        name: 'new-news',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/news/NewNews.vue'),
+        meta: {
+          middleware: [auth]
+        }
       }
     ]
   }
