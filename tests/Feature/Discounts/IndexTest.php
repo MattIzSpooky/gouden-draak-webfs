@@ -26,22 +26,25 @@ class IndexTest extends TestCase
         );
 
         $response = $this->get('/api/promotions/discounts');
-        dd($response->json());
+
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
             'data' => [
                 [
-                    'type',
-                    'items' => [
+                    'id',
+                    'title',
+                    'text',
+                    'validFrom',
+                    'validTill',
+                    'dish' => [
                         [
                             'id',
-                            'menuNumber',
-                            'addition',
-                            'dish' => [
+                            'name',
+                            'price',
+                            'dishType' => [
                                 'id',
-                                'name',
-                                'price',
+                                'type'
                             ]
                         ]
                     ]

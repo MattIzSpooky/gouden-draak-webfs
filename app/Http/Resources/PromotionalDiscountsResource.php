@@ -21,7 +21,7 @@ class PromotionalDiscountsResource extends JsonResource
             'validFrom' => $this->valid_from->toIso8601String(),
             'validTill' => $this->valid_till->toIso8601String(),
             'price' => $this->price,
-            'dish' => DishResource::collection($this->items)
+            'dish' => DishResource::collection($this->dishes)
         ];
     }
 }

@@ -2,15 +2,27 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
 use App\PromotionalDiscounts;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\API\PromotionalDiscountRequest;
-use App\Http\Resources\PromotionalDiscountsResource;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use App\Http\Resources\PromotionalDiscountsResource;
+use App\Http\Requests\API\PromotionalDiscountRequest;
 
 class PromotionalDiscountsController extends Controller
 {
+    private $response;
+
+    /**
+     * Constructor
+     *
+     * @param ResponseFactory $response
+     */
+    public function __construct(ResponseFactory $response)
+    {
+        $this->response = $response;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +41,7 @@ class PromotionalDiscountsController extends Controller
     public function index()
     {
         /** @var PromotionalDiscounts */
-        $discounts = PromotionalDiscounts::query()->orderBy(['valid_till', 'valid_from']);
+        $discounts = PromotionalDiscounts::query()->orderBy('valid_till')->get();
 
         return PromotionalDiscountsResource::collection($discounts);
     }
@@ -74,7 +86,7 @@ class PromotionalDiscountsController extends Controller
      * @param  \App\PromotionalDiscounts  $promotionalDiscounts
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PromotionalDiscounts $discount)
+    public function update(PromotionalDiscountRequest $request, PromotionalDiscounts $discount)
     {
         /** @var PromotionalDiscounts */
         $updated = $discount->update([
