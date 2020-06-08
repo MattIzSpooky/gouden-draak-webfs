@@ -84,9 +84,20 @@ import {ApiValidationError} from '@/types/api';
 
   @Component
 export default class DishForm extends Vue {
-    @Prop(Array) public dishTypes!: DishType[];
-    @Prop(Array) public menuNumberAdditions!: string[];
-    @Prop(Object) public readonly error!: ApiValidationError<MenuItemRequest>;
+    @Prop({
+      required: true,
+      type: Array
+    }) public dishTypes!: DishType[];
+
+    @Prop({
+      required: true,
+      type: Array
+    }) public menuNumberAdditions!: string[];
+
+    @Prop({
+      type: Object
+    }) public readonly error!: ApiValidationError<MenuItemRequest>;
+
     @Prop({
       default: () => ({
         name: '',

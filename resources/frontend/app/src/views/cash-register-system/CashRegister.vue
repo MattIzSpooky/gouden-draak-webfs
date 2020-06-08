@@ -63,14 +63,14 @@ import axios from 'axios';
 import {Component, Vue} from 'vue-property-decorator';
 import CashRegisterPage from '@/components/cash-register-system/CashRegisterPage.vue';
 import {MenuItem, MenuItemsGroupedWithType, OrderedMenuItem} from '@/types/menu-item';
-import OrderTable from '@/components/cash-register-system/OrderTable.vue';
-import MenuItemTable from '@/components/cash-register-system/MenuItemTable.vue';
 import store from '@/store/index';
 
 import {BModal} from 'bootstrap-vue';
 import {NewOrderRequest} from '@/types/order';
 import {ApiResource} from '@/types/api';
-import Loader from '@/components/cash-register-system/Loader.vue';
+import OrderTable from '@/components/cash-register-system/orders/OrderTable.vue';
+import MenuItemTable from '@/components/cash-register-system/menu-items/MenuItemTable.vue';
+import Loader from '@/components/cash-register-system/common/Loader.vue';
 
   @Component({
     components: {
@@ -82,9 +82,9 @@ import Loader from '@/components/cash-register-system/Loader.vue';
     },
     async beforeRouteEnter(to, _, next) {
       await store.dispatch('network/toggleLoad');
+      const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
 
       next(async (vm: CashRegister) => {
-        const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
         vm.menuItems = response.data.data;
 
         await vm.$store.dispatch('network/toggleLoad');

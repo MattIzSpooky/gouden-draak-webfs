@@ -18,7 +18,7 @@
             <input required type="password" class="form-control" id="password" v-model="form.password">
           </div>
           <div>
-            <button type="submit" class="btn" v-bind:class="{
+            <button type="submit" class="btn" :disabled="!canSendForm" v-bind:class="{
               'btn-primary': canSendForm,
               'btn-light': !canSendForm
             }">
