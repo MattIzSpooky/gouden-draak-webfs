@@ -33,6 +33,7 @@ import store from '@/store';
 import axios from 'axios';
 import {Paginated} from '@/types/paginated';
 import NewsTable from '@/components/cash-register-system/news/NewsTable.vue';
+import {News as NewsType} from '@/types/news';
 
 @Component({
   components: {
@@ -41,7 +42,7 @@ import NewsTable from '@/components/cash-register-system/news/NewsTable.vue';
   async beforeRouteEnter(to, _, next) {
     await store.dispatch('network/toggleLoad');
 
-    const response = await axios.get<Paginated<News>>(`/api/news?page=${to.query.page}`);
+    const response = await axios.get<Paginated<NewsType>>(`/api/news?page=${to.query.page}`);
     const paginatedNews = response.data;
 
     next(async(vm: News) => {
@@ -52,10 +53,15 @@ import NewsTable from '@/components/cash-register-system/news/NewsTable.vue';
   }
 })
 export default class News extends Vue {
-  public paginatedNewsItems: Paginated<News> | null = null;
+  public paginatedNewsItems: Paginated<NewsType> | null = null;
 
-  newsItemClick(newsItem: News) {
-    console.log(newsItem);
+  async newsItemClick(newsItem: NewsType) {
+    await this.$router.push({
+      name: 'edit-news',
+      params: {
+        id: newsItem.id.toString()
+      }
+    });
   }
 
   async nextPage() {
@@ -64,7 +70,7 @@ export default class News extends Vue {
       return;
     }
 
-    const response = await axios.get<Paginated<News>>(this.paginatedNewsItems.links.next);
+    const response = await axios.get<Paginated<NewsType>>(this.paginatedNewsItems.links.next);
     this.paginatedNewsItems = response.data;
 
     await this.$router.push({name: 'news-kassa', query: {page: this.paginatedNewsItems.meta.current_page.toString()}});
@@ -77,7 +83,7 @@ export default class News extends Vue {
       return;
     }
 
-    const response = await axios.get<Paginated<News>>(this.paginatedNewsItems.links.prev);
+    const response = await axios.get<Paginated<NewsType>>(this.paginatedNewsItems.links.prev);
     this.paginatedNewsItems = response.data;
 
     await this.$router.push({name: 'news-kassa', query: {page: this.paginatedNewsItems.meta.current_page.toString()}});

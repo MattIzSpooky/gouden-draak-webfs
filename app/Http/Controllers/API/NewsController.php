@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\News;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\NewsRequest;
-use App\Http\Resources\NewsCollection;
 use App\Http\Resources\NewsResource;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
