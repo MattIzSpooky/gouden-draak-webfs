@@ -29,7 +29,10 @@ class OrderController extends Controller
     public function filter(OrderFilterRequest $request)
     {
         /** @var Order */
-        $orders = Order::query()->whereBetween('created_at', [$request->input('from'), $request->input('to')]);
+        $orders = Order::query()
+            ->whereNotNull('paid_at')
+            ->whereBetween('created_at', [Carbon::parse($request->query('from')), Carbon::parse($request->query('to'))]);
+
         return OrderResource::collection($orders->paginate());
     }
 

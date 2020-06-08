@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\API;
 
+use Carbon\Carbon;
+use Carbon\Traits\Date;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OrderFilterRequest extends FormRequest
@@ -23,9 +25,11 @@ class OrderFilterRequest extends FormRequest
      */
     public function rules()
     {
+        $format = 'Y-m-d\TH:i:s.u\Z';
+
         return [
-            'from' => ['required', 'date_format:Y-m-d'],
-            'to' => ['required', 'date_format:Y-m-d']
+            'from' => ['required', 'date', 'date_format:' . $format],
+            'to' => ['required', 'date', 'date_format:' . $format]
         ];
     }
 }

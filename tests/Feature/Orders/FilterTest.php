@@ -25,16 +25,18 @@ class FilterTest extends TestCase
         );
 
         $data = [
-            'from' => Carbon::create('01-01-2020')->toDateString(),
-            'to' => Carbon::create('01-12-2020')->toDateString()
+            'from' => Carbon::create('2020-01-01T00:00:00')->toISOString(),
+            'to' => Carbon::create('2020-12-01T00:00:00')->toISOString()
         ];
 
         $response = $this->get('/api/orders/filter?from=' . $data['from'] . '&to=' . $data['to']);
+
         $response->assertOk();
         $response->assertJsonStructure([
             'data' => [[
                 'id',
                 'paidAt',
+                'createdAt',
                 'items' => [[
                     'id',
                     'menuNumber',
