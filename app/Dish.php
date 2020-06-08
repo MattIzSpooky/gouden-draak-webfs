@@ -5,9 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Dish extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'name', 'description', 'price', 'dish_type_id',
     ];

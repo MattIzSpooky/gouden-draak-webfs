@@ -30,6 +30,6 @@ class DeleteTest extends TestCase
 
         $this->assertSoftDeleted('menu_items', ['id' =>  1]);
 
-        $this->assertDatabaseMissing('dishes', ['id' =>  1]);
+        $this->assertSoftDeleted('dishes', ['id' =>  1]);
     }
 }
