@@ -30,7 +30,12 @@ class PromotionalDiscountsController extends Controller
      */
     public function view()
     {
-        //
+        $discounts = PromotionalDiscounts::query()
+            ->whereDate('valid_till', '>=', now())
+            ->whereDate('valid_from', '<=', now())
+            ->get();
+
+        return PromotionalDiscountsResource::collection($discounts);
     }
 
     /**
