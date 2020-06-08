@@ -28,8 +28,9 @@ export default class NeoMarquee extends Vue {
       position: absolute;
       width: 100%;
       height: 100%;
-      margin: 0;
       animation: scroll-left 20s linear infinite;
+      text-align: center;
+      white-space: nowrap;
     }
 
     @keyframes scroll-left {
