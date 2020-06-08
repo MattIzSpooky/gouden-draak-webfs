@@ -12,11 +12,9 @@
                height="50px">
         </td>
         <td>
-          <a href="paginas/aanbiedingen.html" style="color:yellow;font-weight:bold;text-decoration: none;">
-            <marquee behavior="scroll" direction="left">
-              Welkom bij De Gouden Draak. Klik op deze tekst om de aanbiedingen van deze week te zien!
-            </marquee>
-          </a>
+          <router-link :to="{name: 'home'}">
+            <neo-marquee text="Welkom bij De Gouden Draak. Klik op deze tekst om de aanbiedingen van deze week te zien!"/>
+          </router-link>
         </td>
         <td style="text-align:center;width:30%;color:yellow;font-size:30px">
           <img class="dragon-img-left" style="vertical-align: middle;" src="../../assets/images/dragon-small.png"
@@ -145,16 +143,15 @@
 
 <script>
 import PageLinks from '@/components/website/PageLinks';
+import NeoMarquee from '@/components/website/NeoMarquee';
 
 export default {
   name: 'DragonPage',
-  components: {PageLinks}
+  components: {PageLinks, NeoMarquee}
 };
 </script>
 
 <style lang="scss">
-  @import "../../styles/website.scss";
-
   .dragon-img-left {
     padding: 0 9px 0 0;
   }

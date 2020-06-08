@@ -1,5 +1,5 @@
 <template>
-  <dragon-page v-if="paginatedNews">
+  <none>
     <tr v-for="news in paginatedNews.data" :key="news.title" style="padding-top:50px">
       <td align="center" style='border:1px solid black;background:floralwhite'><br>
         <h3>
@@ -9,7 +9,7 @@
           {{news.text}}
         </p>
         <small>
-            {{transformToDutchDate(news.createdAt)}}
+          {{transformToDutchDate(news.createdAt)}}
         </small>
       </td>
     </tr>
@@ -23,7 +23,7 @@
         </button>
       </td>
     </tr>
-  </dragon-page>
+  </none>
 </template>
 
 <script lang="ts">
