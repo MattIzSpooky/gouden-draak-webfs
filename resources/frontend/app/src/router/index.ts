@@ -98,6 +98,14 @@ const routes: Array<RouteConfig> = [
         meta: {
           middleware: [auth]
         }
+      },
+      {
+        path: 'verkoop-overzicht',
+        name: 'order-overview',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/orders/OrderOverview.vue'),
+        meta: {
+          middleware: [auth]
+        }
       }
     ]
   }
