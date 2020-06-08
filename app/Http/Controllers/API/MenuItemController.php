@@ -33,7 +33,7 @@ class MenuItemController extends Controller
      */
     public function index()
     {
-        $collection = MenuItem::orderBy('menu_number')->with(['dish.type'])->get();
+        $collection = MenuItem::withTrashed()->orderBy('menu_number')->with(['dish.type'])->get();
 
         return new MenuResourceCollection($collection);
     }
@@ -109,6 +109,25 @@ class MenuItemController extends Controller
 
         return Dish::find($menu->dish->id)->delete()
             ? $this->response->json(['message' => 'Successful deleted'], Response::HTTP_OK)
+            : $this->response->json(['message' => 'Something went wrong'], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     *
+     * @param  \App\MenuItem  $menuItem
+     * @return \Illuminate\Http\Response
+     */
+    public function restore($id)
+    {
+        /** @var MenuItem */
+        $menu = MenuItem::withTrashed()->with('dish')->findOrFail($id);
+
+        /** @var Dish */
+        $dish = Dish::withTrashed()->findOrFail($menu->dish_id);
+
+        return $dish->restore() && $menu->restore()
+            ? $this->response->json(['message' => 'Successful restored'], Response::HTTP_OK)
             : $this->response->json(['message' => 'Something went wrong'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

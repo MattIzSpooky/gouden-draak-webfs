@@ -71,7 +71,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @group menusss
+     * @group menu
      * @return void
      */
     public function testUpdateMenuItemsWithUniqueTest()
