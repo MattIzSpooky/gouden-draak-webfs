@@ -15,6 +15,7 @@ class NewsResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'title' => $this->title,
             'text' => $this->text,
             'createdAt' => $this->created_at->toIso8601String()

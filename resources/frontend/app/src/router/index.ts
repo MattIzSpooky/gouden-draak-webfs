@@ -97,7 +97,33 @@ const routes: Array<RouteConfig> = [
         component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/users/UpdateUser.vue'),
         meta: {
           middleware: [auth]
+        },
+        props: true
+      },
+      {
+        path: 'nieuws',
+        name: 'news-kassa',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/news/News.vue'),
+        meta: {
+          middleware: [auth]
         }
+      },
+      {
+        path: 'nieuws/nieuw',
+        name: 'new-news',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/news/NewNews.vue'),
+        meta: {
+          middleware: [auth]
+        }
+      },
+      {
+        path: 'nieuws/:id',
+        name: 'edit-news',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/news/UpdateNews.vue'),
+        meta: {
+          middleware: [auth]
+        },
+        props: true
       }
     ]
   }
