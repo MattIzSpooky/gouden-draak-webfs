@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Dish extends Model
 {
-    use SoftDeletes;
-
     protected $fillable = [
         'name', 'description', 'price', 'dish_type_id',
     ];

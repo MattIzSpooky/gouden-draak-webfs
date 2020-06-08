@@ -29,6 +29,7 @@ Route::namespace('API')->group(function () {
 
         Route::middleware('role:admin')->group(function () {
             Route::post('menu/restore/{id}', 'MenuItemController@restore')->name('menu.restore');
+            Route::get('menu/with-trashed', 'MenuItemController@allWithThrashed')->name('menu.all-with-trashed');
             Route::apiResource('menu', 'MenuItemController')->except('index');
         });
 

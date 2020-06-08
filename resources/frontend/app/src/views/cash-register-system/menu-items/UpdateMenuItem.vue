@@ -5,7 +5,9 @@
         Menu item bewerken.
       </div>
       <div class="card-body">
-        <menu-item-form :dish-types="dishTypes" :menu-number-additions="menuAdditions" :form-data="menuItem" :error="error" @onSubmit="onSubmit"/>
+        <menu-item-form :dish-types="dishTypes" :menu-number-additions="menuAdditions" :form-data="menuItem" :error="error" @onSubmit="onSubmit">
+          <button type="button" class="btn btn-danger ml-2" @click="deleteMenuitem">Verwijderen</button>
+        </menu-item-form>
       </div>
     </div>
   </loader>
@@ -69,8 +71,15 @@ export default class UpdateMenuItem extends Vue {
     public error: ApiValidationError<MenuItemRequest> | null = null;
 
     async onSubmit(menuItemRequest: MenuItemRequest) {
+      const wantToSave = await this.$bvModal.msgBoxConfirm('Weet u zeker dat u op wilt slaan?');
+      if (!wantToSave) {
+        return;
+      }
       try {
         await axios.put(`/api/menu/${this.$route.params.id}`, menuItemRequest);
+
+        await this.$bvModal.msgBoxOk('Het menu item is opgeslagen');
+
         await router.push({name: 'dishes'});
       } catch (e) {
         const errorObject = e.response.data as ApiValidationError<MenuItemRequest>;
@@ -79,6 +88,17 @@ export default class UpdateMenuItem extends Vue {
           errors: errorObject.errors
         };
       }
+    }
+
+    async deleteMenuitem() {
+      const wantToDelete = await this.$bvModal.msgBoxConfirm('Weet u zeker dat u het menu item wilt verwijderen?');
+      if (!wantToDelete) {
+        return;
+      }
+
+      await axios.delete(`/api/menu/${this.$route.params.id}`);
+      await this.$bvModal.msgBoxOk('Het menu item is verwijderd.');
+      await router.push({name: 'dishes'});
     }
 };
 </script>

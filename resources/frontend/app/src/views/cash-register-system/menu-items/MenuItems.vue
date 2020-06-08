@@ -12,6 +12,7 @@
             :menuItems="itemObject.items"
             click-action-text="Bewerken"
             @menuItemClick="onItemClick"
+            @menuItemRestore="onItemRestore"
           />
         </li>
       </ul>
@@ -33,7 +34,7 @@ import Loader from '@/components/cash-register-system/common/Loader.vue';
     async beforeRouteEnter(to, _, next) {
       await store.dispatch('network/toggleLoad');
 
-      const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
+      const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('api/menu/with-trashed');
       const menuItems = response.data.data;
 
       next(async(vm: Dishes) => {
@@ -53,6 +54,17 @@ export default class Dishes extends Vue {
           id: menuItem.id.toString()
         }
       });
+    }
+
+    async onItemRestore(menuItem: MenuItem) {
+      const wantsToRestore = await this.$bvModal.msgBoxConfirm('Weet u zeker dat u het menu item terug wilt brengen?');
+      if (!wantsToRestore) {
+        return;
+      }
+
+      await axios.post(`/api/menu/restore/${menuItem.id}`);
+      await this.$bvModal.msgBoxOk('Het menu item is terug gebracht.');
+      menuItem.deletedAt = null;
     }
 };
 </script>

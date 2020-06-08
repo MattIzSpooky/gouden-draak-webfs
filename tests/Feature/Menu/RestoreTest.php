@@ -29,14 +29,12 @@ class RestoreTest extends TestCase
 
         /** @var MenuItem */
         $menu = factory(MenuItem::class)->create(['deleted_at' => now()]);
-        $dish = $menu->dish()->associate(factory(Dish::class)->create(['deleted_at' => now()]))->save();
+        $menu->dish()->associate(factory(Dish::class)->create())->save();
 
         $response = $this->post('/api/menu/restore/' . $menu->id);
 
         $response->assertStatus(200);
 
         $this->assertDatabaseHas('menu_items', ['id' =>  $menu->id, 'deleted_at' => null]);
-
-        $this->assertDatabaseHas('dishes', ['id' =>  $menu->dish_id, 'deleted_at' => null]);
     }
 }

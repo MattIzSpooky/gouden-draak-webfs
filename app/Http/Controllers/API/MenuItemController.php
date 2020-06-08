@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MenuItemResource;
 use App\Http\Requests\API\MenuItemRequest;
-use App\Http\Requests\MenuItemUpdateRequest;
+use App\Http\Requests\API\MenuItemUpdateRequest;
 use App\Http\Resources\MenuResourceCollection;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
@@ -33,6 +33,13 @@ class MenuItemController extends Controller
      */
     public function index()
     {
+        $collection = MenuItem::orderBy('menu_number')->with(['dish.type'])->get();
+
+        return new MenuResourceCollection($collection);
+    }
+
+    public function allWithThrashed()
+    {
         $collection = MenuItem::withTrashed()->orderBy('menu_number')->with(['dish.type'])->get();
 
         return new MenuResourceCollection($collection);
@@ -41,7 +48,7 @@ class MenuItemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(MenuItemRequest $request)
@@ -65,7 +72,7 @@ class MenuItemController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\MenuItem  $menuItem
+     * @param \App\MenuItem $menuItem
      * @return \Illuminate\Http\Response
      */
     public function show(MenuItem $menu)
@@ -76,8 +83,8 @@ class MenuItemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\MenuItem  $menuItem
+     * @param \Illuminate\Http\Request $request
+     * @param \App\MenuItem $menuItem
      * @return \Illuminate\Http\Response
      */
     public function update(MenuItemUpdateRequest $request, MenuItem $menu)
@@ -100,14 +107,12 @@ class MenuItemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\MenuItem  $menuItem
+     * @param \App\MenuItem $menuItem
      * @return \Illuminate\Http\Response
      */
     public function destroy(MenuItem $menu)
     {
-        $menu->delete();
-
-        return Dish::find($menu->dish->id)->delete()
+        return $menu->delete()
             ? $this->response->json(['message' => 'Successful deleted'], Response::HTTP_OK)
             : $this->response->json(['message' => 'Something went wrong'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
@@ -115,7 +120,7 @@ class MenuItemController extends Controller
     /**
      * Restore the specified resource from storage.
      *
-     * @param  \App\MenuItem  $menuItem
+     * @param \App\MenuItem $menuItem
      * @return \Illuminate\Http\Response
      */
     public function restore($id)
@@ -123,10 +128,7 @@ class MenuItemController extends Controller
         /** @var MenuItem */
         $menu = MenuItem::withTrashed()->with('dish')->findOrFail($id);
 
-        /** @var Dish */
-        $dish = Dish::withTrashed()->findOrFail($menu->dish_id);
-
-        return $dish->restore() && $menu->restore()
+        return $menu->restore()
             ? $this->response->json(['message' => 'Successful restored'], Response::HTTP_OK)
             : $this->response->json(['message' => 'Something went wrong'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }

@@ -9,7 +9,6 @@ export type User = {
   badge: number;
   role: UserRoleType;
 }
-
 export type UserRoleType = {
   id: number;
   name: UserRole;

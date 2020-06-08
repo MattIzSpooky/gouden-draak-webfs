@@ -71,6 +71,7 @@
         <button type="button" class="btn btn-primary btn-sm mt-1" @click="clearMenuNumberAdditions">Leeg maken</button>
       </div>
       <button type="submit" class="btn btn-primary">Opslaan</button>
+      <slot></slot>
     </form>
   </div>
 </template>
@@ -109,12 +110,21 @@ export default class DishForm extends Vue {
       type: Object
     }) private readonly formData!: MenuItemRequest;
 
-    @Emit('onSubmit')
-    emitForm(): MenuItemRequest {
+    get formDataOut(): MenuItemRequest {
       return {
         ...this.formData,
         price: +this.formData.price.toFixed(2)
       };
+    }
+
+    @Emit('onSubmit')
+    emitForm(): MenuItemRequest {
+      return this.formDataOut;
+    }
+
+    @Emit('onDelete')
+    emitDeleteMenuItem(): MenuItemRequest {
+      return this.formDataOut;
     }
 
     clearMenuNumber() {
