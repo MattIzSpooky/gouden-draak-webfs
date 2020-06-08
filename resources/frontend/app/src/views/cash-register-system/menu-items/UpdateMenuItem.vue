@@ -5,7 +5,9 @@
         Menu item bewerken.
       </div>
       <div class="card-body">
-        <menu-item-form :dish-types="dishTypes" :menu-number-additions="menuAdditions" :form-data="menuItem" :error="error" @onSubmit="onSubmit"/>
+        <menu-item-form :dish-types="dishTypes" :menu-number-additions="menuAdditions" :form-data="menuItem" :error="error" @onSubmit="onSubmit">
+          <button type="button" class="btn btn-danger ml-2" @click="deleteMenuitem">Verwijderen</button>
+        </menu-item-form>
       </div>
     </div>
   </loader>

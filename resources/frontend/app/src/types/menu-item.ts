@@ -10,6 +10,7 @@ export type MenuItem = {
   addition: string;
   dish: Dish;
   menuNumber: number;
+  deletedAt: string | null;
 }
 
 export type MenuItemRequest = {
