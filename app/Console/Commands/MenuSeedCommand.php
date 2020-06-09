@@ -47,18 +47,21 @@ class MenuSeedCommand extends Command
         $bar = $this->output->createProgressBar(count($data));
         $bar->start();
 
+        $dishTypes = DishType::all()->toArray();
         $menuItems = [];
         $dishes = [];
 
         for ($i = 0; $i < count($data); $i++) {
             $dishId = $i == 0 ? 1 : $i + 1;
 
+            $key = array_search(ucfirst(strtolower($data[$i]->soortgerecht)), array_column($dishTypes, 'type'));
+
             array_push($dishes, [
                 'id' => $dishId,
                 'name' => $data[$i]->naam,
                 'description' => $data[$i]->beschrijving,
                 'price' => $data[$i]->price,
-                'dish_type_id' => DishType::where('type', $data[$i]->soortgerecht)->get()->pluck('id')->first()
+                'dish_type_id' => $dishTypes[$key]['id']
             ]);
 
             array_push($menuItems, [
