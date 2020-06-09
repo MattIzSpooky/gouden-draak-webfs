@@ -12,8 +12,14 @@ class MenuAdditionSeeder extends Seeder
      */
     public function run()
     {
-        for ($c = 'A'; $c < 'Z'; $c++) {
-            MenuAddition::create(['character' => $c]);
+        foreach (range('A', 'Z') as $char) {
+            MenuAddition::create(['character' => $char]);
+        }
+
+        foreach (['M', 'P', 'T', 'V', 'K', 'R'] as $char) {
+            for ($i = 1; $i < 7; $i++) {
+                MenuAddition::create(['character' => $char . $i]);
+            }
         }
     }
 }
