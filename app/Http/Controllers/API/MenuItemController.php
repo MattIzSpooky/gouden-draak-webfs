@@ -4,13 +4,16 @@ namespace App\Http\Controllers\API;
 
 use App\Dish;
 use App\MenuItem;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Query\Builder;
 use App\Http\Resources\MenuItemResource;
 use App\Http\Requests\API\MenuItemRequest;
-use App\Http\Requests\API\MenuItemUpdateRequest;
 use App\Http\Resources\MenuResourceCollection;
+use App\Http\Requests\API\MenuItemUpdateRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MenuItemController extends Controller
 {
@@ -38,9 +41,32 @@ class MenuItemController extends Controller
         return new MenuResourceCollection($collection);
     }
 
+    /**
+     * All trashed items
+     *
+     * @return void
+     */
     public function allWithThrashed()
     {
         $collection = MenuItem::withTrashed()->orderBy('menu_number')->with(['dish.type'])->get();
+
+        return new MenuResourceCollection($collection);
+    }
+
+    /**
+     * Filters out the request parameters for searching
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function filter(Request $request)
+    {
+        $collection = MenuItem::with('dish.type')->whereHas('dish', function ($query) use ($request) {
+            $query->where('name', 'like', $request->query('query') . '%')->OrWhereHas('type', function ($query) use ($request) {
+                $query->where('type', 'like', $request->query('query') . '%');
+            });
+        })->orWhere('menu_number', 'like', $request->query('query') . '%')
+            ->get();
 
         return new MenuResourceCollection($collection);
     }
