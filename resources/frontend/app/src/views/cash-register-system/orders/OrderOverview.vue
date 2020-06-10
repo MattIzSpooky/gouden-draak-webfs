@@ -91,7 +91,7 @@ export default class OrderOverview extends Vue {
 
       const queryOptions: OrderFilterRequest = {
         from: new Date(this.overviewRequest.from).toISOString(),
-        to: new Date(this.overviewRequest.from).toISOString()
+        to: new Date(this.overviewRequest.to).toISOString()
       };
       const response = await axios.get<ApiResource<Order[]>>(`/api/orders/filter?from=${queryOptions.from}&to=${queryOptions.to}`);
       const data = response.data.data;
