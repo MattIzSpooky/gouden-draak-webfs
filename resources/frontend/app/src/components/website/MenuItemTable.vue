@@ -6,10 +6,7 @@
     <table>
       <tr v-for="item in menuItems" :key="item.id">
         <td>
-          {{item.menuNumber}}{{item.addition}}
-          <template v-if="item.menuNumber && item.addition">
-            .
-          </template>
+          {{item.menuNumber}}{{item.addition}}<template v-if="item.menuNumber || item.addition">.</template>
         </td>
         <td>
           {{item.dish.name}}
