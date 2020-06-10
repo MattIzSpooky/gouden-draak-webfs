@@ -1,9 +1,5 @@
 import Vue from 'vue';
 import VueRouter, {RouteConfig} from 'vue-router';
-import Home from '../views/website/Home.vue';
-import Menu from '../views/website/Menu.vue';
-import Contact from '@/views/website/Contact.vue';
-import News from '@/views/website/News.vue';
 import auth from '@/router/middleware/auth';
 import {RouteMiddlewareFunc, RouteNext, RouterContext} from '@/router/types';
 
@@ -12,23 +8,30 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'home',
-    component: Home
-  },
-  {
-    path: '/menu',
-    name: 'menu',
-    component: Menu
-  },
-  {
-    path: '/contact',
-    name: 'contact',
-    component: Contact
-  },
-  {
-    path: '/news',
-    name: 'news',
-    component: News
+    name: 'website',
+    component: () => import(/* webpackChunkName: "website" */ '../views/website/Index.vue'),
+    children: [
+      {
+        path: '',
+        name: 'home',
+        component: () => import(/* webpackChunkName: "website" */ '../views/website/Home.vue')
+      },
+      {
+        path: '/menu',
+        name: 'menu',
+        component: () => import(/* webpackChunkName: "website" */ '../views/website/Menu.vue')
+      },
+      {
+        path: '/contact',
+        name: 'contact',
+        component: () => import(/* webpackChunkName: "website" */ '../views/website/Contact.vue')
+      },
+      {
+        path: '/news',
+        name: 'news',
+        component: () => import(/* webpackChunkName: "website" */ '../views/website/News.vue')
+      }
+    ]
   },
   {
     path: '/login',
@@ -97,7 +100,33 @@ const routes: Array<RouteConfig> = [
         component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/users/UpdateUser.vue'),
         meta: {
           middleware: [auth]
+        },
+        props: true
+      },
+      {
+        path: 'nieuws',
+        name: 'news-kassa',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/news/News.vue'),
+        meta: {
+          middleware: [auth]
         }
+      },
+      {
+        path: 'nieuws/nieuw',
+        name: 'new-news',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/news/NewNews.vue'),
+        meta: {
+          middleware: [auth]
+        }
+      },
+      {
+        path: 'nieuws/:id',
+        name: 'edit-news',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/news/UpdateNews.vue'),
+        meta: {
+          middleware: [auth]
+        },
+        props: true
       },
       {
         path: 'verkoop-overzicht',

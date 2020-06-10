@@ -1,5 +1,4 @@
 <template>
- <dragon-page>
    <tr style="padding-top:50px">
      <td style="width: 50px"/>
      <td align="center" style='border:1px solid black;background:floralwhite'>
@@ -50,14 +49,11 @@
      </td>
      <td style="width: 50px"/>
    </tr>
- </dragon-page>
 </template>
 
 <script>
-import DragonPage from '@/components/website/DragonPage.vue';
 
 export default {
-  name: 'Home',
-  components: {DragonPage}
+  name: 'Home'
 };
 </script>

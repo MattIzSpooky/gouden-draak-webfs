@@ -1,5 +1,4 @@
 <template>
-  <dragon-page>
     <tr style="padding-top:50px">
       <td width="50px">
       </td>
@@ -7,7 +6,6 @@
         <menu-item-table v-for="menuItem in menuItems" :key="menuItem.type" :name="menuItem.type" :menuItems="menuItem.items"/>
       </td>
     </tr>
-  </dragon-page>
 </template>
 
 <script lang="ts">

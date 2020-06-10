@@ -29,8 +29,6 @@ class DeleteTest extends TestCase
         $response = $this->delete('api/news/' . $news->id);
 
         $response->assertStatus(200);
-
-        $this->assertSoftDeleted('news', ['id' => $news->id]);
     }
 
     /**

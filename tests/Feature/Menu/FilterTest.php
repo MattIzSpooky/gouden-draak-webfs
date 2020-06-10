@@ -6,12 +6,11 @@ use App\User;
 use App\UserRole;
 use Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class IndexTest extends TestCase
+class FilterTest extends TestCase
 {
     /**
-     * @group menus
+     * @group menuss
      * @return void
      */
     public function testOverviewMenuTest()
@@ -24,7 +23,7 @@ class IndexTest extends TestCase
             ['*']
         );
 
-        $response = $this->get('/api/menu');
+        $response = $this->get('/api/menu/filter?query=To');
 
         $response->assertStatus(200);
 

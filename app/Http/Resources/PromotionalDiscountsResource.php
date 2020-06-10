@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NewsResource extends JsonResource
+class PromotionalDiscountsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,7 +18,10 @@ class NewsResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'text' => $this->text,
-            'createdAt' => $this->created_at->toIso8601String()
+            'validFrom' => $this->valid_from->toIso8601String(),
+            'validTill' => $this->valid_till->toIso8601String(),
+            'price' => $this->price,
+            'dish' => DishResource::collection($this->dishes)
         ];
     }
 }

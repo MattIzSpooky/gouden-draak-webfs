@@ -1,20 +1,21 @@
 <?php
 
-namespace Tests\Feature\Menu;
+namespace Tests\Feature\Discounts;
 
 use App\User;
 use App\UserRole;
 use Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class IndexTest extends TestCase
 {
     /**
-     * @group menus
+     * @group discounts
      * @return void
      */
-    public function testOverviewMenuTest()
+    public function testOverviewDiscounts()
     {
         $this->artisan('migrate:fresh');
         $this->seed();
@@ -24,23 +25,26 @@ class IndexTest extends TestCase
             ['*']
         );
 
-        $response = $this->get('/api/menu');
+        $response = $this->get('/api/promotions/discounts');
 
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
             'data' => [
                 [
-                    'type',
-                    'items' => [
+                    'id',
+                    'title',
+                    'text',
+                    'validFrom',
+                    'validTill',
+                    'dish' => [
                         [
                             'id',
-                            'menuNumber',
-                            'addition',
-                            'dish' => [
+                            'name',
+                            'price',
+                            'dishType' => [
                                 'id',
-                                'name',
-                                'price',
+                                'type'
                             ]
                         ]
                     ]
