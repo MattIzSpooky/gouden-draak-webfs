@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Http\Requests\API\OrderRequest;
 use App\Http\Requests\API\OrderFilterRequest;
+use App\MenuItem;
 
 class OrderController extends Controller
 {
@@ -18,7 +19,30 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return OrderResource::collection(Order::orderBy('created_at', 'desc')->paginate());
+        /** @var Order */
+        $orders = Order::orderBy('created_at', 'desc')->paginate();
+
+        $orders->getCollection()->transform(function (Order $order) {
+            $order->items->transform(function (MenuItem $menuItem) use ($order) {
+                $from = null;
+                $till = null;
+
+                if ($menuItem->dish->discounts->count()) {
+                    $from = $menuItem->dish->discounts->first()->valid_from->subDay();
+                    $till = $menuItem->dish->discounts->first()->valid_till->addDay();
+                }
+
+                if ($order->created_at->between($from, $till)) {
+                    $menuItem->dish->price = $menuItem->dish->discounts->first()->price;
+                }
+
+                return $menuItem;
+            });
+
+            return $order;
+        });
+
+        return OrderResource::collection($orders);
     }
 
     /**
