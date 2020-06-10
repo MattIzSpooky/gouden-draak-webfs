@@ -38,7 +38,7 @@ import OrderList from '@/components/cash-register-system/orders/OrderList.vue';
   @Component({
     components: {OrderList, MenuItemTable, Loader},
     async beforeRouteEnter(to, _, next) {
-      await store.dispatch('network/toggleLoad');
+      await store.commit('network/SET_LOADING', true);
 
       const response = await axios.get<Paginated<Order>>('api/orders');
       const paginatedOrders = response.data;
@@ -46,7 +46,7 @@ import OrderList from '@/components/cash-register-system/orders/OrderList.vue';
       next(async(vm: Orders) => {
         vm.paginatedOrders = paginatedOrders;
 
-        await vm.$store.dispatch('network/toggleLoad');
+        await vm.$store.commit('network/SET_LOADING', false);
       });
     }
   })

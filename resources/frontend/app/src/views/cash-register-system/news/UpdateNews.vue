@@ -27,7 +27,7 @@ import store from '@/store';
   @Component({
     components: {NewsForm, MenuItemForm, Loader},
     async beforeRouteEnter(to, _, next) {
-      await store.dispatch('network/toggleLoad');
+      await store.commit('network/SET_LOADING', true);
 
       const response = await axios.get<ApiResource<News>>(`/api/news/${to.params.id}`);
       const paginatedNews = response.data;
@@ -35,7 +35,7 @@ import store from '@/store';
       next(async(vm: UpdateNews) => {
         vm.newsRequest = paginatedNews.data;
 
-        await vm.$store.dispatch('network/toggleLoad');
+        await vm.$store.commit('network/SET_LOADING', false);
       });
     }
   })

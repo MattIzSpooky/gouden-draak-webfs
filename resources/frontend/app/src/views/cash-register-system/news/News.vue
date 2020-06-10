@@ -40,7 +40,7 @@ import {News as NewsType} from '@/types/news';
     Loader, NewsTable
   },
   async beforeRouteEnter(to, _, next) {
-    await store.dispatch('network/toggleLoad');
+    await store.commit('network/SET_LOADING', true);
 
     const response = await axios.get<Paginated<NewsType>>(`/api/news?page=${to.query.page}`);
     const paginatedNews = response.data;
@@ -48,7 +48,7 @@ import {News as NewsType} from '@/types/news';
     next(async(vm: News) => {
       vm.paginatedNewsItems = paginatedNews;
       console.log(vm.paginatedNewsItems);
-      await vm.$store.dispatch('network/toggleLoad');
+      await vm.$store.commit('network/SET_LOADING', false);
     });
   }
 })

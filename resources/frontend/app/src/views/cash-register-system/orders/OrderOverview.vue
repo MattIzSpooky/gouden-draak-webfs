@@ -87,7 +87,7 @@ export default class OrderOverview extends Vue {
     }
 
     async fetchOverviewData() {
-      await this.$store.dispatch('network/toggleLoad');
+      await this.$store.commit('network/SET_LOADING', true);
 
       const queryOptions: OrderFilterRequest = {
         from: new Date(this.overviewRequest.from).toISOString(),
@@ -108,7 +108,7 @@ export default class OrderOverview extends Vue {
       this.orderedItems.splice(0, this.orderedItems.length);
       this.orderedItems.push(...newItems);
 
-      await this.$store.dispatch('network/toggleLoad');
+      await this.$store.commit('network/SET_LOADING', false);
     }
 };
 </script>

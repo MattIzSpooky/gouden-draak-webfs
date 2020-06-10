@@ -32,7 +32,7 @@ import Loader from '@/components/cash-register-system/common/Loader.vue';
   @Component({
     components: {MenuItemTable, Loader},
     async beforeRouteEnter(to, _, next) {
-      await store.dispatch('network/toggleLoad');
+      await store.commit('network/SET_LOADING', true);
 
       const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('api/menu/with-trashed');
       const menuItems = response.data.data;
@@ -40,7 +40,7 @@ import Loader from '@/components/cash-register-system/common/Loader.vue';
       next(async(vm: Dishes) => {
         vm.menuItems = menuItems;
 
-        await vm.$store.dispatch('network/toggleLoad');
+        await vm.$store.commit('network/SET_LOADING', false);
       });
     }
   })

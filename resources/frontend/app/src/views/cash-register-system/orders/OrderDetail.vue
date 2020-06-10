@@ -38,14 +38,14 @@ import {calculateTotalPriceOfOrderedMenuItems} from '@/utils/reducers';
       transformToDutchDate
     },
     async beforeRouteEnter(to, _, next) {
-      await store.dispatch('network/toggleLoad');
+      await store.commit('network/SET_LOADING', true);
 
       const response = await axios.get<ApiResource<Order>>(`/api/orders/${to.params.id}`);
       const orderData = response.data;
       next(async(vm: OrderDetail) => {
         vm.order = orderData.data;
 
-        await vm.$store.dispatch('network/toggleLoad');
+        await vm.$store.commit('network/SET_LOADING', false);
       });
     }
   })
