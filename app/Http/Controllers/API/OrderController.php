@@ -31,7 +31,7 @@ class OrderController extends Controller
         /** @var Order */
 //        $orders = Order::query()
 //            ->whereBetween('paid_at', [Carbon::parse($request->query('from')), Carbon::parse($request->query('to'))])->get();
-        $orders = Order::all(); // FIXME: fix the thing above, this is just so i can create the frontend.
+        $orders = Order::where('paid_at', '<>', null)->get(); // FIXME: fix the thing above, this is just so i can create the frontend.
 
         return OrderResource::collection($orders);
     }

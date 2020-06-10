@@ -42,7 +42,6 @@ import {calculateTotalPriceOfOrderedMenuItems} from '@/utils/reducers';
 
       const response = await axios.get<ApiResource<Order>>(`/api/orders/${to.params.id}`);
       const orderData = response.data;
-
       next(async(vm: OrderDetail) => {
         vm.order = orderData.data;
 

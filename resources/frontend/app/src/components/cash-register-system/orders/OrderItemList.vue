@@ -1,6 +1,9 @@
 <template>
   <table class="table">
     <tr>
+      <th v-if="showDate">
+        Datum
+      </th>
       <th>
         Menu nummer
       </th>
@@ -15,6 +18,9 @@
       </th>
     </tr>
     <tr v-for="(item, index) in items" :key="index">
+      <td v-if="showDate">
+        {{transformToDutchDate(item.paidAt)}}
+      </td>
       <td>
         {{item.menuNumber}}{{item.addition}}
         <template v-if="item.menuNumber && item.addition">
@@ -36,11 +42,20 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator';
-import {OrderedMenuItem} from '@/types/menu-item';
+import {OrderedMenuItemWithDate} from '@/types/menu-item';
+import {transformToDutchDate} from '@/utils/date';
 
-  @Component
+  @Component({
+    methods: {
+      transformToDutchDate
+    }
+  })
 export default class OrderItemList extends Vue {
-    @Prop(Array) public readonly items!: OrderedMenuItem[];
+    @Prop(Array) public readonly items!: OrderedMenuItemWithDate[];
+    @Prop({
+      required: false,
+      type: Boolean
+    }) public readonly showDate!: boolean;
 };
 </script>
 

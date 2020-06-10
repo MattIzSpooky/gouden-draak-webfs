@@ -42,7 +42,7 @@
     </div>
     <div class="card">
       <div class="card-body">
-        <order-item-list :items="orderedItems"/>
+        <order-item-list :items="orderedItems" :show-date="true"/>
       </div>
     </div>
   </Loader>
@@ -55,7 +55,7 @@ import {BFormDatepicker} from 'bootstrap-vue';
 import {Order, OrderFilterRequest} from '@/types/order';
 import axios from 'axios';
 import {ApiResource} from '@/types/api';
-import {OrderedMenuItem} from '@/types/menu-item';
+import {OrderedMenuItem, OrderedMenuItemWithDate} from '@/types/menu-item';
 import OrderItemList from '@/components/cash-register-system/orders/OrderItemList.vue';
 import {calculateTotalPriceOfOrderedMenuItems} from '@/utils/reducers';
 
@@ -88,14 +88,26 @@ export default class OrderOverview extends Vue {
 
     async fetchOverviewData() {
       await this.$store.dispatch('network/toggleLoad');
+
       const queryOptions: OrderFilterRequest = {
         from: new Date(this.overviewRequest.from).toISOString(),
         to: new Date(this.overviewRequest.from).toISOString()
       };
       const response = await axios.get<ApiResource<Order[]>>(`/api/orders/filter?from=${queryOptions.from}&to=${queryOptions.to}`);
-      const menuItems = response.data.data.map(i => i.items).flat();
+      const data = response.data.data;
+      const newItems: OrderedMenuItemWithDate[] = [];
+      for (const a of data) {
+        a.items
+          .flatMap(e => ({
+            ...e,
+            paidAt: a.paidAt
+          }))
+          .flatMap(x => newItems.push(x));
+      }
+
       this.orderedItems.splice(0, this.orderedItems.length);
-      this.orderedItems.push(...menuItems);
+      this.orderedItems.push(...newItems);
+
       await this.$store.dispatch('network/toggleLoad');
     }
 };
