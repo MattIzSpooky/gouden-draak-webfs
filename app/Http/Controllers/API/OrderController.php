@@ -28,8 +28,8 @@ class OrderController extends Controller
      */
     public function filter(OrderFilterRequest $request)
     {
-        $from = Carbon::parse($request->query('from'));
-        $to = Carbon::parse($request->query('to'));
+        $from = Carbon::parse($request->query('from'))->subDay();
+        $to = Carbon::parse($request->query('to'))->addDay();
 
         /** @var Order */
         $orders = Order::query()
