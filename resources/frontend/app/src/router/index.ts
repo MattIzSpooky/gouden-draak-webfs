@@ -2,6 +2,11 @@ import Vue from 'vue';
 import VueRouter, {RouteConfig} from 'vue-router';
 import auth from '@/router/middleware/auth';
 import {RouteMiddlewareFunc, RouteNext, RouterContext} from '@/router/types';
+import {newsRoutes} from '@/router/routes/cash-register/news';
+import {orderRoutes} from '@/router/routes/cash-register/orders';
+import {userRoutes} from '@/router/routes/cash-register/users';
+import {menuItemRoutes} from '@/router/routes/cash-register/menu-items';
+import {websiteRoutes} from '@/router/routes/website';
 
 Vue.use(VueRouter);
 
@@ -9,28 +14,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     component: () => import(/* webpackChunkName: "website" */ '../views/website/Index.vue'),
-    children: [
-      {
-        path: '',
-        name: 'home',
-        component: () => import(/* webpackChunkName: "website" */ '../views/website/Home.vue')
-      },
-      {
-        path: '/menu',
-        name: 'menu',
-        component: () => import(/* webpackChunkName: "website" */ '../views/website/Menu.vue')
-      },
-      {
-        path: '/contact',
-        name: 'contact',
-        component: () => import(/* webpackChunkName: "website" */ '../views/website/Contact.vue')
-      },
-      {
-        path: '/news',
-        name: 'news',
-        component: () => import(/* webpackChunkName: "website" */ '../views/website/News.vue')
-      }
-    ]
+    children: websiteRoutes
   },
   {
     path: '/login',
@@ -52,106 +36,10 @@ const routes: Array<RouteConfig> = [
           middleware: [auth]
         }
       },
-      {
-        path: 'gerechten',
-        name: 'dishes',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/menu-items/MenuItems.vue'),
-        meta: {
-          middleware: [auth]
-        }
-      },
-      {
-        path: 'gerechten/nieuw',
-        name: 'new-dish',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/menu-items/NewMenuItem.vue'),
-        meta: {
-          middleware: [auth]
-        }
-      },
-      {
-        path: 'gerecht/:id',
-        name: 'edit-dish',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/menu-items/UpdateMenuItem.vue'),
-        props: true,
-        meta: {
-          middleware: [auth]
-        }
-      },
-      {
-        path: 'gebruikers',
-        name: 'users',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/users/Users.vue'),
-        meta: {
-          middleware: [auth]
-        }
-      },
-      {
-        path: 'gebruiker/nieuw',
-        name: 'new-user',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/users/NewUser.vue'),
-        meta: {
-          middleware: [auth]
-        }
-      },
-      {
-        path: 'gebruiker/:id',
-        name: 'edit-user',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/users/UpdateUser.vue'),
-        meta: {
-          middleware: [auth]
-        },
-        props: true
-      },
-      {
-        path: 'nieuws',
-        name: 'news-kassa',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/news/News.vue'),
-        meta: {
-          middleware: [auth]
-        }
-      },
-      {
-        path: 'nieuws/nieuw',
-        name: 'new-news',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/news/NewNews.vue'),
-        meta: {
-          middleware: [auth]
-        }
-      },
-      {
-        path: 'nieuws/:id',
-        name: 'edit-news',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/news/UpdateNews.vue'),
-        meta: {
-          middleware: [auth]
-        },
-        props: true
-      },
-      {
-        path: 'verkoop-overzicht',
-        name: 'order-overview',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/orders/OrderOverview.vue'),
-        meta: {
-          middleware: [auth]
-        }
-      },
-      {
-        path: 'bestellingen',
-        name: 'orders',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/orders/Orders.vue'),
-        meta: {
-          middleware: [auth]
-        }
-      },
-      {
-        path: 'bestelling/:id',
-        name: 'order-detail',
-        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/orders/OrderDetail.vue'),
-        meta: {
-          middleware: [auth]
-        },
-        props: true
-      }
+      ...menuItemRoutes,
+      ...userRoutes,
+      ...newsRoutes,
+      ...orderRoutes
     ]
   }
 ];
