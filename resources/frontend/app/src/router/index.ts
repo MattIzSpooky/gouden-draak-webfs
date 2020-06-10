@@ -8,7 +8,6 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'website',
     component: () => import(/* webpackChunkName: "website" */ '../views/website/Index.vue'),
     children: [
       {
@@ -135,6 +134,23 @@ const routes: Array<RouteConfig> = [
         meta: {
           middleware: [auth]
         }
+      },
+      {
+        path: 'bestellingen',
+        name: 'orders',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/orders/Orders.vue'),
+        meta: {
+          middleware: [auth]
+        }
+      },
+      {
+        path: 'bestelling/:id',
+        name: 'order-detail',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/orders/OrderDetail.vue'),
+        meta: {
+          middleware: [auth]
+        },
+        props: true
       }
     ]
   }

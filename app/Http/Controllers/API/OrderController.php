@@ -18,7 +18,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return OrderResource::collection(Order::paginate());
+        return OrderResource::collection(Order::orderBy('created_at', 'desc')->paginate());
     }
 
     /**
@@ -29,11 +29,11 @@ class OrderController extends Controller
     public function filter(OrderFilterRequest $request)
     {
         /** @var Order */
-        $orders = Order::query()
-            ->whereNotNull('paid_at')
-            ->whereBetween('created_at', [Carbon::parse($request->query('from')), Carbon::parse($request->query('to'))]);
+//        $orders = Order::query()
+//            ->whereBetween('paid_at', [Carbon::parse($request->query('from')), Carbon::parse($request->query('to'))])->get();
+        $orders = Order::all(); // FIXME: fix the thing above, this is just so i can create the frontend.
 
-        return OrderResource::collection($orders->paginate());
+        return OrderResource::collection($orders);
     }
 
     /**
@@ -82,9 +82,11 @@ class OrderController extends Controller
         $order->update(['paid_at' => Carbon::parse($request->input('paidAt'))]);
         $items = $request->get('items');
 
-        $order->items()->detach();
-        foreach ($items as $item) {
-            $order->items()->attach($item['id'], ['amount' => $item['amount']]);
+        if ($items) {
+            $order->items()->detach();
+            foreach ($items as $item) {
+                $order->items()->attach($item['id'], ['amount' => $item['amount']]);
+            }
         }
 
         return (new OrderResource($order))->response();

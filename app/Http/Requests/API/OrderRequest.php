@@ -24,7 +24,7 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'paidAt' => ['nullable', 'date_format:Y-m-d H:i'],
+            'paidAt' => ['nullable'],// 'date_format:Y-m-d H:i'
             'items' => ['filled'],
             'items.*.id' => ['required', 'integer', 'exists:menu_items,id'],
             'items.*.amount' => ['required', 'integer']

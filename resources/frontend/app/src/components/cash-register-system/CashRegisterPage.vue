@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main>
     <section>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand">
@@ -22,7 +22,7 @@
     <section class="container-fluid">
       <slot></slot>
     </section>
-  </div>
+  </main>
 </template>
 
 <script lang="ts">

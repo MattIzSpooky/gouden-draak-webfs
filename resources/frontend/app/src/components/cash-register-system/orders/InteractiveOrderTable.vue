@@ -20,6 +20,7 @@
 <script lang="ts">
 import {Component, Emit, Prop, Vue, Watch} from 'vue-property-decorator';
 import {OrderedMenuItem} from '@/types/menu-item';
+import {calculateTotalPriceOfOrderedMenuItems} from '@/utils/reducers';
 
 @Component
 export default class OrderTable extends Vue {
@@ -38,13 +39,7 @@ export default class OrderTable extends Vue {
         this.orderedMenuItems.splice(toBeRemovedIndex, 1);
       }
 
-      const price = this.orderedMenuItems.reduce((accumulator: number, item) => {
-        let totalDishValue = 0;
-        for (let i = 0; i < item.amount; i++) {
-          totalDishValue = totalDishValue + item.dish.price;
-        }
-        return accumulator + totalDishValue;
-      }, 0);
+      const price = this.orderedMenuItems.reduce(calculateTotalPriceOfOrderedMenuItems, 0);
 
       this.emitTotalValue(price);
     }

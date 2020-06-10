@@ -68,7 +68,7 @@ import store from '@/store/index';
 import {BModal} from 'bootstrap-vue';
 import {NewOrderRequest} from '@/types/order';
 import {ApiResource} from '@/types/api';
-import OrderTable from '@/components/cash-register-system/orders/OrderTable.vue';
+import OrderTable from '@/components/cash-register-system/orders/InteractiveOrderTable.vue';
 import MenuItemTable from '@/components/cash-register-system/menu-items/MenuItemTable.vue';
 import Loader from '@/components/cash-register-system/common/Loader.vue';
 
