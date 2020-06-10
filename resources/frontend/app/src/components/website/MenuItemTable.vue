@@ -6,13 +6,16 @@
     <table>
       <tr v-for="item in menuItems" :key="item.id">
         <td>
-          {{item.menuNumber}}{{item.addition}}.
+          {{item.menuNumber}}{{item.addition}}
+          <template v-if="item.menuNumber && item.addition">
+            .
+          </template>
         </td>
         <td>
           {{item.dish.name}}
         </td>
         <td>
-          € {{item.dish.price}}
+          € {{item.dish.price.toFixed(2)}}
         </td>
       </tr>
     </table>
