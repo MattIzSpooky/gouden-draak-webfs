@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class IndexTest extends TestCase
 {
     /**
-     * @group menus
+     * @group menuss
      * @return void
      */
     public function testOverviewMenuTest()
