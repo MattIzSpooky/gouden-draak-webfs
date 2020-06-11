@@ -68,7 +68,7 @@ import store from '@/store/index';
 import {BModal} from 'bootstrap-vue';
 import {NewOrderRequest} from '@/types/order';
 import {ApiResource} from '@/types/api';
-import OrderTable from '@/components/cash-register-system/orders/OrderTable.vue';
+import OrderTable from '@/components/cash-register-system/orders/InteractiveOrderTable.vue';
 import MenuItemTable from '@/components/cash-register-system/menu-items/MenuItemTable.vue';
 import Loader from '@/components/cash-register-system/common/Loader.vue';
 
@@ -81,13 +81,13 @@ import Loader from '@/components/cash-register-system/common/Loader.vue';
       Loader
     },
     async beforeRouteEnter(to, _, next) {
-      await store.dispatch('network/toggleLoad');
+      await store.commit('network/SET_LOADING', true);
       const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
 
       next(async (vm: CashRegister) => {
         vm.menuItems = response.data.data;
 
-        await vm.$store.dispatch('network/toggleLoad');
+        await vm.$store.commit('network/SET_LOADING', false);
       });
     }
   })

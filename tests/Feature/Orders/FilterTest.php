@@ -53,9 +53,7 @@ class FilterTest extends TestCase
                         ]
                     ]
                 ]],
-            ]],
-            'links',
-            'meta'
+            ]]
         ]);
     }
 }

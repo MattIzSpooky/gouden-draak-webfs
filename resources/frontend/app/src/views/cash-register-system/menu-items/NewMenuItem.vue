@@ -25,7 +25,7 @@ import Loader from '@/components/cash-register-system/common/Loader.vue';
 @Component({
   components: {MenuItemForm, Loader},
   async beforeRouteEnter(to, _, next) {
-    await store.dispatch('network/toggleLoad');
+    await store.commit('network/SET_LOADING', true);
 
     const requests = await Promise.all([
       axios.get<ApiResource<DishType[]>>('/api/dish/types'),
@@ -39,7 +39,7 @@ import Loader from '@/components/cash-register-system/common/Loader.vue';
       vm.dishTypes = dishTypeResponse.data.data;
       vm.menuAdditions = menuNumberAdditionResponse.data.data;
 
-      await vm.$store.dispatch('network/toggleLoad');
+      await vm.$store.commit('network/SET_LOADING', false);
     });
   }
 })

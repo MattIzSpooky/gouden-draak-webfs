@@ -21,4 +21,12 @@ class Order extends Model
         return $this->belongsToMany(MenuItem::class, 'order_items', null, 'item_id')
             ->withPivot('amount');
     }
+
+    /**
+     * @return bool
+     */
+    public function isPaid(): bool
+    {
+        return $this->attributes['is_paid'] !== null;
+    }
 }

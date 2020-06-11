@@ -28,6 +28,14 @@ export default class CashRegisterLinks extends Vue {
       {
         routeName: 'news-kassa',
         shownName: 'Nieuws'
+      },
+      {
+        routeName: 'order-overview',
+        shownName: 'Verkoop overzicht'
+      },
+      {
+        routeName: 'orders',
+        shownName: 'Bestellingen'
       }
     ];
 };

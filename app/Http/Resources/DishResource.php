@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\PromotionalDiscounts;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DishResource extends JsonResource
@@ -17,6 +18,7 @@ class DishResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'active' => $this->activeDiscount(),
             'price' => $this->price,
             'description' => $this->description,
             'dishType' => new DishTypeResource($this->type)

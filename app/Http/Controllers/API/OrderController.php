@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Http\Requests\API\OrderRequest;
 use App\Http\Requests\API\OrderFilterRequest;
+use App\MenuItem;
 
 class OrderController extends Controller
 {
@@ -18,7 +19,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return OrderResource::collection(Order::paginate());
+        /** @var Order */
+        $orders = Order::orderBy('created_at', 'desc')->paginate();
+
+        return OrderResource::collection($orders);
     }
 
     /**
@@ -28,12 +32,16 @@ class OrderController extends Controller
      */
     public function filter(OrderFilterRequest $request)
     {
+        $from = Carbon::parse($request->query('from'))->subDay();
+        $to = Carbon::parse($request->query('to'))->addDay();
+
         /** @var Order */
         $orders = Order::query()
-            ->whereNotNull('paid_at')
-            ->whereBetween('created_at', [Carbon::parse($request->query('from')), Carbon::parse($request->query('to'))]);
+            ->where('paid_at', '<>', null)
+            ->whereBetween('paid_at', [$from, $to])
+            ->get();
 
-        return OrderResource::collection($orders->paginate());
+        return OrderResource::collection($orders);
     }
 
     /**
@@ -82,9 +90,11 @@ class OrderController extends Controller
         $order->update(['paid_at' => Carbon::parse($request->input('paidAt'))]);
         $items = $request->get('items');
 
-        $order->items()->detach();
-        foreach ($items as $item) {
-            $order->items()->attach($item['id'], ['amount' => $item['amount']]);
+        if ($items) {
+            $order->items()->detach();
+            foreach ($items as $item) {
+                $order->items()->attach($item['id'], ['amount' => $item['amount']]);
+            }
         }
 
         return (new OrderResource($order))->response();

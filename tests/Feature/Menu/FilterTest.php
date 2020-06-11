@@ -10,7 +10,7 @@ use Laravel\Sanctum\Sanctum;
 class FilterTest extends TestCase
 {
     /**
-     * @group menuss
+     * @group menus
      * @return void
      */
     public function testOverviewMenuTest()
