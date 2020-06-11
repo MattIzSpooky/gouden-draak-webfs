@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter, {RouteConfig} from 'vue-router';
 import auth from '@/router/middleware/auth';
 import {RouteMiddlewareFunc, RouteNext, RouterContext} from '@/router/types';
+import {promotionalDiscountRoutes} from '@/router/routes/promotional-discount';
 
 Vue.use(VueRouter);
 
@@ -127,7 +128,8 @@ const routes: Array<RouteConfig> = [
           middleware: [auth]
         },
         props: true
-      }
+      },
+      ...promotionalDiscountRoutes
     ]
   }
 ];

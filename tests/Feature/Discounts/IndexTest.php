@@ -37,7 +37,7 @@ class IndexTest extends TestCase
                     'text',
                     'validFrom',
                     'validTill',
-                    'dish' => [
+                    'dishes' => [
                         [
                             'id',
                             'name',
