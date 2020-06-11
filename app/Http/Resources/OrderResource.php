@@ -16,19 +16,6 @@ class OrderResource extends JsonResource
      */
     public function toArray($request)
     {
-        /*$items = $this->items->transform(function (MenuItem $menuItem) {
-            if ($menuItem->dish->hasDiscount()) {
-                foreach ($menuItem->dish->discounts as $discount) {
-                    $from = $discount->valid_from->subDay();
-                    $till = $discount->valid_till->addDay();
-                    if ($this->created_at->between($from, $till)) {
-                        $menuItem->dish->price = $discount->price;
-                    }
-                }
-            }
-            return $menuItem;
-        });*/
-
         MenuItemResource::using(['orderCreation' => $this->created_at]);
 
         return [
