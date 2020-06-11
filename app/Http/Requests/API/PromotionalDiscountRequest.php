@@ -23,13 +23,13 @@ class PromotionalDiscountRequest extends FormRequest
      */
     public function rules()
     {
-        $format = 'Y-m-d\TH:i:s.u\Z';
+        // $format = 'Y-m-d\TH:i:s.u\Z';
 
         return [
             'title' => ['required', 'max:255'],
             'text' => ['required', 'max:2500'],
-            'validFrom' => ['required', 'date', 'date_format:' . $format],
-            'validTill' => ['required', 'date', 'date_format:' . $format],
+            'validFrom' => ['required', 'date' ], // 'date_format:' . $format
+            'validTill' => ['required', 'date'], // , 'date_format:' . $format
             'price' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'],
             'dishes' => ['nullable', 'array']
         ];

@@ -7,6 +7,7 @@ import {orderRoutes} from '@/router/routes/cash-register/orders';
 import {userRoutes} from '@/router/routes/cash-register/users';
 import {menuItemRoutes} from '@/router/routes/cash-register/menu-items';
 import {websiteRoutes} from '@/router/routes/website';
+import {promotionalDiscountRoutes} from '@/router/routes/promotional-discount';
 
 Vue.use(VueRouter);
 
@@ -39,7 +40,8 @@ const routes: Array<RouteConfig> = [
       ...menuItemRoutes,
       ...userRoutes,
       ...newsRoutes,
-      ...orderRoutes
+      ...orderRoutes,
+      ...promotionalDiscountRoutes
     ]
   }
 ];

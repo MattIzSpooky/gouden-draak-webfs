@@ -36,6 +36,10 @@ export default class CashRegisterLinks extends Vue {
       {
         routeName: 'orders',
         shownName: 'Bestellingen'
+      },
+      {
+        routeName: 'promotional-discounts',
+        shownName: 'Acties'
       }
     ];
 };
