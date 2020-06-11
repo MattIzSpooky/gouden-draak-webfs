@@ -2,12 +2,13 @@
 
 namespace App;
 
+use App\PromotionalDiscounts;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Collection;
 
 class Dish extends Model
 {
@@ -49,13 +50,12 @@ class Dish extends Model
         return $this->discounts->count() > 0;
     }
 
-    /**
-     * Returns the actual price of a dish
-     *
-     * @return float
-     */
-    public function actualPrice(): float
+    public function activeDiscount(): Collection
     {
-        return $this->discounts->first()->price ?? $this->attributes['price'];
+        return $this->discounts()
+            ->whereDate('valid_till', '>=', now())
+            ->whereDate('valid_from', '<=', now())
+            ->orderBy(DB::raw('ABS(DATEDIFF(promotional_discounts.valid_from, NOW()))'))
+            ->get();
     }
 }
