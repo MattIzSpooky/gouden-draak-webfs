@@ -40,35 +40,22 @@ class Dish extends Model
     }
 
     /**
-     * @return Collection
+     * Determine if this dish has a discount
+     * 
+     * @return bool
      */
-    public function hasDiscounts(): Collection
+    public function hasDiscount(): bool
     {
-        return $this->belongsToMany(PromotionalDiscounts::class, 'promotional_discounts_dishes')
-            ->whereDate('valid_till', '>=', now())
-            ->whereDate('valid_from', '<=', now())
-            ->get();
+        return $this->discounts->count() > 0;
     }
 
     /**
-     * Determine that a dish has a discount
+     * Returns the actual price of a dish
      *
-     * @return boolean
+     * @return float
      */
-    public function validDiscounts(): bool
+    public function actualPrice(): float
     {
-        return $this->hasDiscounts()->count() > 0;
-    }
-
-    /**
-     * Get the actual price of a dish
-     *
-     * @return void
-     */
-    public function actualPrice()
-    {
-        return !$this->validDiscounts()
-            ? $this->attributes['price']
-            : $this->discounts()->pluck('price')->first();
+        return $this->discounts->first()->price ?? $this->attributes['price'];
     }
 }
