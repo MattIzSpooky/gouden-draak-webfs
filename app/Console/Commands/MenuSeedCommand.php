@@ -61,13 +61,15 @@ class MenuSeedCommand extends Command
                 'name' => $data[$i]->naam,
                 'description' => $data[$i]->beschrijving,
                 'price' => $data[$i]->price,
-                'dish_type_id' => $dishTypes[$key]['id']
+                'dish_type_id' => $dishTypes[$key]['id'],
+                'created_at' => now()
             ]);
 
             array_push($menuItems, [
                 'menu_number' => $data[$i]->menunummer,
                 'addition' => $data[$i]->menu_toevoeging,
-                'dish_id' => $dishId
+                'dish_id' => $dishId,
+                'created_at' => now()
             ]);
 
             $bar->advance();
