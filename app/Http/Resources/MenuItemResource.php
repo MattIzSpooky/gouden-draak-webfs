@@ -40,7 +40,7 @@ class MenuItemResource extends JsonResource
                         $this->dish->price = $discount->price;
                     }
                 } else {
-                    $this->dish->price = $this->dish->activeDiscount()->first()->price;
+                    $this->dish->price = $this->dish->activeDiscount()->pluck('price')->first();
                 }
             }
         }
