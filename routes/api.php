@@ -20,6 +20,7 @@ Route::namespace('API')->group(function () {
         Route::get('user', 'InfoController')->name('auth.user');
 
         Route::prefix('dish')->name('dish.')->group(function () {
+            Route::get('', 'DishController')->name('index');
             Route::get('types', 'DishTypeController')->name('types');
             Route::get('additions', 'MenuAdditionController')->name('additions');
         });

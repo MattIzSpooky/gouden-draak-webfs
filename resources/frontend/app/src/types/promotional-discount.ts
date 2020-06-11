@@ -9,3 +9,5 @@ export type PromotionalDiscount = {
   validTill: string;
   dishes: Dish[];
 }
+
+export type PromotionalDiscountRequest = Omit<PromotionalDiscount, 'id'>
