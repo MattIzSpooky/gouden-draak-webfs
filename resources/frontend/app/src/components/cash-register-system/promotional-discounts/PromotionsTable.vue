@@ -17,7 +17,7 @@
         Actie
       </th>
     </tr>
-    <tr v-for="item in promotions" :key="item.id">
+    <tr v-for="item in promotions" :key="item.id" :class="{'table-success': checkIfDateIsBeforeToday(item.validFrom, item.validTill)}">
       <td>
         {{item.title}}
       </td>
@@ -48,12 +48,23 @@ import {transformToDutchDate} from '@/utils/date';
     }
   })
 export default class PromotionsTable extends Vue {
-  @Prop(Array) public readonly promotions!: PromotionalDiscount[];
+    @Prop(Array) public readonly promotions!: PromotionalDiscount[];
 
-  @Emit('onRowClick')
-  onRowClick(discount: PromotionalDiscount) {
-    return discount;
-  }
+    @Emit('onRowClick')
+    onRowClick(discount: PromotionalDiscount) {
+      return discount;
+    }
+
+    checkIfDateIsBeforeToday(dateFrom: string, dateTo: string) {
+      const today = new Date();
+
+      const from = new Date(dateFrom);
+      from.setDate(from.getDate() - 1);
+      const to = new Date(dateTo);
+      to.setDate(to.getDate() + 1);
+
+      return from <= today && today <= to;
+    }
 }
 </script>
 
