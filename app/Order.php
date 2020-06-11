@@ -29,4 +29,12 @@ class Order extends Model
     {
         return $this->attributes['is_paid'] !== null;
     }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function tables(): BelongsToMany
+    {
+        return $this->belongsToMany(Table::class, 'table_orders')->withTimestamps();
+    }
 }
