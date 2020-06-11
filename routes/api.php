@@ -9,6 +9,7 @@ Route::namespace('API')->group(function () {
     Route::get('promotions', 'PromotionalDiscountsController@view')->name('discounts.view');
     Route::get('menu', 'MenuItemController@index')->name('menu.index');
     Route::get('menu/filter', 'MenuItemController@filter')->name('menu.filter');
+    Route::get('tables', 'TableController')->name('table.index');;
     Route::post('orders', 'OrderController@store')->name('orders.store');
 
     Route::namespace('Auth')->group(function () {
