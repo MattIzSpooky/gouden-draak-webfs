@@ -25,3 +25,7 @@ export type MenuItemRequest = {
 export type OrderedMenuItem = MenuItem & {
   amount: number;
 }
+
+export type OrderedMenuItemWithDate = OrderedMenuItem & {
+  paidAt: string | null;
+}

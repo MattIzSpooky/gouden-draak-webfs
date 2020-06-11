@@ -25,11 +25,9 @@ class OrderFilterRequest extends FormRequest
      */
     public function rules()
     {
-        $format = 'Y-m-d\TH:i:s.u\Z';
-
         return [
-            'from' => ['required', 'date', 'date_format:' . $format],
-            'to' => ['required', 'date', 'date_format:' . $format]
+            'from' => ['required', 'date'],
+            'to' => ['required', 'date']
         ];
     }
 }
