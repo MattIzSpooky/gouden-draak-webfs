@@ -1,29 +1,87 @@
-import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from 'vue';
+import VueRouter, {RouteConfig} from 'vue-router';
+import auth from '@/router/middleware/auth';
+import {RouteMiddlewareFunc, RouteNext, RouterContext} from '@/router/types';
+import {newsRoutes} from '@/router/routes/cash-register/news';
+import {orderRoutes} from '@/router/routes/cash-register/orders';
+import {userRoutes} from '@/router/routes/cash-register/users';
+import {menuItemRoutes} from '@/router/routes/cash-register/menu-items';
+import {websiteRoutes} from '@/router/routes/website';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    component: () => import(/* webpackChunkName: "website" */ '../views/website/Index.vue'),
+    children: websiteRoutes
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/login',
+    name: 'login',
+    component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/Login.vue')
+  },
+  {
+    path: '/kassa',
+    component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/Index.vue'),
+    meta: {
+      middleware: [auth]
+    },
+    children: [
+      {
+        path: '',
+        name: 'cash-register-system',
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/CashRegister.vue'),
+        meta: {
+          middleware: [auth]
+        }
+      },
+      ...menuItemRoutes,
+      ...userRoutes,
+      ...newsRoutes,
+      ...orderRoutes
+    ]
   }
-]
+];
 
 const router = new VueRouter({
   mode: 'history',
   base: '/',
   routes
-})
+});
 
-export default router
+function nextFactory(context: RouterContext, middleware: Array<RouteMiddlewareFunc>, index: number): RouteNext {
+  const subsequentMiddleware = middleware[index];
+  if (!subsequentMiddleware) {
+    return context.next;
+  }
+
+  return (...parameters) => {
+    context.next(...parameters);
+
+    const nextMiddleware = nextFactory(context, middleware, index + 1);
+    subsequentMiddleware({...context, next: nextMiddleware});
+  };
+}
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.middleware) {
+    const middleware = Array.isArray(to.meta.middleware)
+      ? to.meta.middleware
+      : [to.meta.middleware];
+
+    const context: RouterContext = {
+      from,
+      next,
+      router,
+      to
+    };
+    const nextMiddleware = nextFactory(context, middleware, 1);
+
+    return middleware[0]({...context, next: nextMiddleware});
+  }
+
+  return next();
+});
+
+export default router;

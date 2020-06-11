@@ -1,0 +1,20 @@
+body {
+    background-color: darkred;
+    margin: 15px 50px;
+}
+
+td {
+    padding: 0;
+}
+
+@font-face {
+    font-family: 'chinese_takeawayregular';
+    src: url('../assets/fonts/chinesetakeaway-webfont.woff2') format('woff2'), url('../assets/fonts/chinesetakeaway-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+a {
+    text-decoration: none;
+    color: yellow;
+}
