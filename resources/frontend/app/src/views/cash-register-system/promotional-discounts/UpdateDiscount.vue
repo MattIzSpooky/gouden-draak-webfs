@@ -5,7 +5,9 @@
         Nieuwe actie
       </div>
       <div class="card-body">
-        <promotion-form @onSubmit="submit" :dishes="dishes" :error="error" :form-data="discount"/>
+        <promotion-form @onSubmit="submit" :dishes="dishes" :error="error" :form-data="discount">
+          <button type="button" role="button" class="btn btn-danger ml-2" @click="deleteDiscount">Verwijderen</button>
+        </promotion-form>
       </div>
     </div>
   </loader>
@@ -79,6 +81,17 @@ export default class UpdateDiscount extends Vue {
           errors: errorObject.errors
         };
       }
+    }
+
+    async deleteDiscount() {
+      const wantsToDelete = await this.$bvModal.msgBoxConfirm('Weet u zeker dat u de actie wilt verwijderen?');
+      if (!wantsToDelete) {
+        return;
+      }
+
+      await axios.delete(`/api/promotions/discounts/${this.$route.params.id}`);
+      await this.$bvModal.msgBoxOk('De actie verwijderd.');
+      await router.push({name: 'promotional-discounts'});
     }
 };
 </script>

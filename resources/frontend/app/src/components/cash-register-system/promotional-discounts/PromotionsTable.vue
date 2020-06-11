@@ -25,10 +25,10 @@
         €{{item.price.toFixed(2)}}
       </td>
       <td>
-        {{item.validFrom}}
+        {{transformToDutchDate(item.validFrom)}}
       </td>
       <td>
-        {{item.validTill}}
+        {{transformToDutchDate(item.validTill)}}
       </td>
       <td>
         <button type="button" role="button" class="btn btn-primary" @click="onRowClick(item)">Bewerken</button>
@@ -40,8 +40,13 @@
 <script lang="ts">
 import {Component, Emit, Prop, Vue} from 'vue-property-decorator';
 import {PromotionalDiscount} from '@/types/promotional-discount';
+import {transformToDutchDate} from '@/utils/date';
 
-  @Component
+  @Component({
+    methods: {
+      transformToDutchDate
+    }
+  })
 export default class PromotionsTable extends Vue {
   @Prop(Array) public readonly promotions!: PromotionalDiscount[];
 

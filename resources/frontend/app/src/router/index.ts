@@ -40,7 +40,7 @@ const routes: Array<RouteConfig> = [
       ...menuItemRoutes,
       ...userRoutes,
       ...newsRoutes,
-      ...orderRoutes
+      ...orderRoutes,
       ...promotionalDiscountRoutes
     ]
   }
