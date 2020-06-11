@@ -62,7 +62,7 @@
         <label for="dishes">Gerechten</label>
         <select multiple v-model.number="formData.dishes" class="form-control" id="dishes"
                 :class="{'is-invalid': error && error.errors.dishes}">
-          <option v-for="dish in dishes" :key="dish.id" :value="dish.id">{{dish.name}}</option>
+          <option v-for="dish in dishes" :key="dish.id" :value="dish.id" :selected="{'selected': isSelected(dish.id)}">{{dish.name}}</option>
         </select>
         <div v-if="error && error.errors.dishes">
           <p v-for="error in error.error.dishes" :key="error" class="text-danger">
@@ -109,6 +109,10 @@ export default class NewDiscount extends Vue {
   @Prop({
     required: true
   }) public readonly error!: ApiValidationError<PromotionalDiscountRequest>;
+
+  isSelected(dishId: number) {
+    return this.formData.dishes.some(e => e.id === dishId);
+  }
 
     public readonly datePickerOptions = {year: 'numeric', month: 'numeric', day: 'numeric'}
 
