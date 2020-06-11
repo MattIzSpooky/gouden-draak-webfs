@@ -10,4 +10,6 @@ export type PromotionalDiscount = {
   dishes: Dish[];
 }
 
-export type PromotionalDiscountRequest = Omit<PromotionalDiscount, 'id'>
+export type PromotionalDiscountRequest = Omit<PromotionalDiscount, 'id' | 'dishes'> & {
+  dishes: number[];
+}

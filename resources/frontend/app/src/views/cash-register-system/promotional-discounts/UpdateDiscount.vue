@@ -40,7 +40,10 @@ import router from '@/router';
 
       next(async (vm: UpdateDiscount) => {
         vm.dishes = dishes.data.data;
-        vm.discount = discount.data.data;
+        vm.discount = {
+          ...discount.data.data,
+          dishes: discount.data.data.dishes.map(d => d.id)
+        };
 
         await vm.$store.commit('network/SET_LOADING', false);
       });
