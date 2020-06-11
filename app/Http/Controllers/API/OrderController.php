@@ -9,6 +9,7 @@ use App\Http\Resources\OrderResource;
 use App\Http\Requests\API\OrderRequest;
 use App\Http\Requests\API\OrderFilterRequest;
 use App\MenuItem;
+use App\Table;
 
 class OrderController extends Controller
 {
@@ -53,9 +54,8 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         /** @var Order */
-        $order = Order::create([
-            'paid_at' =>
-            Carbon::parse($request->input('paidAt'))
+        $order = Table::find($request->input('tableId'))->orders()->create([
+            'paid_at' => Carbon::parse($request->input('paidAt'))
         ]);
 
         $items = $request->get('items');
@@ -88,14 +88,6 @@ class OrderController extends Controller
     {
         /** @var Order */
         $order->update(['paid_at' => Carbon::parse($request->input('paidAt'))]);
-        $items = $request->get('items');
-
-        if ($items) {
-            $order->items()->detach();
-            foreach ($items as $item) {
-                $order->items()->attach($item['id'], ['amount' => $item['amount']]);
-            }
-        }
 
         return (new OrderResource($order))->response();
     }

@@ -25,6 +25,7 @@ class OrderRequest extends FormRequest
     {
         return [
             'paidAt' => ['nullable', 'date'],
+            'tableId' => ['required', 'exists:tables,id'],
             'items' => ['filled'],
             'items.*.id' => ['required', 'integer', 'exists:menu_items,id'],
             'items.*.amount' => ['required', 'integer']

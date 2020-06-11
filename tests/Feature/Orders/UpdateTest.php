@@ -27,6 +27,8 @@ class UpdateTest extends TestCase
         );
 
         $data = [
+            'tableId' => 1,
+            'paidAt' => now(),
             'items' => [
                 ['id' => 1, 'amount' => 1],
                 ['id' => 2, 'amount' => 1],
