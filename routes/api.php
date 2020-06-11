@@ -9,7 +9,8 @@ Route::namespace('API')->group(function () {
     Route::get('promotions', 'PromotionalDiscountsController@view')->name('discounts.view');
     Route::get('menu', 'MenuItemController@index')->name('menu.index');
     Route::get('menu/filter', 'MenuItemController@filter')->name('menu.filter');
-    Route::post('orders', 'OrderController@store')->name('orders.store');
+    Route::get('tables', 'TableController')->name('table.index');;
+    Route::post('tablet/orders', 'OrderController@storeCustomerOrder')->name('orders.storeCustomerOrder');
 
     Route::namespace('Auth')->group(function () {
         Route::post('/login', 'LoginController')->name('login');
@@ -40,7 +41,7 @@ Route::namespace('API')->group(function () {
 
         Route::middleware('role:admin,waitress,kassa')->group(function () {
             Route::get('orders/filter', 'OrderController@filter')->name('orders.filter');
-            Route::apiResource('orders', 'OrderController')->except(['destroy', 'store']);
+            Route::apiResource('orders', 'OrderController')->except(['destroy']);
         });
     });
 });

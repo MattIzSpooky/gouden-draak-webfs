@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests\API;
 
+use App\Rules\OrderInterval;
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrderRequest extends FormRequest
+class CustomerOrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,7 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'paidAt' => ['nullable', 'date'],
-            'tableId' => ['required', 'exists:tables,id'],
+            'tableId' => ['required', 'exists:tables,id', new OrderInterval($this->input('tableId'))],
             'items' => ['filled'],
             'items.*.id' => ['required', 'integer', 'exists:menu_items,id'],
             'items.*.amount' => ['required', 'integer']

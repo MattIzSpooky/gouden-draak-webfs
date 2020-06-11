@@ -1,7 +1,8 @@
 <?php
 
-use App\MenuItem;
 use App\Order;
+use App\Table;
+use App\MenuItem;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -18,6 +19,7 @@ class OrderSeeder extends Seeder
             for ($i = 0; $i < 3; $i++) {
                 $item = MenuItem::all()->random(1)->first();
                 $order->items()->attach($item->id, ['amount' => rand(1, 5)]);
+                $order->tables()->attach(Table::find(1));
             }
         });
 
@@ -25,6 +27,7 @@ class OrderSeeder extends Seeder
             for ($i = 0; $i < 3; $i++) {
                 $item = MenuItem::all()->random(1)->first();
                 $order->items()->attach($item->id, ['amount' => rand(1, 5)]);
+                $order->tables()->attach(Table::find(1));
             }
         });
     }

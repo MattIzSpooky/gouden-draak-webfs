@@ -2,15 +2,13 @@
 
 namespace Tests\Feature\Orders;
 
-use App\Order;
+use App\Table;
 use App\User;
 use App\UserRole;
 use Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class UpdateTest extends TestCase
+class StoreCustomerTest extends TestCase
 {
     /**
      * @group orders
@@ -27,8 +25,8 @@ class UpdateTest extends TestCase
         );
 
         $data = [
-            'tableId' => 1,
-            'paidAt' => now(),
+            'paidAt' => null,
+            'tableId' => Table::find(1)->id,
             'items' => [
                 ['id' => 1, 'amount' => 1],
                 ['id' => 2, 'amount' => 1],
@@ -38,12 +36,8 @@ class UpdateTest extends TestCase
             ]
         ];
 
-        $order = Order::find(1);
+        $response = $this->post('/api/tablet/orders', $data);
 
-        $response = $this->put('/api/orders/' . $order->id, $data);
-
-        $response->assertOk();
-
-        $this->assertDatabaseHas('orders', ['id' => $response['data']]);
+        $response->assertStatus(302);
     }
 }
