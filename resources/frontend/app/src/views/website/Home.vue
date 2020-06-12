@@ -39,7 +39,6 @@ import Promotions from '@/components/website/Promotions.vue';
 
       next((vm: Home) => {
         vm.promotions = response.data.data;
-        console.log(vm.promotions);
       });
     }
   })
