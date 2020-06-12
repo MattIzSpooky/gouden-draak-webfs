@@ -63,9 +63,6 @@
         </menu-item-search>
       </div>
     </div>
-    <b-modal ref="dialog">
-      {{modalContent}}
-    </b-modal>
   </loader>
 </template>
 
@@ -118,14 +115,9 @@ export default class CashRegister extends Vue {
     private orderedItems: OrderedMenuItem[] = [];
     private tables: Table[] = [];
     private totalPrice = 0;
-    private modalContent = '';
     private selectedTableId = 0;
 
     private originalResults: MenuItemsGroupedWithType[] = [];
-
-    $refs!: {
-      dialog: BModal;
-    }
 
     onTotalValueChange(value: number) {
       this.totalPrice = (Math.round(value * 100) / 100);

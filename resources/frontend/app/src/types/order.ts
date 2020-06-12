@@ -5,6 +5,7 @@ export type NewOrderRequest = {
   id: number;
   paidAt: string | null;
   createdAt: string;
+  tableId: number;
   items: ApiResource<MenuItem[]>;
 }
 
