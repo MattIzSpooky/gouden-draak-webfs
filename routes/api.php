@@ -8,6 +8,7 @@ Route::namespace('API')->group(function () {
     Route::get('news', 'NewsController@index')->name('news.index');
     Route::get('promotions', 'PromotionalDiscountsController@view')->name('discounts.view');
     Route::get('menu', 'MenuItemController@index')->name('menu.index');
+    Route::get('menu/export', 'MenuItemController@export')->name('menu.export');
     Route::get('menu/filter', 'MenuItemController@filter')->name('menu.filter');
 
     Route::prefix('table')->group(function () {

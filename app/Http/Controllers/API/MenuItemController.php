@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\API;
 
+use Barryvdh\DomPDF\Facade as PDF;
 use App\Dish;
 use App\MenuItem;
 use Illuminate\Http\Request;
+use App\PromotionalDiscounts;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Query\Builder;
 use App\Http\Resources\MenuItemResource;
 use App\Http\Requests\API\MenuItemRequest;
 use App\Http\Resources\MenuResourceCollection;
 use App\Http\Requests\API\MenuItemUpdateRequest;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Http\Resources\PromotionalDiscountsResource;
 
 class MenuItemController extends Controller
 {
@@ -157,5 +158,20 @@ class MenuItemController extends Controller
         return $menu->restore()
             ? $this->response->json(['message' => 'Successful restored'], Response::HTTP_OK)
             : $this->response->json(['message' => 'Something went wrong'], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Export the menu as an pdf doc.
+     */
+    public function export()
+    {
+        $data = [
+            'menuItems' => MenuItem::with('dish.type')->get(),
+            'discounts' => PromotionalDiscountsResource::collection(PromotionalDiscounts::active()->get())
+        ];
+
+        $pdf = PDF::loadView('menu', $data);
+
+        return $pdf->download('menu.pdf');
     }
 }
