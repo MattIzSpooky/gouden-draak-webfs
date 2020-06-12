@@ -12,7 +12,7 @@ class Table extends Model
     protected $fillable = ['name'];
 
     /**
-     * @return BelongsToMany
+     * @return HasMany
      */
     public function orders(): HasMany
     {
