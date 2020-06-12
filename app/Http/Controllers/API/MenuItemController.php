@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use PDF;
+use Barryvdh\DomPDF\Facade as PDF;
 use App\Dish;
 use App\MenuItem;
 use Illuminate\Http\Request;
