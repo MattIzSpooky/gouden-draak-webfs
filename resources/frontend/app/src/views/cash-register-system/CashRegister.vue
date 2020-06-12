@@ -7,14 +7,14 @@
             Menu
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item p-0" v-for="itemObject in menuItems" :key="itemObject.type">
+            <li class="list-group-item p-0" v-for="(itemObject, index) in menuItems" :key="index">
               <menu-item-table :name="itemObject.type" :menuItems="itemObject.items" @menuItemClick="onMenuItemClick"/>
             </li>
           </ul>
         </div>
       </div>
       <div class="col-md-5">
-        <div class="card m-3">
+        <div class="card mb-1">
           <div class="card-header">
             Bestelling
           </div>
@@ -50,6 +50,9 @@
             </li>
           </ul>
         </div>
+        <menu-item-search @onSearch="onSearch">
+          <button type="button" role="button" class="btn btn-primary ml-4" @click="onSearchReset">Reset</button>
+        </menu-item-search>
       </div>
     </div>
     <b-modal ref="dialog">
@@ -71,9 +74,11 @@ import {ApiResource} from '@/types/api';
 import OrderTable from '@/components/cash-register-system/orders/InteractiveOrderTable.vue';
 import MenuItemTable from '@/components/cash-register-system/menu-items/MenuItemTable.vue';
 import Loader from '@/components/cash-register-system/common/Loader.vue';
+import MenuItemSearch from '@/components/cash-register-system/menu-items/MenuItemSearch.vue';
 
   @Component({
     components: {
+      MenuItemSearch,
       OrderTable,
       CashRegisterPage,
       MenuItemTable,
@@ -86,7 +91,7 @@ import Loader from '@/components/cash-register-system/common/Loader.vue';
 
       next(async (vm: CashRegister) => {
         vm.menuItems = response.data.data;
-
+        vm.originalResults = vm.menuItems;
         await vm.$store.commit('network/SET_LOADING', false);
       });
     }
@@ -96,6 +101,8 @@ export default class CashRegister extends Vue {
     private orderedItems: OrderedMenuItem[] = [];
     private totalPrice = 0;
     private modalContent = '';
+
+    private originalResults: MenuItemsGroupedWithType[] = [];
 
     $refs!: {
       dialog: BModal;
@@ -124,8 +131,18 @@ export default class CashRegister extends Vue {
       this.$refs.dialog.show();
     }
 
+    onSearchReset() {
+      this.menuItems = [];
+      this.menuItems.push(...this.originalResults);
+    }
+
     onClickDelete() {
       this.orderedItems.splice(0, this.orderedItems.length);
+    }
+
+    onSearch(menuItems: MenuItemsGroupedWithType[]) {
+      this.menuItems = [];
+      this.menuItems.push(...menuItems);
     }
 
     onMenuItemClick(menuItem: MenuItem) {
