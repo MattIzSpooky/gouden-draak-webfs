@@ -10,6 +10,9 @@
         </td>
         <td>
           {{item.dish.name}}
+          <small v-if="item.dish.description">
+            ({{item.dish.description}})
+          </small>
         </td>
         <td>
           € {{item.dish.price.toFixed(2)}}
@@ -34,9 +37,9 @@ export default class MenuItemTable extends Vue {
 table {
   width: 75%;
   text-align: center;
-
   td {
     width: 25%;
+    padding: 10px;
   }
 }
 </style>
