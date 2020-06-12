@@ -32,7 +32,7 @@
                           Totaal:
                         </h3>
                         <h3>
-                          € {{totalPrice}}
+                          €{{totalPrice.toFixed(2)}}
                         </h3>
                       </div>
                     </div>

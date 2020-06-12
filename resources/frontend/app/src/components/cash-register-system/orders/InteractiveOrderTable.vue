@@ -2,13 +2,13 @@
   <table class="table">
     <tr v-for="item in orderedMenuItems" :key="item.id">
       <td>
-          {{item.menuNumber}}{{item.addition}}.
+          {{item.menuNumber}}{{item.addition}}<template v-if="item.menuNumber">.</template>
       </td>
       <td>
         {{item.dish.name}}
       </td>
       <td>
-        € {{item.dish.price}}
+        € {{item.dish.price.toFixed(2)}}
       </td>
       <td>
         <input type="number" class="form-control" min="0" v-model.number="item.amount">
