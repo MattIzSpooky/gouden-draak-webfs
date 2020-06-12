@@ -10,12 +10,23 @@ use App\Http\Resources\TableResource;
 class TableController extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Display a listing of the resource.s
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function index(Request $request)
+    {
+        return TableResource::collection(Table::all());
+    }
+
+    /**
+     * Display a listing of the resource.s
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function history(Request $request, Table $table)
     {
         return TableResource::collection(Table::all());
     }

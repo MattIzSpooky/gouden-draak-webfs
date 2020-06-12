@@ -2,7 +2,7 @@
   <loader>
     <div class="card">
       <div class="card-header">
-        Order: {{order.id}}
+        Order: {{order.id}}, {{order.table.name}}
       </div>
       <div class="card-body">
         <h5 class="card-title"> Order aangemaakt op {{transformToDutchDate(order.createdAt)}}</h5>
@@ -53,6 +53,7 @@ export default class OrderDetail extends Vue {
     public order: Order = {
       id: 1,
       items: [],
+      table: { name: '', id: 0 },
       paidAt: null,
       createdAt: ''
     };

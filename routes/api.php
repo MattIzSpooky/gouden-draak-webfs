@@ -9,8 +9,12 @@ Route::namespace('API')->group(function () {
     Route::get('promotions', 'PromotionalDiscountsController@view')->name('discounts.view');
     Route::get('menu', 'MenuItemController@index')->name('menu.index');
     Route::get('menu/filter', 'MenuItemController@filter')->name('menu.filter');
-    Route::get('tables', 'TableController')->name('table.index');;
-    Route::post('tablet/orders', 'OrderController@storeCustomerOrder')->name('orders.storeCustomerOrder');
+
+    Route::prefix('table')->group(function () {
+        Route::get('', 'TableController@index')->name('table.index');
+        Route::get('{table}/history', 'TableController@history')->name('table.history');
+        Route::post('orders', 'OrderController@storeCustomerOrder')->name('orders.storeCustomerOrder');
+    });
 
     Route::namespace('Auth')->group(function () {
         Route::post('/login', 'LoginController')->name('login');

@@ -36,7 +36,7 @@ class StoreCustomerTest extends TestCase
             ]
         ];
 
-        $response = $this->post('/api/tablet/orders', $data);
+        $response = $this->post('/api/table/orders', $data);
 
         $response->assertStatus(302);
     }

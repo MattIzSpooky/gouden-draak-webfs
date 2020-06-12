@@ -23,6 +23,14 @@
               <order-table @totalValue="onTotalValueChange" :orderedMenuItems="orderedItems"/>
             </li>
             <li class="list-group-item p-0">
+              <div class="form-group">
+                <label for="table">Tafel</label>
+                <select v-model="selectedTableId" class="form-control" id="table">
+                  <option v-for="table in tables" :key="table.id" :value="table.id">{{table.name}}</option>
+                </select>
+              </div>
+            </li>
+            <li class="list-group-item p-0">
               <div class="row p-3">
                 <div class="col-md-8">
                   <div class="d-flex h-100 justify-content-center">
@@ -55,9 +63,6 @@
         </menu-item-search>
       </div>
     </div>
-    <b-modal ref="dialog">
-      {{modalContent}}
-    </b-modal>
   </loader>
 </template>
 
@@ -75,6 +80,7 @@ import OrderTable from '@/components/cash-register-system/orders/InteractiveOrde
 import MenuItemTable from '@/components/cash-register-system/menu-items/MenuItemTable.vue';
 import Loader from '@/components/cash-register-system/common/Loader.vue';
 import MenuItemSearch from '@/components/cash-register-system/menu-items/MenuItemSearch.vue';
+import {Table} from '@/types/table';
 
   @Component({
     components: {
@@ -87,11 +93,19 @@ import MenuItemSearch from '@/components/cash-register-system/menu-items/MenuIte
     },
     async beforeRouteEnter(to, _, next) {
       await store.commit('network/SET_LOADING', true);
-      const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
+      const response = await Promise.all([
+        axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu'),
+        axios.get<ApiResource<Table[]>>('/api/table')
+      ]);
+
+      const menuItems = response[0];
+      const tables = response[1];
 
       next(async (vm: CashRegister) => {
-        vm.menuItems = response.data.data;
+        vm.menuItems = menuItems.data.data;
         vm.originalResults = vm.menuItems;
+        vm.tables = tables.data.data;
+
         await vm.$store.commit('network/SET_LOADING', false);
       });
     }
@@ -99,36 +113,42 @@ import MenuItemSearch from '@/components/cash-register-system/menu-items/MenuIte
 export default class CashRegister extends Vue {
     private menuItems: MenuItemsGroupedWithType[] = [];
     private orderedItems: OrderedMenuItem[] = [];
+    private tables: Table[] = [];
     private totalPrice = 0;
-    private modalContent = '';
+    private selectedTableId = 0;
 
     private originalResults: MenuItemsGroupedWithType[] = [];
-
-    $refs!: {
-      dialog: BModal;
-    }
 
     onTotalValueChange(value: number) {
       this.totalPrice = (Math.round(value * 100) / 100);
     }
 
     async pay() {
+      if (this.selectedTableId === 0) {
+        return await this.$bvModal.msgBoxOk('U moet een tafel selecteren.');
+      }
+
+      if (this.orderedItems.length === 0) {
+        return await this.$bvModal.msgBoxOk('U moet producten selecteren');
+      }
+
       const items = this.orderedItems.map(o => ({
         id: o.id,
         amount: o.amount
       }));
 
+      const tableId = this.selectedTableId;
+
       try {
         await axios.post<NewOrderRequest>('/api/orders', {
-          items
+          items,
+          tableId
         });
-        this.modalContent = 'Verkoop succesvol!';
+        await this.$bvModal.msgBoxOk('Verkoop succesvol!');
         this.onClickDelete();
       } catch {
-        this.modalContent = 'Er is iets misgegaan!';
+        await this.$bvModal.msgBoxOk('Er is iets misgegaan!');
       }
-
-      this.$refs.dialog.show();
     }
 
     onSearchReset() {

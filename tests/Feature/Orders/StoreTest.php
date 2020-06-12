@@ -41,7 +41,6 @@ class StoreTest extends TestCase
 
         $response->assertStatus(201);
 
-        $this->assertDatabaseHas('orders', ['id' => $response['data']]);
-        $this->assertDatabaseHas('table_orders', ['table_id' => 1, 'created_at' => now()]);
+        $this->assertDatabaseHas('orders', ['id' => $response['data']['id'], 'table_id' => 1]);
     }
 }

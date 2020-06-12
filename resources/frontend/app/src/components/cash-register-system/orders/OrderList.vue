@@ -4,6 +4,9 @@
       <th>
         Datum
       </th>
+       <th>
+        Tafel
+      </th>
       <th>
         Betaald?
       </th>
@@ -14,6 +17,9 @@
     <tr v-for="order in orders" :key="order.id">
       <td>
         {{transformToDutchDate(order.createdAt)}}
+      </td>
+       <td>
+        {{order.table.name}}
       </td>
       <td :class="{'table-danger': !order.paidAt}">
         {{order.paidAt ? 'Ja' : 'Nee'}}

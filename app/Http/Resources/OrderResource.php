@@ -22,6 +22,7 @@ class OrderResource extends JsonResource
             'id' => $this->id,
             'paidAt' => $this->paid_at === null ? null : $this->paid_at->toIso8601String(),
             'createdAt' => $this->created_at->toIso8601String(),
+            'table' => new TableResource($this->table),
             'items' => MenuItemResource::collection($this->items, $this->created_at)
         ];
     }

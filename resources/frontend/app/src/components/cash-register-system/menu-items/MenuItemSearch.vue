@@ -31,10 +31,13 @@ export default class MenuItemSearch extends Vue {
 
   @Emit('onSearch')
   public async onSubmit() {
+    await this.$store.commit('network/SET_LOADING', true);
     const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>(`/api/menu/filter?query=${this.search}`);
     const data = response.data.data;
 
     this.noResults = data.length === 0;
+
+    await this.$store.commit('network/SET_LOADING', false);
 
     return data;
   }
