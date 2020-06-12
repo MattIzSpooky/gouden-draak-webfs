@@ -1,5 +1,6 @@
-import {MenuItem, OrderedMenuItem} from '@/types/menu-item';
-import {ApiResource} from '@/types/api';
+import { MenuItem, OrderedMenuItem } from '@/types/menu-item';
+import { ApiResource } from '@/types/api';
+import { Table } from '@/types/table';
 
 export type NewOrderRequest = {
   id: number;
@@ -12,6 +13,7 @@ export type NewOrderRequest = {
 export type Order = {
   id: number;
   createdAt: string;
+  table: Table;
   paidAt: string | null;
   items: OrderedMenuItem[];
 }
