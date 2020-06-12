@@ -4,7 +4,7 @@
       <h3>{{name}}</h3>
     </div>
     <table>
-      <tr v-for="item in menuItems" :key="item.id" @click="rowClick(item)">
+      <tr v-for="item in menuItems" :key="item.id" @click.stop="onRowClick(item)">
         <td>
           {{item.menuNumber}}{{item.addition}}<template v-if="item.menuNumber || item.addition">.</template>
         </td>
@@ -26,52 +26,35 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from 'vue-property-decorator';
+import {Component, Emit, Prop, Vue} from 'vue-property-decorator';
 import {MenuItem} from '@/types/menu-item';
 import Heart from '@/components/website/Heart.vue';
 @Component({
   components: {Heart}
 })
 export default class MenuItemTable extends Vue {
-    @Prop(String) public readonly name!: string;
-    @Prop(Array) public readonly menuItems!: MenuItem[];
+    @Prop({
+      required: true,
+      type: String
+    }) public readonly name!: string;
 
-    public favorites: number[] = [];
+    @Prop({
+      required: true,
+      type: Array
+    }) public readonly menuItems!: MenuItem[];
 
-    rowClick(menuItem: MenuItem) {
-      if (this.isFavorite(menuItem)) {
-        const index = this.favorites.indexOf(menuItem.id);
-        if (index === -1) {
-          return;
-        }
+    @Prop({
+      required: true,
+      type: Array
+    }) public readonly favorites!: number[];
 
-        this.favorites.splice(index, 1);
-      } else {
-        this.favorites.push(menuItem.id);
-      }
-
-      this.saveFavorites();
+    @Emit('onRowClick')
+    public onRowClick(item: MenuItem) {
+      return item;
     }
 
     isFavorite(menuItem: MenuItem) {
       return this.favorites.some(e => e === menuItem.id);
-    }
-
-    created() {
-      this.restoreFavorites();
-    }
-
-    restoreFavorites() {
-      const result = localStorage.getItem('favorites');
-      if (!result) {
-        return;
-      }
-
-      this.favorites = JSON.parse(result);
-    }
-
-    saveFavorites() {
-      localStorage.setItem('favorites', JSON.stringify(this.favorites));
     }
 };
 </script>
