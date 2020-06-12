@@ -1,5 +1,5 @@
 <template>
-  <none>
+  <table v-if="paginatedNews" style="width: 100%">
     <tr v-for="news in paginatedNews.data" :key="news.title" style="padding-top:50px">
       <td align="center" style='border:1px solid black;background:floralwhite'><br>
         <h3>
@@ -23,7 +23,7 @@
         </button>
       </td>
     </tr>
-  </none>
+  </table>
 </template>
 
 <script lang="ts">
