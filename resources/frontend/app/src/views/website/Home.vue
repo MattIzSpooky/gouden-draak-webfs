@@ -3,7 +3,7 @@
      <td style="width: 50px"/>
      <td align="center" style='border:1px solid black;background:floralwhite'>
        <br/>
-       <div>
+       <div v-if="promotions.length !== 0">
          <h1>
            Acties:
          </h1>
@@ -12,6 +12,9 @@
            <hr/>
          </div>
        </div>
+       <h2 v-else>
+         Er zijn momenteel geen acties.
+       </h2>
      </td>
      <td style="width: 50px"/>
    </tr>

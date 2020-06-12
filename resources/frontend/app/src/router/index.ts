@@ -7,7 +7,8 @@ import {orderRoutes} from '@/router/routes/cash-register/orders';
 import {userRoutes} from '@/router/routes/cash-register/users';
 import {menuItemRoutes} from '@/router/routes/cash-register/menu-items';
 import {websiteRoutes} from '@/router/routes/website';
-import {promotionalDiscountRoutes} from '@/router/routes/promotional-discount';
+import {promotionalDiscountRoutes} from '@/router/routes/cash-register/promotional-discount';
+import {tabletRoutes} from '@/router/routes/tablet';
 
 Vue.use(VueRouter);
 
@@ -41,8 +42,25 @@ const routes: Array<RouteConfig> = [
       ...userRoutes,
       ...newsRoutes,
       ...orderRoutes,
-      ...promotionalDiscountRoutes
+      ...promotionalDiscountRoutes,
+      {
+        path: '*',
+        redirect: {
+          name: 'cash-register-system'
+        }
+      }
     ]
+  },
+  {
+    path: '/tablet',
+    component: () => import(/* webpackChunkName: "tablet" */ '../views/tablet/Index.vue'),
+    children: tabletRoutes
+  },
+  {
+    path: '*',
+    redirect: {
+      name: 'home'
+    }
   }
 ];
 
