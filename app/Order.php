@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
@@ -33,8 +34,8 @@ class Order extends Model
     /**
      * @return BelongsToMany
      */
-    public function tables(): BelongsToMany
+    public function table(): BelongsTo
     {
-        return $this->belongsToMany(Table::class, 'table_orders')->withTimestamps();
+        return $this->belongsTo(Table::class, 'table_id');
     }
 }

@@ -98,7 +98,7 @@ import {Table} from '@/types/table';
       await store.commit('network/SET_LOADING', true);
       const response = await Promise.all([
         axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu'),
-        axios.get<ApiResource<Table[]>>('/api/tables')
+        axios.get<ApiResource<Table[]>>('/api/table')
       ]);
 
       const menuItems = response[0];
@@ -145,9 +145,12 @@ export default class CashRegister extends Vue {
         amount: o.amount
       }));
 
+      const tableId = this.selectedTableId;
+
       try {
         await axios.post<NewOrderRequest>('/api/orders', {
-          items
+          items,
+          tableId
         });
         await this.$bvModal.msgBoxOk('Verkoop succesvol!');
         this.onClickDelete();

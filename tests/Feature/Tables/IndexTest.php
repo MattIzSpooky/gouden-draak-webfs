@@ -22,7 +22,7 @@ class IndexTest extends TestCase
             ['*']
         );
 
-        $response = $this->get('/api/tables');
+        $response = $this->get('/api/table');
 
         $response->assertStatus(200);
 
