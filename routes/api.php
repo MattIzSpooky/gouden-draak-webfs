@@ -39,6 +39,8 @@ Route::namespace('API')->group(function () {
         Route::apiResource('users', 'UserController')->middleware('role:admin');
 
         Route::middleware('role:admin')->group(function () {
+            Route::get('summary', 'DailySummaryController@index')->name('summary.index');
+            Route::get('summary/{summary}', 'DailySummaryController@download')->name('summary.download');
             Route::post('menu/restore/{id}', 'MenuItemController@restore')->name('menu.restore');
             Route::get('menu/with-trashed', 'MenuItemController@allWithThrashed')->name('menu.all-with-trashed');
             Route::apiResource('menu', 'MenuItemController')->except('index');
