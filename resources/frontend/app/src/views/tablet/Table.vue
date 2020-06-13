@@ -1,7 +1,7 @@
 <template>
-<div>
+<loader>
   {{$route.params.id }}
-</div>
+</loader>
 </template>
 
 <script lang="ts">

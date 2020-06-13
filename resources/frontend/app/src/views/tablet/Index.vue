@@ -1,16 +1,21 @@
 <template>
-  <transition name="fade" mode="out-in">
-    <router-view/>
-  </transition>
+  <tablet-page>
+    <transition name="fade" mode="out-in">
+      <router-view/>
+    </transition>
+  </tablet-page>
 </template>
 
 <script>
+import TabletPage from '../../components/tablet/TabletPage';
+
 export default {
-  name: 'Index'
+  name: 'Index',
+  components: {TabletPage}
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   @import "~bootstrap";
   @import '~bootstrap-vue/src/index.scss';
 
