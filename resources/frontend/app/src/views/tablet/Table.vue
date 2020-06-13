@@ -1,6 +1,25 @@
 <template>
 <loader>
-  {{$route.params.id }}
+  <div class="row">
+    <div class="col">
+      <b-card
+        title="Geschiedenis"
+        class="mt-2"
+      >
+        <b-card-body class="p-0">
+         <history-table @clickReOrder="onReOrder" :orders="history"/>
+        </b-card-body>
+      </b-card>
+    </div>
+    <div class="col">
+      <b-card
+        title="Bestellen"
+        class="mt-2"
+      >
+        <b-button :to="{name: 'new-order', params: {id: $route.params.id}}">Klik hier om te bestellen</b-button>
+      </b-card>
+    </div>
+  </div>
 </loader>
 </template>
 
@@ -11,10 +30,16 @@ import store from '../../store';
 import axios from 'axios';
 import {ApiResource} from '@/types/api';
 import {Order} from '@/types/order';
+import {BButton, BCard, BCardBody} from 'bootstrap-vue';
+import HistoryTable from '@/components/tablet/HistoryTable.vue';
 
   @Component({
     components: {
-      Loader
+      Loader,
+      BCard,
+      BCardBody,
+      BButton,
+      HistoryTable
     },
     async beforeRouteEnter(to, _, next) {
       await store.commit('network/SET_LOADING', true);
@@ -31,6 +56,31 @@ import {Order} from '@/types/order';
   })
 export default class Table extends Vue {
     public history: Order[] = [];
+
+    async onReOrder(order: Order) {
+      const wantsToReOrder = await this.$bvModal.msgBoxConfirm('Weet u zeker dat u dit opnieuw wilt bestellen?');
+      if (!wantsToReOrder) {
+        return;
+      }
+      console.log(order);
+      try {
+        this.$store.commit('network/SET_LOADING', true);
+        const response = await axios.post<ApiResource<Order>>('api/table/orders', {
+          tableId: this.$route.params.id,
+          items: order.items.map(i => ({
+            id: i.id,
+            amount: i.amount
+          })),
+          paidAt: null
+        });
+        await this.$bvModal.msgBoxOk('Het order is opnieuw besteld.');
+        this.history.unshift(response.data.data);
+      } catch (e) {
+        await this.$bvModal.msgBoxOk(e.response.data.errors.tableId[0]);
+      } finally {
+        this.$store.commit('network/SET_LOADING', false);
+      }
+    }
 };
 </script>
 
