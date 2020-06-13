@@ -51,8 +51,20 @@ const tabletModule: Module<TabletState, never> = {
       if (!tableFromStorage) {
         return;
       }
+      const table = JSON.parse(tableFromStorage) as Table;
 
-      commit('SET_TABLE', JSON.parse(tableFromStorage));
+      commit('SET_TABLE', table);
+
+      if (table.id === 0) {
+        return;
+      }
+
+      await router.push({
+        name: 'table',
+        params: {
+          id: table.id.toString()
+        }
+      });
     }
   }
 };

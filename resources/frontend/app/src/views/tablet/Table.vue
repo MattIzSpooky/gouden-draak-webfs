@@ -7,7 +7,8 @@
         class="mt-2"
       >
         <b-card-body class="p-0">
-         <history-table @clickReOrder="onReOrder" :orders="history"/>
+         <history-table @clickReOrder="onReOrder" :orders="history" v-if="history.length !== 0"/>
+          <h2 v-else>Deze tafel heeft geen bestellingen.</h2>
         </b-card-body>
       </b-card>
     </div>
