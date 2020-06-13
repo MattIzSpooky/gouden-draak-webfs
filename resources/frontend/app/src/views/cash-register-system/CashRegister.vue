@@ -14,53 +14,55 @@
         </div>
       </div>
       <div class="col-md-5">
-        <div class="card mb-1">
-          <div class="card-header">
-            Bestelling
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item p-0">
-              <order-table @totalValue="onTotalValueChange" :orderedMenuItems="orderedItems"/>
-            </li>
-            <li class="list-group-item p-0">
-              <div class="form-group">
-                <label for="table">Tafel</label>
-                <select v-model="selectedTableId" class="form-control" id="table">
-                  <option v-for="table in tables" :key="table.id" :value="table.id">{{table.name}}</option>
-                </select>
-              </div>
-            </li>
-            <li class="list-group-item p-0">
-              <div class="row p-3">
-                <div class="col-md-8">
-                  <div class="d-flex h-100 justify-content-center">
-                    <div class="my-auto w-100">
-                      <div class="d-flex justify-content-around">
-                        <h3>
-                          Totaal:
-                        </h3>
-                        <h3>
-                          €{{totalPrice.toFixed(2)}}
-                        </h3>
+        <div class="fixed">
+          <div class="card m-3">
+            <div class="card-header">
+              Bestelling
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item p-0">
+                <order-table @totalValue="onTotalValueChange" :orderedMenuItems="orderedItems"/>
+              </li>
+              <li class="list-group-item p-0">
+                <div class="form-group">
+                  <label for="table">Tafel</label>
+                  <select v-model="selectedTableId" class="form-control" id="table">
+                    <option v-for="table in tables" :key="table.id" :value="table.id">{{table.name}}</option>
+                  </select>
+                </div>
+              </li>
+              <li class="list-group-item p-0">
+                <div class="row p-3">
+                  <div class="col-md-8">
+                    <div class="d-flex h-100 justify-content-center">
+                      <div class="my-auto w-100">
+                        <div class="d-flex justify-content-around">
+                          <h3>
+                            Totaal:
+                          </h3>
+                          <h3>
+                            €{{totalPrice.toFixed(2)}}
+                          </h3>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <div class="col-md-4">
+                    <button type="button" class="btn btn-primary m-1" @click="pay">
+                      Afrekenen
+                    </button>
+                    <button type="button" class="btn btn-primary m-1" @click="onClickDelete">
+                      Verwijderen
+                    </button>
+                  </div>
                 </div>
-                <div class="col-md-4">
-                  <button type="button" class="btn btn-primary m-1" @click="pay">
-                    Afrekenen
-                  </button>
-                  <button type="button" class="btn btn-primary m-1" @click="onClickDelete">
-                    Verwijderen
-                  </button>
-                </div>
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
+          <menu-item-search @onSearch="onSearch">
+            <button type="button" role="button" class="btn btn-primary ml-4" @click="onSearchReset">Reset</button>
+          </menu-item-search>
         </div>
-        <menu-item-search @onSearch="onSearch">
-          <button type="button" role="button" class="btn btn-primary ml-4" @click="onSearchReset">Reset</button>
-        </menu-item-search>
       </div>
     </div>
   </loader>
@@ -181,3 +183,9 @@ export default class CashRegister extends Vue {
     }
 };
 </script>
+
+<style>
+  .fixed {
+    position: fixed;
+  }
+</style>

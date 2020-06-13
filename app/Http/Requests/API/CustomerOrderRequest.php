@@ -25,7 +25,7 @@ class CustomerOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'tableId' => ['required', 'exists:tables,id', new OrderInterval($this->input('tableId'))],
+            'tableId' => ['required', 'exists:tables,id'], // , new OrderInterval($this->input('tableId'))
             'items' => ['filled'],
             'items.*.id' => ['required', 'integer', 'exists:menu_items,id'],
             'items.*.amount' => ['required', 'integer']
