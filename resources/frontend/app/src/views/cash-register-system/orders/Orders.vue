@@ -63,7 +63,7 @@ export default class Orders extends Vue {
     }
 
     async nextPage() {
-      await this.$store.dispatch('network/toggleLoad');
+      await this.$store.commit('network/SET_LOADING', true);
       if (!this.paginatedOrders || !this.paginatedOrders.links.next) {
         return;
       }
@@ -72,11 +72,11 @@ export default class Orders extends Vue {
       this.paginatedOrders = response.data;
 
       await this.$router.push({name: 'news-kassa', query: {page: this.paginatedOrders.meta.current_page.toString()}});
-      await this.$store.dispatch('network/toggleLoad');
+      await this.$store.commit('network/SET_LOADING', false);
     }
 
     async previousPage() {
-      await this.$store.dispatch('network/toggleLoad');
+      await this.$store.commit('network/SET_LOADING', true);
       if (!this.paginatedOrders || !this.paginatedOrders.links.prev) {
         return;
       }
@@ -85,7 +85,7 @@ export default class Orders extends Vue {
       this.paginatedOrders = response.data;
 
       await this.$router.push({name: 'news-kassa', query: {page: this.paginatedOrders.meta.current_page.toString()}});
-      await this.$store.dispatch('network/toggleLoad');
+      await this.$store.commit('network/SET_LOADING', false);
     }
 };
 </script>

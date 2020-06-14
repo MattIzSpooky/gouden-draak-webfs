@@ -25,7 +25,7 @@ import router from '@/router';
     UserForm
   },
   async beforeRouteEnter(to, _, next) {
-    await store.dispatch('network/toggleLoad');
+    await store.commit('network/SET_LOADING', true);
     const requests = await Promise.all([
       axios.get<ApiResource<UserRoleType[]>>('/api/users/roles'),
       axios.get<ApiResource<User>>(`api/users/${to.params.id}`)
@@ -44,7 +44,7 @@ import router from '@/router';
         userRoleId: user.role.id
       };
 
-      await vm.$store.dispatch('network/toggleLoad');
+      await vm.$store.commit('network/SET_LOADING', false);
     });
   }
 })

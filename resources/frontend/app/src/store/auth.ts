@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {Module} from 'vuex';
 import {LoginCredentials, User} from '@/types/user';
+import {ApiResource} from '@/types/api';
 
 export interface GlobalAuthState {
   authenticated: boolean;
@@ -8,7 +9,8 @@ export interface GlobalAuthState {
   user: User | null;
 }
 
-const authModule: Module<GlobalAuthState, never> = {
+// eslint-disable-next-line
+const authModule: Module<GlobalAuthState, any> = {
   namespaced: true,
 
   state: {
@@ -54,13 +56,14 @@ const authModule: Module<GlobalAuthState, never> = {
     },
     async me({commit}) {
       try {
-        const response = await axios.get('/api/user');
+        const response = await axios.get<ApiResource<User>>('/api/user');
 
         commit('SET_AUTHENTICATED', true);
-        commit('SET_USER', response.data);
+        commit('SET_USER', response.data.data);
       } catch (e) {
         commit('SET_AUTHENTICATED', false);
         commit('SET_USER', null);
+        commit('SET_BEARER_TOKEN', '');
       }
     }
   }

@@ -27,12 +27,12 @@ import UserTable from '@/components/cash-register-system/users/UserTable.vue';
     Loader
   },
   async beforeRouteEnter(to, _, next) {
-    await store.dispatch('network/toggleLoad');
+    await store.commit('network/SET_LOADING', true);
     const response = await axios.get<ApiResource<User[]>>('/api/users');
     next(async (vm: Users) => {
       vm.users = response.data.data;
 
-      await vm.$store.dispatch('network/toggleLoad');
+      await vm.$store.commit('network/SET_LOADING', false);
     });
   }
 })
