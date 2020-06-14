@@ -1,7 +1,6 @@
 import {RouteConfig} from 'vue-router';
 import auth from '@/router/middleware/auth';
 import { UserRole } from '@/types/user';
-import role from '@/router/middleware/role';
 
 export const menuItemRoutes: RouteConfig[] = [
   {
@@ -9,7 +8,7 @@ export const menuItemRoutes: RouteConfig[] = [
     name: 'dishes',
     component: () => import(/* webpackChunkName: "cash-register-system" */ '@/views/cash-register-system/menu-items/MenuItems.vue'),
     meta: {
-      middleware: [auth, role],
+      middleware: [auth],
       roles: [
         UserRole.ADMIN
       ]
@@ -20,7 +19,7 @@ export const menuItemRoutes: RouteConfig[] = [
     name: 'new-dish',
     component: () => import(/* webpackChunkName: "cash-register-system" */ '@/views/cash-register-system/menu-items/NewMenuItem.vue'),
     meta: {
-      middleware: [auth, role],
+      middleware: [auth],
       roles: [
         UserRole.ADMIN
       ]
@@ -32,7 +31,7 @@ export const menuItemRoutes: RouteConfig[] = [
     component: () => import(/* webpackChunkName: "cash-register-system" */ '@/views/cash-register-system/menu-items/UpdateMenuItem.vue'),
     props: true,
     meta: {
-      middleware: [auth, role],
+      middleware: [auth],
       roles: [
         UserRole.ADMIN
       ]
