@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueRouter, {RouteConfig} from 'vue-router';
+import VueRouter, { RouteConfig } from 'vue-router';
 import auth from '@/router/middleware/auth';
 import {RouteMiddlewareFunc, RouteNext, RouterContext} from '@/router/types';
 import {newsRoutes} from '@/router/routes/cash-register/news';
@@ -41,6 +41,14 @@ const routes: Array<RouteConfig> = [
           roles: [
             UserRole.ADMIN, UserRole.REGISTER
           ]
+        }
+      },
+      {
+        path: 'samenvattingen',
+        name: 'summaries',
+        component: () => import(/* webpackChunkName: "summaries" */ '../views/cash-register-system/DailySummary.vue'),
+        meta: {
+          middleware: [auth]
         }
       },
       ...menuItemRoutes,
@@ -85,7 +93,7 @@ function nextFactory(context: RouterContext, middleware: Array<RouteMiddlewareFu
     context.next(...parameters);
 
     const nextMiddleware = nextFactory(context, middleware, index + 1);
-    subsequentMiddleware({...context, next: nextMiddleware});
+    subsequentMiddleware({ ...context, next: nextMiddleware });
   };
 }
 
@@ -103,7 +111,7 @@ router.beforeEach((to, from, next) => {
     };
     const nextMiddleware = nextFactory(context, middleware, 1);
 
-    return middleware[0]({...context, next: nextMiddleware});
+    return middleware[0]({ ...context, next: nextMiddleware });
   }
 
   return next();
