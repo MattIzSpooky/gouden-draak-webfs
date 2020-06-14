@@ -62,7 +62,10 @@ class OrderController extends Controller
         $items = $request->get('items');
 
         foreach ($items as $item) {
-            $order->items()->attach($item['id'], ['amount' => $item['amount']]);
+            $order->items()->attach($item['id'], [
+                'amount' => $item['amount'],
+                'comment' => $item['comment'] ?? null
+            ]);
         }
 
         return (new OrderResource($order))->response();
