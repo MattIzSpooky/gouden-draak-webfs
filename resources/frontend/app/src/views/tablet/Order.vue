@@ -142,7 +142,8 @@ export default class Table extends Vue {
 
       this.orderedItems.push({
         ...menuItem,
-        amount: 1
+        amount: 1,
+        comment: null
       });
     }
 };
