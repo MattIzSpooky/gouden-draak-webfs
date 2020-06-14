@@ -1,14 +1,14 @@
 <template>
   <loader>
     <div class="row justify-content-center">
-      <div class="col-md-5">
+      <div v-if="summaries" class="col-md-5">
         <div class="card m-3">
           <div class="card-header">
             Samenvattingen
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item p-3" v-for="(itemObject, index) in summaries" :key="index">
-               <a class="btn btn-secondary btn-lg btn-block" :href="fileUrl + itemObject.id" target="_blank">{{ itemObject.date }}</a>
+            <li class="list-group-item p-3" v-for="(itemObject, index) in summaries.data" :key="index">
+               <button @click="download(itemObject)" class="btn btn-secondary btn-lg btn-block" :href="fileUrl + itemObject.id" target="_blank">{{ itemObject.date }}</button>
             </li>
           </ul>
           <div class="card-footer">
@@ -16,8 +16,7 @@
             vorige
             </button>
             <button v-if="summaries.links.next" type="button" class="btn btn-primary" @click="nextPage">
-            volgende
-            </button>
+            volgende            </button>
             <small>
             Huidige pagina: {{summaries.meta.current_page}}
             </small>
@@ -87,6 +86,18 @@ export default class DailySummary extends Vue {
 
       await this.$router.push({name: 'summaries', query: {page: this.summaries.meta.current_page.toString()}});
       await this.$store.dispatch('network/toggleLoad');
+    }
+
+    async download(summary: Summary) {
+      const response = await axios.get<Summary>(`api/summary/${summary.id}`, { responseType: 'arraybuffer' });
+      const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = summary.file;
+      a.click();
+      window.URL.revokeObjectURL(url);
     }
 };
 </script>
