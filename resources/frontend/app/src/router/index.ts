@@ -39,16 +39,19 @@ const routes: Array<RouteConfig> = [
         meta: {
           middleware: [auth, role],
           roles: [
-            UserRole.ADMIN, UserRole.REGISTER
+            UserRole.ADMIN, UserRole.REGISTER, UserRole.WAITRESS
           ]
         }
       },
       {
         path: 'samenvattingen',
         name: 'summaries',
-        component: () => import(/* webpackChunkName: "summaries" */ '../views/cash-register-system/DailySummary.vue'),
+        component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/DailySummary.vue'),
         meta: {
-          middleware: [auth]
+          middleware: [auth],
+          roles: [
+            UserRole.ADMIN
+          ]
         }
       },
       ...menuItemRoutes,
