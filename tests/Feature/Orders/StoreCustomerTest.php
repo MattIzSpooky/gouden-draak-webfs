@@ -11,7 +11,7 @@ use Laravel\Sanctum\Sanctum;
 class StoreCustomerTest extends TestCase
 {
     /**
-     * @group orders
+     * @group ordersCustomer
      * @return void
      */
     public function testStoreOrderTest()

@@ -30,14 +30,16 @@ class OrderInterval implements Rule
     {
         $order = $this->table->orders()->latest()->first();
 
-        if ($order->count()) {
-            $time = now()->diffInMinutes($order->created_at);
+        if ($order) {
+            $time = now()->diffInSeconds($order->created_at);
 
-            if ($time >= 10) {
-                return true;
+            if ($time < 600) {
+                return false;
             }
 
-            return false;
+            return true;
+        } else {
+            return true;
         }
     }
 

@@ -118,8 +118,12 @@ export default class Table extends Vue {
             id: this.$route.params.id
           }
         });
-      } catch {
-        await this.$bvModal.msgBoxOk('Er is iets misgegaan!');
+      } catch (e) {
+        if (e.response.data.errors.tableId) {
+          await this.$bvModal.msgBoxOk(e.response.data.errors.tableId[0]);
+        } else {
+          await this.$bvModal.msgBoxOk('Er is iets mis gegaan!');
+        }
       }
     }
 
