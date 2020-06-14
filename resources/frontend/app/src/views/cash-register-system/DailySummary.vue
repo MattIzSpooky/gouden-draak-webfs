@@ -63,7 +63,7 @@ export default class DailySummary extends Vue {
     }
 
     async nextPage() {
-      await this.$store.dispatch('network/toggleLoad');
+      await this.$store.commit('network/SET_LOADING', true);
       if (!this.summaries || !this.summaries.links.next) {
         return;
       }
@@ -72,11 +72,11 @@ export default class DailySummary extends Vue {
       this.summaries = response.data;
 
       await this.$router.push({name: 'summaries', query: {page: this.summaries.meta.current_page.toString()}});
-      await this.$store.dispatch('network/toggleLoad');
+      await this.$store.commit('network/SET_LOADING', false);
     }
 
     async previousPage() {
-      await this.$store.dispatch('network/toggleLoad');
+      await this.$store.commit('network/SET_LOADING', true);
       if (!this.summaries || !this.summaries.links.prev) {
         return;
       }
@@ -85,12 +85,14 @@ export default class DailySummary extends Vue {
       this.summaries = response.data;
 
       await this.$router.push({name: 'summaries', query: {page: this.summaries.meta.current_page.toString()}});
-      await this.$store.dispatch('network/toggleLoad');
+      await this.$store.commit('network/SET_LOADING', false);
     }
 
     async download(summary: Summary) {
+      await this.$store.commit('network/SET_LOADING', true);
+
       const response = await axios.get<Summary>(`api/summary/${summary.id}`, { responseType: 'arraybuffer' });
-      const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const blob = new Blob([response.data as unknown as BlobPart], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);
 
       const a = document.createElement('a');
@@ -98,6 +100,8 @@ export default class DailySummary extends Vue {
       a.download = summary.file;
       a.click();
       window.URL.revokeObjectURL(url);
+
+      this.$store.commit('network/SET_LOADING', false);
     }
 };
 </script>
