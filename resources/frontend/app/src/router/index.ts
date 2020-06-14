@@ -100,7 +100,7 @@ function nextFactory(context: RouterContext, middleware: Array<RouteMiddlewareFu
   };
 }
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.meta.middleware) {
     const middleware = Array.isArray(to.meta.middleware)
       ? to.meta.middleware
@@ -114,7 +114,7 @@ router.beforeEach((to, from, next) => {
     };
     const nextMiddleware = nextFactory(context, middleware, 1);
 
-    return middleware[0]({ ...context, next: nextMiddleware });
+    return await middleware[0]({ ...context, next: nextMiddleware });
   }
 
   return next();

@@ -65,7 +65,7 @@ export default class News extends Vue {
   }
 
   async nextPage() {
-    await this.$store.dispatch('network/toggleLoad');
+    await this.$store.commit('network/SET_LOADING', true);
     if (!this.paginatedNewsItems || !this.paginatedNewsItems.links.next) {
       return;
     }
@@ -74,11 +74,11 @@ export default class News extends Vue {
     this.paginatedNewsItems = response.data;
 
     await this.$router.push({name: 'news-kassa', query: {page: this.paginatedNewsItems.meta.current_page.toString()}});
-    await this.$store.dispatch('network/toggleLoad');
+    await this.$store.commit('network/SET_LOADING', false);
   }
 
   async previousPage() {
-    await this.$store.dispatch('network/toggleLoad');
+    await this.$store.commit('network/SET_LOADING', true);
     if (!this.paginatedNewsItems || !this.paginatedNewsItems.links.prev) {
       return;
     }
@@ -87,7 +87,7 @@ export default class News extends Vue {
     this.paginatedNewsItems = response.data;
 
     await this.$router.push({name: 'news-kassa', query: {page: this.paginatedNewsItems.meta.current_page.toString()}});
-    await this.$store.dispatch('network/toggleLoad');
+    await this.$store.commit('network/SET_LOADING', false);
   }
 };
 </script>

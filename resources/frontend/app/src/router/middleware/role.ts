@@ -1,7 +1,7 @@
 import {RouteMiddleware} from '@/router/types';
 import store from '@/store';
 
-export default function role({next, router, to}: RouteMiddleware) {
+export default async function role({next, router, to}: RouteMiddleware) {
   const routeRoles: string[] = to.meta.roles;
 
   if (!Array.isArray(routeRoles)) {
@@ -9,7 +9,7 @@ export default function role({next, router, to}: RouteMiddleware) {
   }
 
   if (!routeRoles.some(e => e === store.state.auth.user.role.name)) {
-    router.push({
+    return await router.push({
       name: 'cash-register-system'
     });
   }

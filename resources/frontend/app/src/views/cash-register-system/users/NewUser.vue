@@ -23,13 +23,13 @@ import router from '@/router';
       UserForm
     },
     async beforeRouteEnter(to, _, next) {
-      await store.dispatch('network/toggleLoad');
+      await store.commit('network/SET_LOADING', true);
       const userRoles = await axios.get<ApiResource<UserRoleType[]>>('/api/users/roles');
 
       next(async (vm: NewUser) => {
         vm.userRoles = userRoles.data.data;
 
-        await vm.$store.dispatch('network/toggleLoad');
+        await vm.$store.commit('network/SET_LOADING', false);
       });
     }
   })

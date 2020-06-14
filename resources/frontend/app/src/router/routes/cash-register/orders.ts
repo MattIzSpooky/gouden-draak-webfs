@@ -11,7 +11,7 @@ export const orderRoutes: RouteConfig[] = [
     meta: {
       middleware: [auth, role],
       roles: [
-        UserRole.ADMIN, UserRole.REGISTER, UserRole.WAITRESS
+        UserRole.ADMIN
       ]
     }
   },
