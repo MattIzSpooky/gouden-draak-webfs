@@ -12,6 +12,7 @@ export type RouterContext = {
 export type RouteNext = (to?: RawLocation | false | ((vm: Vue) => Component) | void) => void;
 
 export type RouteMiddleware = {
+  to: Route;
   next: RouteNext;
   router: VueRouter;
 }

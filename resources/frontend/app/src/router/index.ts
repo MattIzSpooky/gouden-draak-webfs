@@ -9,6 +9,8 @@ import {menuItemRoutes} from '@/router/routes/cash-register/menu-items';
 import {websiteRoutes} from '@/router/routes/website';
 import {promotionalDiscountRoutes} from '@/router/routes/cash-register/promotional-discount';
 import {tabletRoutes} from '@/router/routes/tablet';
+import role from '@/router/middleware/role';
+import {UserRole} from '@/types/user';
 
 Vue.use(VueRouter);
 
@@ -35,7 +37,10 @@ const routes: Array<RouteConfig> = [
         name: 'cash-register-system',
         component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/CashRegister.vue'),
         meta: {
-          middleware: [auth]
+          middleware: [auth, role],
+          roles: [
+            UserRole.ADMIN, UserRole.REGISTER
+          ]
         }
       },
       ...menuItemRoutes,
