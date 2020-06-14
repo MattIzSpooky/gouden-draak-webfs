@@ -56,7 +56,7 @@ const tabletModule: Module<TabletState, never> = {
       commit('SET_TABLE', table);
 
       if (table.id === 0) {
-        return;
+        return await router.push({name: 'tables'});
       }
 
       await router.push({

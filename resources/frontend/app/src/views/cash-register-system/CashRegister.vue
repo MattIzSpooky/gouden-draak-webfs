@@ -19,7 +19,7 @@
             <div class="card-header">
               Bestelling
             </div>
-            <ul class="list-group list-group-flush">
+            <ul class="list-group list-group-flush order w-100">
               <li class="list-group-item p-0">
                 <order-table @totalValue="onTotalValueChange" :orderedMenuItems="orderedItems"/>
               </li>
@@ -31,33 +31,33 @@
                   </select>
                 </div>
               </li>
-              <li class="list-group-item p-0">
-                <div class="row p-3">
-                  <div class="col-md-8">
-                    <div class="d-flex h-100 justify-content-center">
-                      <div class="my-auto w-100">
-                        <div class="d-flex justify-content-around">
-                          <h3>
-                            Totaal:
-                          </h3>
-                          <h3>
-                            €{{totalPrice.toFixed(2)}}
-                          </h3>
-                        </div>
+            </ul>
+            <div class="card-footer">
+              <div class="row p-3">
+                <div class="col-md-8">
+                  <div class="d-flex h-100 justify-content-center">
+                    <div class="my-auto w-100">
+                      <div class="d-flex justify-content-around">
+                        <h3>
+                          Totaal:
+                        </h3>
+                        <h3>
+                          €{{totalPrice.toFixed(2)}}
+                        </h3>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4">
-                    <button type="button" class="btn btn-primary m-1" @click="pay">
-                      Afrekenen
-                    </button>
-                    <button type="button" class="btn btn-primary m-1" @click="onClickDelete">
-                      Verwijderen
-                    </button>
-                  </div>
                 </div>
-              </li>
-            </ul>
+                <div class="col-md-4">
+                  <button type="button" class="btn btn-primary m-1" @click="pay">
+                    Afrekenen
+                  </button>
+                  <button type="button" class="btn btn-primary m-1" @click="onClickDelete">
+                    Verwijderen
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <menu-item-search @onSearch="onSearch">
             <button type="button" role="button" class="btn btn-primary ml-4" @click="onSearchReset">Reset</button>
@@ -187,5 +187,10 @@ export default class CashRegister extends Vue {
 <style>
   .fixed {
     position: fixed;
+  }
+
+  .order {
+    max-height: 400px;
+    overflow: scroll;
   }
 </style>
