@@ -48,7 +48,7 @@ const routes: Array<RouteConfig> = [
         name: 'summaries',
         component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/DailySummary.vue'),
         meta: {
-          middleware: [auth],
+          middleware: [auth, role],
           roles: [
             UserRole.ADMIN
           ]
