@@ -21,7 +21,7 @@
             </div>
             <ul class="list-group list-group-flush order w-100">
               <li class="list-group-item p-0">
-                <order-table @totalValue="onTotalValueChange" :orderedMenuItems="orderedItems"/>
+                <order-table :can-comment="true" @totalValue="onTotalValueChange" :orderedMenuItems="orderedItems"/>
               </li>
               <li class="list-group-item p-0">
                 <div class="form-group">
