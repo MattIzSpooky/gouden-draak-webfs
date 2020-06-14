@@ -136,7 +136,8 @@ export default class CashRegister extends Vue {
 
       const items = this.orderedItems.map(o => ({
         id: o.id,
-        amount: o.amount
+        amount: o.amount,
+        comment: o.comment
       }));
 
       const tableId = this.selectedTableId;
@@ -178,7 +179,8 @@ export default class CashRegister extends Vue {
 
       this.orderedItems.push({
         ...menuItem,
-        amount: 1
+        amount: 1,
+        comment: null
       });
     }
 };

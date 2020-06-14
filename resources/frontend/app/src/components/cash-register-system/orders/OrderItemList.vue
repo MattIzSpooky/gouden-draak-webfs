@@ -16,6 +16,9 @@
       <th>
         Prijs
       </th>
+      <th>
+        Opmerking
+      </th>
     </tr>
     <tr v-for="(item, index) in items" :key="index">
       <td v-if="showDate">
@@ -35,6 +38,9 @@
       </td>
       <td>
         € {{(item.dish.price * item.amount).toFixed(2)}}
+      </td>
+      <td>
+        {{item.comment}}
       </td>
     </tr>
   </table>
@@ -60,5 +66,9 @@ export default class OrderItemList extends Vue {
 </script>
 
 <style scoped>
-
+  td {
+    word-wrap: break-word;
+    word-break: break-all;
+    table-layout: fixed;
+  }
 </style>
