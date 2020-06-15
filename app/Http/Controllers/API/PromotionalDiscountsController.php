@@ -30,7 +30,7 @@ class PromotionalDiscountsController extends Controller
      */
     public function view()
     {
-        $discounts = PromotionalDiscounts::active()->get();
+        $discounts = PromotionalDiscounts::activeAndNextWeek()->get();
 
         return PromotionalDiscountsResource::collection($discounts);
     }
