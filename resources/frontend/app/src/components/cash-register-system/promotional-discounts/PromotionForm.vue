@@ -4,72 +4,38 @@
       {{error.message}}
     </div>
     <form action="#" @submit.prevent="onSubmit">
-      <div class="form-group">
-        <label for="title">Titel</label>
-        <input type="text" required v-model="formData.title" class="form-control" id="title"
-               :class="{'is-invalid': error && error.errors.title}">
-        <div v-if="error && error.errors.title">
-          <p v-for="error in error.error.title" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="text">Beschrijving</label>
-        <textarea class="form-control" required v-model="formData.text" id="text" rows="3"
-                  :class="{'is-invalid': error && error.errors.text}"></textarea>
-        <div v-if="error && error.errors.text">
-          <p v-for="error in error.error.text" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="price">Prijs</label>
-        <input type="text" required v-model.number="formData.price" min="0" step="0.1" class="form-control" id="price"
-               :class="{'is-invalid': error && error.errors.price}">
-        <div v-if="error && error.errors.price">
-          <p v-for="error in error.error.price" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="from">Vanaf</label>
-        <b-form-datepicker required id="from" v-model="formData.validFrom" :min="new Date()" :date-format-options="datePickerOptions"
-                                 locale="nl"/>
-        <div v-if="error && error.errors.validFrom">
-          <p v-for="error in error.error.validFrom" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="to">Tot</label>
-        <b-form-datepicker id="to"
-                           required
-                           v-model="formData.validTill"
-                           :date-format-options="datePickerOptions"
-                           :min="formData.validFrom"
-                           locale="nl"/>
-        <div v-if="error && error.errors.validFrom">
-          <p v-for="error in error.error.validFrom" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="dishes">Gerechten</label>
-        <select multiple v-model.number="formData.dishes" class="form-control" id="dishes"
-                :class="{'is-invalid': error && error.errors.dishes}">
-          <option v-for="dish in dishes" :key="dish.id" :value="dish.id" :selected="isSelected(dish.id)">{{dish.name}}</option>
-        </select>
-        <div v-if="error && error.errors.dishes">
-          <p v-for="error in error.error.dishes" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
+      <form-input name="Titel" id="title" v-model="formData.title" :error="error"/>
+      <form-textarea name="Beschrijving" id="text" v-model="formData.text" :error="error"/>
+      <form-input name="Prijs" type="number" id="price" min="0" step="0.01" v-model.number="formData.price" :error="error"/>
+      <base-form-input id="from" name="Vanaf" :error="error">
+        <template v-slot:input>
+          <b-form-datepicker required id="from" v-model="formData.validFrom" :min="new Date()"
+                             :date-format-options="datePickerOptions"
+                             locale="nl"/>
+        </template>
+      </base-form-input>
+      <base-form-input id="to" name="Tot" :error="error">
+        <template v-slot:input>
+          <b-form-datepicker id="to"
+                             required
+                             v-model="formData.validTill"
+                             :date-format-options="datePickerOptions"
+                             :min="formData.validFrom"
+                             locale="nl"/>
+        </template>
+      </base-form-input>
+            <div class="form-group">
+              <label for="dishes">Gerechten</label>
+              <select multiple v-model.number="formData.dishes" class="form-control" id="dishes"
+                      :class="{'is-invalid': error && error.errors.dishes}">
+                <option v-for="dish in dishes" :key="dish.id" :value="dish.id" :selected="isSelected(dish.id)">{{dish.name}}</option>
+              </select>
+              <div v-if="error && error.errors.dishes">
+                <p v-for="error in error.error.dishes" :key="error" class="text-danger">
+                  {{error}}
+                </p>
+              </div>
+            </div>
       <button type="submit" :disabled="!checkForm" class="btn btn-primary">Opslaan</button>
       <slot></slot>
     </form>
@@ -82,13 +48,21 @@ import {Dish} from '@/types/dish';
 import {PromotionalDiscountRequest} from '@/types/promotional-discount';
 import {BFormDatepicker} from 'bootstrap-vue';
 import {ApiValidationError} from '@/types/api';
+import FormInput from '@/components/cash-register-system/common/forms/FormInput.vue';
+import FormTextarea from '@/components/cash-register-system/common/forms/FormTextarea.vue';
+import BaseFormInput from '@/components/cash-register-system/common/forms/BaseFormInput.vue';
+import FormSelect from '@/components/cash-register-system/common/forms/FormSelect.vue';
 
-@Component({
-  components: {
-    BFormDatepicker
-  }
-})
-export default class NewDiscount extends Vue {
+  @Component({
+    components: {
+      BaseFormInput,
+      FormTextarea,
+      FormInput,
+      FormSelect,
+      BFormDatepicker
+    }
+  })
+export default class PromotionForm extends Vue {
     @Prop({
       required: true,
       type: Array
@@ -106,13 +80,13 @@ export default class NewDiscount extends Vue {
       type: Object
     }) private readonly formData!: PromotionalDiscountRequest;
 
-  @Prop({
-    required: true
-  }) public readonly error!: ApiValidationError<PromotionalDiscountRequest>;
+    @Prop({
+      required: true
+    }) public readonly error!: ApiValidationError<PromotionalDiscountRequest>;
 
-  isSelected(dishId: number) {
-    return this.formData.dishes.some(e => e === dishId);
-  }
+    isSelected(dishId: number) {
+      return this.formData.dishes.some(e => e === dishId);
+    }
 
     public readonly datePickerOptions = {year: 'numeric', month: 'numeric', day: 'numeric'}
 
@@ -136,7 +110,3 @@ export default class NewDiscount extends Vue {
     }
 };
 </script>
-
-<style scoped>
-
-</style>

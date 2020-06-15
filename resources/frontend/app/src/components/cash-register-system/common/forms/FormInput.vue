@@ -2,7 +2,7 @@
   <base-form-input :error="error" :id="id" :name="name">
     <template v-slot:input>
       <input :type="type" required v-model="internalValue" :min="min" :step="step" class="form-control" :id="id"
-             :class="{'is-invalid': error && error.errors[id]}">
+             :class="{'is-invalid': error && error.errors[id]} || IsInvalid">
     </template>
     <template v-slot:action>
       <slot name="action"/>
@@ -22,6 +22,11 @@ import {FormInputMixin} from '@/mixins/FormInput';
     }
   })
 export default class FormInput extends mixins(FormInputMixin) {
+    @Prop({
+      required: false,
+      default: true
+    }) public IsInvalid!: boolean;
+
     @Prop({
       required: false,
       default: 'text',
