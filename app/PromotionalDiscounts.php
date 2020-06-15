@@ -31,6 +31,8 @@ class PromotionalDiscounts extends Model
     public function scopeActiveAndNextWeek($query)
     {
         return $query
-            ->whereBetween('valid_from', [now()->subDay(), now()->addDays(8)]);
+            ->whereDate('valid_till', '>=', now())
+            ->whereDate('valid_from', '<=', now())
+            ->orWhereBetween('valid_from', [now()->subDay(), now()->addDays(8)]);
     }
 }

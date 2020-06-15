@@ -33,12 +33,12 @@ Route::namespace('API')->group(function () {
 
         Route::apiResource('promotions/discounts', 'PromotionalDiscountsController')->middleware('role:admin,waitress');
 
-        Route::apiResource('news', 'NewsController')->except('index')->middleware('role:admin');
-
-        Route::get('users/roles', 'RoleController')->name('users.roles')->middleware('role:admin');
-        Route::apiResource('users', 'UserController')->middleware('role:admin');
-
         Route::middleware('role:admin')->group(function () {
+            Route::apiResource('news', 'NewsController')->except('index');
+
+            Route::get('users/roles', 'RoleController')->name('users.roles');
+            Route::apiResource('users', 'UserController');
+
             Route::get('summary', 'DailySummaryController@index')->name('summary.index');
             Route::get('summary/{summary}', 'DailySummaryController@download')->name('summary.download');
             Route::post('menu/restore/{id}', 'MenuItemController@restore')->name('menu.restore');
