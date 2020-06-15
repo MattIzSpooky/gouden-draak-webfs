@@ -6,20 +6,20 @@
        Nieuws items
      </div>
      <div class="card-body">
-       <news-table v-if="paginatedNewsItems" :news-items="paginatedNewsItems.data" @newsItemClick="newsItemClick"/>
+       <news-table v-if="paginatedData" :news-items="paginatedData.data" @newsItemClick="newsItemClick"/>
      </div>
-     <div class="card-footer" v-if="paginatedNewsItems">
-       <button v-if="paginatedNewsItems.links.prev" type="button" class="btn btn-primary" @click="previousPage">
+     <div class="card-footer" v-if="paginatedData">
+       <button v-if="paginatedData.links.prev" type="button" class="btn btn-primary" @click="previousPage">
          vorige
        </button>
-       <button v-if="paginatedNewsItems.links.next" type="button" class="btn btn-primary" @click="nextPage">
+       <button v-if="paginatedData.links.next" type="button" class="btn btn-primary" @click="nextPage">
          volgende
        </button>
        <small>
-         Huidige pagina: {{paginatedNewsItems.meta.current_page}}
+         Huidige pagina: {{paginatedData.meta.current_page}}
        </small>
        <small>
-         Laatste pagina: {{paginatedNewsItems.meta.last_page}}
+         Laatste pagina: {{paginatedData.meta.last_page}}
        </small>
      </div>
    </div>
@@ -27,13 +27,15 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 import Loader from '@/components/cash-register-system/common/Loader.vue';
 import store from '@/store';
 import axios from 'axios';
 import {Paginated} from '@/types/paginated';
 import NewsTable from '@/components/cash-register-system/news/NewsTable.vue';
 import {News as NewsType} from '@/types/news';
+import {mixins} from 'vue-class-component';
+import {PaginationMixin} from '@/mixins/Pagination';
 
 @Component({
   components: {
@@ -46,14 +48,12 @@ import {News as NewsType} from '@/types/news';
     const paginatedNews = response.data;
 
     next(async(vm: News) => {
-      vm.paginatedNewsItems = paginatedNews;
+      vm.paginatedData = paginatedNews;
       await vm.$store.commit('network/SET_LOADING', false);
     });
   }
 })
-export default class News extends Vue {
-  public paginatedNewsItems: Paginated<NewsType> | null = null;
-
+export default class News extends mixins<PaginationMixin<NewsType>>(PaginationMixin) {
   async newsItemClick(newsItem: NewsType) {
     await this.$router.push({
       name: 'edit-news',
@@ -61,32 +61,6 @@ export default class News extends Vue {
         id: newsItem.id.toString()
       }
     });
-  }
-
-  async nextPage() {
-    await this.$store.commit('network/SET_LOADING', true);
-    if (!this.paginatedNewsItems || !this.paginatedNewsItems.links.next) {
-      return;
-    }
-
-    const response = await axios.get<Paginated<NewsType>>(this.paginatedNewsItems.links.next);
-    this.paginatedNewsItems = response.data;
-
-    await this.$router.push({name: 'news-kassa', query: {page: this.paginatedNewsItems.meta.current_page.toString()}});
-    await this.$store.commit('network/SET_LOADING', false);
-  }
-
-  async previousPage() {
-    await this.$store.commit('network/SET_LOADING', true);
-    if (!this.paginatedNewsItems || !this.paginatedNewsItems.links.prev) {
-      return;
-    }
-
-    const response = await axios.get<Paginated<NewsType>>(this.paginatedNewsItems.links.prev);
-    this.paginatedNewsItems = response.data;
-
-    await this.$router.push({name: 'news-kassa', query: {page: this.paginatedNewsItems.meta.current_page.toString()}});
-    await this.$store.commit('network/SET_LOADING', false);
   }
 };
 </script>
