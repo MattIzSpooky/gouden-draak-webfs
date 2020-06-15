@@ -37,7 +37,7 @@ class UniqueMenuItem implements Rule
             ['id', '<>', $this->ignoreId]
         ])->first();
 
-        return empty($menuItem) ? true : false;
+        return empty($menuItem);
     }
 
     /**
