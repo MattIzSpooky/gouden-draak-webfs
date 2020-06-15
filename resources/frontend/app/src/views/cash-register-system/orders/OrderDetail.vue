@@ -69,7 +69,8 @@ export default class OrderDetail extends Vue {
       }
 
       const response = await axios.put<ApiResource<Order>>(`/api/orders/${this.$route.params.id}`, {
-        paidAt: new Date().toISOString()
+        paidAt: new Date().toISOString(),
+        tableId: this.order.table.id
       });
 
       this.order.paidAt = response.data.data.paidAt;
