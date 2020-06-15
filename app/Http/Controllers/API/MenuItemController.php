@@ -167,7 +167,7 @@ class MenuItemController extends Controller
     {
         $data = [
             'menuItems' => MenuItem::with('dish.type')->get(),
-            'discounts' => PromotionalDiscountsResource::collection(PromotionalDiscounts::active()->get())
+            'discounts' => PromotionalDiscountsResource::collection(PromotionalDiscounts::activeAndNextWeek()->get())
         ];
 
         $pdf = PDF::loadView('menu', $data);
