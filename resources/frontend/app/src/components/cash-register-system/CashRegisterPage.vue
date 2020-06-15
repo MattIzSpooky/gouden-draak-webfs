@@ -1,24 +1,21 @@
 <template>
   <main>
-    <section>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand">
-          <img class="logo" src="../../assets/images/goodpay.png" alt="logo">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <b-navbar toggleable="lg" type="light" variant="light">
+      <b-navbar-brand>
+        <img class="logo" src="../../assets/images/goodpay.png" alt="logo">
+      </b-navbar-brand>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <CashRegisterLinks>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav class="ml-auto mr-auto">
+          <cash-register-links>
             <li class="nav-item">
               <button type="button" class="btn btn-link nav-link" @click="clickSignOut">Log uit</button>
             </li>
-          </CashRegisterLinks>
-        </div>
-      </nav>
-    </section>
+          </cash-register-links>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
     <section class="container-fluid">
       <slot></slot>
     </section>
@@ -29,9 +26,27 @@
 import {Component, Vue} from 'vue-property-decorator';
 import {mapActions} from 'vuex';
 import CashRegisterLinks from '@/components/cash-register-system/CashRegisterLinks.vue';
+import {
+  BCollapse,
+  BDropdownItem,
+  BNavbar,
+  BNavbarBrand,
+  BNavbarNav,
+  BNavbarToggle,
+  BNavItemDropdown
+} from 'bootstrap-vue';
 
   @Component({
-    components: {CashRegisterLinks},
+    components: {
+      CashRegisterLinks,
+      BNavItemDropdown,
+      BDropdownItem,
+      BNavbar,
+      BNavbarBrand,
+      BNavbarToggle,
+      BCollapse,
+      BNavbarNav
+    },
     methods: {
       ...mapActions({
         signOut: 'auth/signOut'

@@ -8,12 +8,10 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav class="ml-auto mr-auto">
-            <tablet-links>
               <b-nav-item-dropdown :text="getTable().name" v-if="getTable().id !== 0" right>
                 <b-dropdown-item @click="routeBackToTable">Terug naar tafel</b-dropdown-item>
                 <b-dropdown-item @click="resetTable()">Andere tafel kiezen</b-dropdown-item>
               </b-nav-item-dropdown>
-            </tablet-links>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -25,7 +23,6 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
-import TabletLinks from '@/components/tablet/TabletLinks.vue';
 import {mapActions, mapGetters} from 'vuex';
 import {
   BCollapse,
@@ -40,7 +37,6 @@ import {Table} from '@/types/table';
 
   @Component({
     components: {
-      TabletLinks,
       BNavItemDropdown,
       BDropdownItem,
       BNavbar,
