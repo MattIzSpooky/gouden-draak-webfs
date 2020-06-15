@@ -1,12 +1,13 @@
 import Component from 'vue-class-component';
 import Vue from 'vue';
 import {Emit, Prop, Watch} from 'vue-property-decorator';
+import {ApiValidationError} from '@/types/api';
 
 @Component
 export class FormInputMixin extends Vue {
   @Prop({
-    required: true
-  }) public value!: string;
+    required: false
+  }) public value!: unknown;
 
   @Prop({
     required: true,
@@ -18,6 +19,10 @@ export class FormInputMixin extends Vue {
     type: String
   }) public id!: string;
 
+  @Prop({
+    required: true
+  }) public error!: ApiValidationError<never>;
+
   @Watch('internalValue')
   @Emit('input')
   internalValueChanged() {
@@ -26,12 +31,14 @@ export class FormInputMixin extends Vue {
 
   @Watch('value', {immediate: true})
   externalValueChanged() {
-    this.internalValue = this.value;
+    // eslint-disable-next-line
+    this.internalValue = this.value as any;
   }
 
-  private internalValue = '';
+  private internalValue = null;
 
   created() {
-    this.internalValue = this.value;
+    // eslint-disable-next-line
+    this.internalValue = this.value as any;
   }
 }
