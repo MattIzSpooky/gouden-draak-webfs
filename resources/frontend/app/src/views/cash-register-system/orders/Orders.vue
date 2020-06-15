@@ -71,7 +71,7 @@ export default class Orders extends Vue {
       const response = await axios.get<Paginated<Order>>(this.paginatedOrders.links.next);
       this.paginatedOrders = response.data;
 
-      await this.$router.push({name: 'news-kassa', query: {page: this.paginatedOrders.meta.current_page.toString()}});
+      await this.$router.push({name: 'orders', query: {page: this.paginatedOrders.meta.current_page.toString()}});
       await this.$store.commit('network/SET_LOADING', false);
     }
 
@@ -84,7 +84,7 @@ export default class Orders extends Vue {
       const response = await axios.get<Paginated<Order>>(this.paginatedOrders.links.prev);
       this.paginatedOrders = response.data;
 
-      await this.$router.push({name: 'news-kassa', query: {page: this.paginatedOrders.meta.current_page.toString()}});
+      await this.$router.push({name: 'orders', query: {page: this.paginatedOrders.meta.current_page.toString()}});
       await this.$store.commit('network/SET_LOADING', false);
     }
 };
