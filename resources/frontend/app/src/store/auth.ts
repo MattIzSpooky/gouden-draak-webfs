@@ -1,7 +1,8 @@
 import axios from 'axios';
 import {Module} from 'vuex';
-import {LoginCredentials, User} from '@/types/user';
+import {LoginCredentials} from '@/types/user';
 import {ApiResource} from '@/types/api';
+import {User} from '@/types/user-extra';
 
 export interface GlobalAuthState {
   authenticated: boolean;
