@@ -40,7 +40,7 @@ class OrderController extends Controller
         /** @var Order */
         $orders = Order::query()
             ->where('paid_at', '<>', null)
-            ->whereBetween('paid_at', [$from, $to])
+            ->whereBetween('created_at', [$from, $to])
             ->get();
 
         return OrderResource::collection($orders);

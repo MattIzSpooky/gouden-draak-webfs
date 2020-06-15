@@ -12,6 +12,6 @@ class DailySummarySeeder extends Seeder
      */
     public function run()
     {
-        factory(DailySummary::class, 5)->create();
+        factory(DailySummary::class)->create();
     }
 }

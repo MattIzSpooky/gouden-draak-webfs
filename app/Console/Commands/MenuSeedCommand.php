@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Dish;
-use Exception;
 use App\DishType;
 use App\MenuItem;
 use ErrorException;

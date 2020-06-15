@@ -6,9 +6,8 @@ use App\DailySummary;
 use Faker\Generator as Faker;
 
 $factory->define(DailySummary::class, function (Faker $faker) {
-    $date = $faker->unique()->date();
     return [
-        'file' => 'summary-' . $date . '.xlsx',
-        'date' => $date
+        'file' => 'summary-2020-06-15.xlsx',
+        'date' => '2020-06-15'
     ];
 });

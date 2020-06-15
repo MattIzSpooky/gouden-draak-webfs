@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\DailySummary;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DailySummaryResource extends JsonResource
