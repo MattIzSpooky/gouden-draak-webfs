@@ -35,7 +35,7 @@ class MenuItemUpdateRequest extends FormRequest
             ],
             'addition' => [
                 'nullable',
-                'regex:/^[A-Z]{1,3}$/',
+                'regex:/^[A-Z0-9]{1,3}$/',
                 'exists:menu_additions,character'
             ]
         ];
