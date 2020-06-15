@@ -12,29 +12,11 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from 'vue-property-decorator';
-import {ApiValidationError} from '@/types/api';
-import BaseFormInput from '@/components/cash-register-system/common/forms/BaseFormInput.vue';
-  @Component({
-    components: {BaseFormInput}
-  })
-export default class FormSelect extends Vue {
-    @Prop({
-      type: Object
-    }) public readonly error!: ApiValidationError<unknown>;
+import {Component} from 'vue-property-decorator';
+import {mixins} from 'vue-class-component';
+import {FormInputMixin} from '@/mixins/FormInput';
 
-    @Prop({
-      required: true,
-      type: String
-    }) public name!: string;
-
-    @Prop({
-      required: true,
-      type: String
-    }) public id!: string;
+  @Component
+export default class BaseFormInput extends mixins(FormInputMixin) {
 }
 </script>
-
-<style scoped>
-
-</style>
