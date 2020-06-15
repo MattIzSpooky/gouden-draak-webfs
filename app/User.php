@@ -3,11 +3,8 @@
 namespace App;
 
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {

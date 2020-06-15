@@ -2,15 +2,15 @@
   <loader>
     <div class="card">
       <div class="card-header">
-        Order: {{order.id}}
+        Order: {{order.id}}, {{order.table.name}}
       </div>
       <div class="card-body">
         <h5 class="card-title"> Order aangemaakt op {{transformToDutchDate(order.createdAt)}}</h5>
         <p class="card-text">
-          € {{totalPrice}}
+          € {{totalPrice.toFixed(2)}}
         </p>
         <p class="card-text">
-          <order-item-list :items="order.items"/>
+          <order-item-list :show-comment="true" :items="order.items"/>
         </p>
         <div>
           Order betaald? {{order.paidAt ? 'Ja' : 'Nee'}}
@@ -53,6 +53,7 @@ export default class OrderDetail extends Vue {
     public order: Order = {
       id: 1,
       items: [],
+      table: { name: '', id: 0 },
       paidAt: null,
       createdAt: ''
     };
@@ -68,7 +69,8 @@ export default class OrderDetail extends Vue {
       }
 
       const response = await axios.put<ApiResource<Order>>(`/api/orders/${this.$route.params.id}`, {
-        paidAt: new Date().toISOString()
+        paidAt: new Date().toISOString(),
+        tableId: this.order.table.id
       });
 
       this.order.paidAt = response.data.data.paidAt;

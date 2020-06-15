@@ -1,7 +1,8 @@
 <?php
 
-use App\MenuItem;
 use App\Order;
+use App\Table;
+use App\MenuItem;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -14,14 +15,14 @@ class OrderSeeder extends Seeder
      */
     public function run()
     {
-        factory(Order::class, 10)->create(['created_at' => Carbon::now()->addYears(-1)])->each(function (Order $order) {
+        $order = factory(Order::class, 10)->create(['created_at' => Carbon::now()->addYears(-1), 'table_id' => 1])->each(function (Order $order) {
             for ($i = 0; $i < 3; $i++) {
                 $item = MenuItem::all()->random(1)->first();
                 $order->items()->attach($item->id, ['amount' => rand(1, 5)]);
             }
         });
 
-        factory(Order::class, 10)->create()->each(function (Order $order) {
+        factory(Order::class, 10)->create(['table_id' => 1])->each(function (Order $order) {
             for ($i = 0; $i < 3; $i++) {
                 $item = MenuItem::all()->random(1)->first();
                 $order->items()->attach($item->id, ['amount' => rand(1, 5)]);

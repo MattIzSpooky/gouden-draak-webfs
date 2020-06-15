@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
         $this->call(DishTypeSeeder::class);
         $this->call(MenuAdditionSeeder::class);
         Artisan::call('menu:seed');
+        $this->call(TableSeeder::class);
         $this->call(OrderSeeder::class);
         $this->call(PromotionalDiscountsSeeder::class);
+        $this->call(DailySummarySeeder::class);
     }
 }

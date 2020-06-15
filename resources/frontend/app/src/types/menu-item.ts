@@ -24,6 +24,7 @@ export type MenuItemRequest = {
 
 export type OrderedMenuItem = MenuItem & {
   amount: number;
+  comment: string | null;
 }
 
 export type OrderedMenuItemWithDate = OrderedMenuItem & {

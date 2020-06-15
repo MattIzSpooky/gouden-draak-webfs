@@ -6,13 +6,16 @@
     <table class="table">
       <tr v-for="item in menuItems" :key="item.id" :class="{'table-danger': item.deletedAt}">
         <td>
-          {{item.menuNumber}}{{item.addition}}.
+          {{item.menuNumber}}{{item.addition}}<template v-if="item.menuNumber">.</template>
         </td>
         <td>
           {{item.dish.name}}
+          <p v-if="item.dish.description">
+            ({{item.dish.description}})
+          </p>
         </td>
         <td>
-          € {{item.dish.price}}
+          € {{item.dish.price.toFixed(2)}}
         </td>
         <td>
           <button v-if="!item.deletedAt && hasItemClickListener" type="button" class="btn btn-primary" @click="onMenuItemClick(item)">
@@ -60,5 +63,10 @@ export default class MenuItemTable extends Vue {
 <style scoped lang="scss">
   td {
     text-align: center;
+    width: 30%;
+
+    &:last-of-type {
+      max-width: 10%;
+    }
   }
 </style>

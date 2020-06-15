@@ -47,7 +47,7 @@ class StoreTest extends TestCase
                 'text',
                 'validFrom',
                 'validTill',
-                'dish' => [
+                'dishes' => [
                     [
                         'id',
                         'name',

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
@@ -19,7 +20,7 @@ class Order extends Model
     public function items(): BelongsToMany
     {
         return $this->belongsToMany(MenuItem::class, 'order_items', null, 'item_id')
-            ->withPivot('amount');
+            ->withPivot('amount', 'comment');
     }
 
     /**
@@ -28,5 +29,13 @@ class Order extends Model
     public function isPaid(): bool
     {
         return $this->attributes['is_paid'] !== null;
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function table(): BelongsTo
+    {
+        return $this->belongsTo(Table::class, 'table_id');
     }
 }

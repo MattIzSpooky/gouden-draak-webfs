@@ -1,5 +1,5 @@
 <template>
-    <none>
+    <table>
       <tr style="padding-top:50px">
         <td style="width: 50px"/>
         <td align="center" style='border:1px solid black;background:floralwhite'><br>
@@ -17,7 +17,7 @@
           <img src="../../assets/images/2020-03-24_1406.png" width="100%">
         </td>
       </tr>
-    </none>
+    </table>
 </template>
 
 <script lang="ts">
@@ -26,3 +26,11 @@ export default {
   name: 'Contact'
 };
 </script>
+
+<style scoped>
+  table {
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 1200px;
+  }
+</style>

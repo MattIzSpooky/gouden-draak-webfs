@@ -7,22 +7,32 @@
             Menu
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item p-0" v-for="itemObject in menuItems" :key="itemObject.type">
+            <li class="list-group-item p-0" v-for="(itemObject, index) in menuItems" :key="index">
               <menu-item-table :name="itemObject.type" :menuItems="itemObject.items" @menuItemClick="onMenuItemClick"/>
             </li>
           </ul>
         </div>
       </div>
       <div class="col-md-5">
-        <div class="card m-3">
-          <div class="card-header">
-            Bestelling
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item p-0">
-              <order-table @totalValue="onTotalValueChange" :orderedMenuItems="orderedItems"/>
-            </li>
-            <li class="list-group-item p-0">
+        <div class="fixed">
+          <div class="card m-3">
+            <div class="card-header">
+              Bestelling
+            </div>
+            <ul class="list-group list-group-flush order w-100">
+              <li class="list-group-item p-0">
+                <order-table :can-comment="true" @totalValue="onTotalValueChange" :orderedMenuItems="orderedItems"/>
+              </li>
+              <li class="list-group-item p-0">
+                <div class="form-group">
+                  <label for="table">Tafel</label>
+                  <select v-model="selectedTableId" class="form-control" id="table">
+                    <option v-for="table in tables" :key="table.id" :value="table.id">{{table.name}}</option>
+                  </select>
+                </div>
+              </li>
+            </ul>
+            <div class="card-footer">
               <div class="row p-3">
                 <div class="col-md-8">
                   <div class="d-flex h-100 justify-content-center">
@@ -32,7 +42,7 @@
                           Totaal:
                         </h3>
                         <h3>
-                          € {{totalPrice}}
+                          €{{totalPrice.toFixed(2)}}
                         </h3>
                       </div>
                     </div>
@@ -47,14 +57,14 @@
                   </button>
                 </div>
               </div>
-            </li>
-          </ul>
+            </div>
+          </div>
+          <menu-item-search @onSearch="onSearch">
+            <button type="button" role="button" class="btn btn-primary ml-4" @click="onSearchReset">Reset</button>
+          </menu-item-search>
         </div>
       </div>
     </div>
-    <b-modal ref="dialog">
-      {{modalContent}}
-    </b-modal>
   </loader>
 </template>
 
@@ -71,9 +81,12 @@ import {ApiResource} from '@/types/api';
 import OrderTable from '@/components/cash-register-system/orders/InteractiveOrderTable.vue';
 import MenuItemTable from '@/components/cash-register-system/menu-items/MenuItemTable.vue';
 import Loader from '@/components/cash-register-system/common/Loader.vue';
+import MenuItemSearch from '@/components/cash-register-system/menu-items/MenuItemSearch.vue';
+import {Table} from '@/types/table';
 
   @Component({
     components: {
+      MenuItemSearch,
       OrderTable,
       CashRegisterPage,
       MenuItemTable,
@@ -82,10 +95,18 @@ import Loader from '@/components/cash-register-system/common/Loader.vue';
     },
     async beforeRouteEnter(to, _, next) {
       await store.commit('network/SET_LOADING', true);
-      const response = await axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu');
+      const response = await Promise.all([
+        axios.get<ApiResource<MenuItemsGroupedWithType[]>>('/api/menu'),
+        axios.get<ApiResource<Table[]>>('/api/table')
+      ]);
+
+      const menuItems = response[0];
+      const tables = response[1];
 
       next(async (vm: CashRegister) => {
-        vm.menuItems = response.data.data;
+        vm.menuItems = menuItems.data.data;
+        vm.originalResults = vm.menuItems;
+        vm.tables = tables.data.data;
 
         await vm.$store.commit('network/SET_LOADING', false);
       });
@@ -94,38 +115,57 @@ import Loader from '@/components/cash-register-system/common/Loader.vue';
 export default class CashRegister extends Vue {
     private menuItems: MenuItemsGroupedWithType[] = [];
     private orderedItems: OrderedMenuItem[] = [];
+    private tables: Table[] = [];
     private totalPrice = 0;
-    private modalContent = '';
+    private selectedTableId = 0;
 
-    $refs!: {
-      dialog: BModal;
-    }
+    private originalResults: MenuItemsGroupedWithType[] = [];
 
     onTotalValueChange(value: number) {
       this.totalPrice = (Math.round(value * 100) / 100);
     }
 
     async pay() {
+      if (this.selectedTableId === 0) {
+        return await this.$bvModal.msgBoxOk('U moet een tafel selecteren.');
+      }
+
+      if (this.orderedItems.length === 0) {
+        return await this.$bvModal.msgBoxOk('U moet producten selecteren');
+      }
+
       const items = this.orderedItems.map(o => ({
         id: o.id,
-        amount: o.amount
+        amount: o.amount,
+        comment: o.comment
       }));
+
+      const tableId = this.selectedTableId;
 
       try {
         await axios.post<NewOrderRequest>('/api/orders', {
-          items
+          items,
+          tableId
         });
-        this.modalContent = 'Verkoop succesvol!';
+        await this.$bvModal.msgBoxOk('Verkoop succesvol!');
         this.onClickDelete();
       } catch {
-        this.modalContent = 'Er is iets misgegaan!';
+        await this.$bvModal.msgBoxOk('Er is iets misgegaan!');
       }
+    }
 
-      this.$refs.dialog.show();
+    onSearchReset() {
+      this.menuItems = [];
+      this.menuItems.push(...this.originalResults);
     }
 
     onClickDelete() {
       this.orderedItems.splice(0, this.orderedItems.length);
+    }
+
+    onSearch(menuItems: MenuItemsGroupedWithType[]) {
+      this.menuItems = [];
+      this.menuItems.push(...menuItems);
     }
 
     onMenuItemClick(menuItem: MenuItem) {
@@ -139,8 +179,20 @@ export default class CashRegister extends Vue {
 
       this.orderedItems.push({
         ...menuItem,
-        amount: 1
+        amount: 1,
+        comment: null
       });
     }
 };
 </script>
+
+<style>
+  .fixed {
+    position: fixed;
+  }
+
+  .order {
+    max-height: 400px;
+    overflow: scroll;
+  }
+</style>

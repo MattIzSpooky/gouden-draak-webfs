@@ -1,9 +1,13 @@
 <template>
   <div>
-    <div v-if="isLoading" class="full-height container h-100 d-flex justify-content-center">
-      <div class="my-auto loader"/>
+    <div v-show="isLoading">
+      <div class="full-height container h-100 d-flex justify-content-center">
+        <div class="my-auto loader"/>
+      </div>
     </div>
-    <slot v-else/>
+    <div v-if="!isLoading">
+      <slot/>
+    </div>
   </div>
 </template>
 

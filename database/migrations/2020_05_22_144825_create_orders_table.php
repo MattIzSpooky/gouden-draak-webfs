@@ -16,6 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->timestamp('paid_at')->nullable();
+            $table->foreignId('table_id')->constrained('tables', 'id');
             $table->timestamps();
         });
     }

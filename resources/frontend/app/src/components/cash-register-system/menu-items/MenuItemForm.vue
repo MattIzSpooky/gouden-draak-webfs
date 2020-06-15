@@ -4,72 +4,25 @@
       {{error.message}}
     </div>
     <form action="#" @submit.prevent="emitForm">
-      <div class="form-group">
-        <label for="dishName">Gerecht naam</label>
-        <input type="text" required v-model="formData.name" class="form-control" id="dishName"
-               :class="{'is-invalid': error && error.errors.name}">
-        <div v-if="error && error.errors.name">
-          <p v-for="error in error.error.name" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="dishPrice">Prijs gerecht</label>
-        <input type="number" required v-model.number="formData.price" min="0" step='0.01' class="form-control"
-               :class="{'is-invalid': error && error.errors.price}" id="dishPrice">
-        <div v-if="error && error.errors.price">
-          <p v-for="error in error.error.price" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="dishDescription">Beschrijving</label>
-        <textarea class="form-control" required v-model="formData.description" id="dishDescription" rows="3"
-                  :class="{'is-invalid': error && error.errors.description}"></textarea>
-        <div v-if="error && error.errors.description">
-          <p v-for="error in error.error.description" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="dishType">Gerecht soort</label>
-        <select class="form-control" required id="dishType" v-model.number="formData.dishTypeId"
-                :class="{'is-invalid': error && error.errors.dishTypeId}">
-          <option v-for="dishtype in dishTypes" :key="dishtype.id" :value="dishtype.id">{{dishtype.type}}</option>
-        </select>
-        <div v-if="error && error.errors.dishTypeId">
-          <p v-for="error in error.error.dishTypeId" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="menuNumber">Menu number</label>
-        <input v-model.number="formData.menuNumber" type="number" min="0" class="form-control" id="menuNumber"
-               :class="{'is-invalid': error && error.errors.menuNumber}">
-        <div v-if="error && error.errors.menuNumber">
-          <p v-for="error in error.errors.menuNumber" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
+      <form-input name="Gerecht naam" id="dishName" v-model="formData.name" :error="error"/>
+      <form-input name="Prijs gerecht" type="number" id="dishPrice" min="0" step="0.01" v-model.number="formData.price" :error="error"/>
+      <form-textarea name="Beschrijving" id="dishDescription" v-model="formData.description"/>
+      <form-select name="Gerecht soort" id="dishType" v-model.number="formData.dishTypeId" :dropdown-values="dishTypes">
+        <template v-slot:default>
+          <option v-for="type in dishTypes" :key="type.id" :value="type.id">{{type.type}}</option>
+        </template>
+      </form-select>
+      <form-input name="Menu number" type="number" id="menuNumber" min="0" v-model.number="formData.menuNumber" :error="error">
         <button type="button" class="btn btn-primary btn-sm mt-1" @click="clearMenuNumber">Leeg maken</button>
-      </div>
-      <div class="form-group">
-        <label for="menuNumberAddition">Menu toevoeging</label>
-        <select v-model="formData.addition" class="form-control" id="menuNumberAddition"
-                :class="{'is-invalid': error && error.errors.addition}">
+      </form-input>
+      <form-select name="Menu toevoeging" id="menuNumberAddition" v-model.number="formData.addition" :dropdown-values="menuNumberAdditions">
+        <template v-slot:default>
           <option v-for="addition in menuNumberAdditions" :key="addition" :value="addition">{{addition}}</option>
-        </select>
-        <div v-if="error && error.errors.addition">
-          <p v-for="error in error.error.addition" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-        <button type="button" class="btn btn-primary btn-sm mt-1" @click="clearMenuNumberAdditions">Leeg maken</button>
-      </div>
+        </template>
+        <template v-slot:action>
+          <button type="button" class="btn btn-primary btn-sm mt-1" @click="clearMenuNumberAdditions">Leeg maken</button>
+        </template>
+      </form-select>
       <button type="submit" class="btn btn-primary">Opslaan</button>
       <slot></slot>
     </form>
@@ -81,8 +34,12 @@ import {Component, Emit, Prop, Vue} from 'vue-property-decorator';
 import {DishType} from '@/types/dish';
 import {MenuItemRequest} from '@/types/menu-item';
 import {ApiValidationError} from '@/types/api';
-
-  @Component
+import FormInput from '@/components/cash-register-system/common/forms/FormInput.vue';
+import FormTextarea from '@/components/cash-register-system/common/forms/FormTextarea.vue';
+import FormSelect from '@/components/cash-register-system/common/forms/FormSelect.vue';
+@Component({
+  components: {FormSelect, FormTextarea, FormInput}
+})
 export default class DishForm extends Vue {
     @Prop({
       required: true,

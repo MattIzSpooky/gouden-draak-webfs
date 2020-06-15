@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\API;
 
+use App\Rules\UniqueMenuItem;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MenuItemUpdateRequest extends FormRequest
@@ -31,10 +32,11 @@ class MenuItemUpdateRequest extends FormRequest
             'menuNumber' => [
                 'required',
                 'numeric',
+                new UniqueMenuItem($this->input('addition'), $this->menu->id),
             ],
             'addition' => [
                 'nullable',
-                'regex:/^[A-Z]{1}$/',
+                'regex:/^[A-Z0-9]{1,3}$/',
                 'exists:menu_additions,character'
             ]
         ];

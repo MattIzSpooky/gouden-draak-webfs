@@ -14,9 +14,7 @@ axios.interceptors.response.use((response) => response, async (error) => {
 });
 
 axios.interceptors.request.use((config) => {
-  // FIXME: fix typing
-  // eslint-disable-next-line
-  config.headers.Authorization = `Bearer ${(store.state as any).auth.bearerToken}`;
+  config.headers.Authorization = `Bearer ${store.state.auth.bearerToken}`;
 
   return config;
 });

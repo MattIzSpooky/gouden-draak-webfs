@@ -4,54 +4,19 @@
       {{error.message}}
     </div>
     <form action="#" @submit.prevent="onSubmit">
-      <div class="form-group">
-        <label for="dishName">naam</label>
-        <input type="text" required v-model="formData.name" class="form-control" id="dishName"
-               :class="{'is-invalid': error && error.errors.name}">
-        <div v-if="error && error.errors.name">
-          <p v-for="error in error.error.name" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="badge">Badge nummer</label>
-        <input type="number" required v-model.number="formData.badge" min="10" step='1' class="form-control"
-               :class="{'is-invalid': error && error.errors.badge}" id="badge">
-        <div v-if="error && error.errors.badge">
-          <p v-for="error in error.errors.badge" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="password">Wachtwoord</label>
-        <input type="password" :required="!isEdit" v-model="formData.password" class="form-control"
-               :class="{'is-invalid': error && error.errors.password || !passwordValid}" id="password">
-        <div v-if="error && error.errors.password">
-          <p v-for="error in error.error.password" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="passwordConfirm">Wachtwoord herhalen</label>
-        <input type="password" :required="!isEdit" v-model="passwordConfirm" class="form-control"
-               :class="{'is-invalid': !passwordValid}" id="passwordConfirm">
-        <small v-if="!passwordValid" class="text-danger">Wachtwoorden zijn ongelijk!</small>
-      </div>
-      <div class="form-group">
-        <label for="role">Rol</label>
-        <select v-model.number="formData.userRoleId" class="form-control" id="role"
-                :class="{'is-invalid': error && error.errors.userRoleId}">
+      <form-input name="Naam" id="name" v-model="formData.name" :error="error"/>
+      <form-input name="Badge nummer" type="number" id="badge" min="0" step="1" v-model.number="formData.badge" :error="error"/>
+      <form-input name="Wachtwoord" type="password" id="password" v-model="formData.password" :is-invalid="passwordValid" :error="error"/>
+      <form-input name="Wachtwoord herhalen"  type="password" id="passwordConfirm" v-model="passwordConfirm" :is-invalid="passwordValid" :error="error">
+        <template v-slot:action>
+          <small v-if="!passwordValid" class="text-danger">Wachtwoorden zijn ongelijk!</small>
+        </template>
+      </form-input>
+      <form-select name="Rol" id="role" v-model.number="formData.userRoleId" :error="error">
+        <template v-slot:default>
           <option v-for="role in userRoles" :key="role.id" :value="role.id">{{role.dutchName}}</option>
-        </select>
-        <div v-if="error && error.errors.userRoleId">
-          <p v-for="error in error.error.userRoleId" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
+        </template>
+      </form-select>
       <button type="submit" class="btn btn-primary" :disabled="!canSubmit" >Opslaan</button>
       <slot></slot>
     </form>
@@ -62,8 +27,11 @@
 import {Component, Emit, Prop, Vue} from 'vue-property-decorator';
 import {ApiValidationError} from '@/types/api';
 import {UserRequest, UserRoleType} from '@/types/user';
-
-  @Component
+import FormInput from '@/components/cash-register-system/common/forms/FormInput.vue';
+import FormSelect from '@/components/cash-register-system/common/forms/FormSelect.vue';
+@Component({
+  components: {FormSelect, FormInput}
+})
 export default class UserForm extends Vue {
     @Prop({
       required: true,

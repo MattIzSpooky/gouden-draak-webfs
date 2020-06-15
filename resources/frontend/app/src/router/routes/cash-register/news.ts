@@ -1,5 +1,6 @@
 import {RouteConfig} from 'vue-router';
 import auth from '@/router/middleware/auth';
+import { UserRole } from '@/types/user';
 
 export const newsRoutes: RouteConfig[] = [
   {
@@ -7,7 +8,10 @@ export const newsRoutes: RouteConfig[] = [
     name: 'news-kassa',
     component: () => import(/* webpackChunkName: "cash-register-system" */ '@/views/cash-register-system/news/News.vue'),
     meta: {
-      middleware: [auth]
+      middleware: [auth],
+      roles: [
+        UserRole.ADMIN
+      ]
     }
   },
   {
@@ -15,7 +19,10 @@ export const newsRoutes: RouteConfig[] = [
     name: 'new-news',
     component: () => import(/* webpackChunkName: "cash-register-system" */ '@/views/cash-register-system/news/NewNews.vue'),
     meta: {
-      middleware: [auth]
+      middleware: [auth],
+      roles: [
+        UserRole.ADMIN
+      ]
     }
   },
   {
@@ -23,7 +30,10 @@ export const newsRoutes: RouteConfig[] = [
     name: 'edit-news',
     component: () => import(/* webpackChunkName: "cash-register-system" */ '@/views/cash-register-system/news/UpdateNews.vue'),
     meta: {
-      middleware: [auth]
+      middleware: [auth],
+      roles: [
+        UserRole.ADMIN
+      ]
     },
     props: true
   }

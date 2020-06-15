@@ -7,3 +7,7 @@ export const calculateTotalPriceOfOrderedMenuItems = (accumulator: number, item:
   }
   return accumulator + totalDishValue;
 };
+
+export const calculateOrderItemsOfOrder = (accumulator: number, item: OrderedMenuItem) => {
+  return accumulator + item.amount;
+};

@@ -1,19 +1,32 @@
 <template>
   <table class="table">
-    <tr v-for="item in orderedMenuItems" :key="item.id">
-      <td>
-          {{item.menuNumber}}{{item.addition}}.
-      </td>
-      <td>
-        {{item.dish.name}}
-      </td>
-      <td>
-        € {{item.dish.price}}
-      </td>
-      <td>
-        <input type="number" class="form-control" min="0" v-model.number="item.amount">
-      </td>
-    </tr>
+    <template v-for="item in orderedMenuItems">
+      <tr :key="item.id">
+        <td>
+          {{item.menuNumber}}{{item.addition}}
+          <template v-if="item.menuNumber">.</template>
+        </td>
+        <td>
+          {{item.dish.name}}
+        </td>
+        <td>
+          € {{item.dish.price.toFixed(2)}}
+        </td>
+        <td>
+          <input type="number" class="form-control" min="0" v-model.number="item.amount">
+        </td>
+        <td v-if="canComment">
+          <b-button v-b-toggle="'collapse-' + item.id">Beschrijving</b-button>
+        </td>
+      </tr>
+      <tr :key="item.id + '-collapse'" v-if="canComment">
+        <td colspan="5">
+          <b-collapse :id="'collapse-' + item.id">
+            <textarea rows="3" class="w-100 form-control" v-model="item.comment"></textarea>
+          </b-collapse>
+        </td>
+      </tr>
+    </template>
   </table>
 </template>
 
@@ -21,17 +34,27 @@
 import {Component, Emit, Prop, Vue, Watch} from 'vue-property-decorator';
 import {OrderedMenuItem} from '@/types/menu-item';
 import {calculateTotalPriceOfOrderedMenuItems} from '@/utils/reducers';
+import {BButton, BCollapse} from 'bootstrap-vue';
 
-@Component
+  @Component({
+    components: {
+      BCollapse,
+      BButton
+    }
+  })
 export default class OrderTable extends Vue {
     @Prop(Array) public readonly orderedMenuItems!: OrderedMenuItem[];
+    @Prop({
+      type: Boolean,
+      default: false
+    }) public readonly canComment!: boolean;
 
     @Emit('totalValue')
     emitTotalValue(value: number) {
       return value;
     }
 
-    @Watch('orderedMenuItems', { deep: true })
+    @Watch('orderedMenuItems', {deep: true})
     onOrderedMenuItemsChanged() {
       const toBeRemovedIndex = this.orderedMenuItems.findIndex(i => i.amount <= 0);
 

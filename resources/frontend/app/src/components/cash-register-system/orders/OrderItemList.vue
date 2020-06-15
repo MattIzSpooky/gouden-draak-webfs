@@ -16,6 +16,9 @@
       <th>
         Prijs
       </th>
+      <th v-if="showComment">
+        Opmerking
+      </th>
     </tr>
     <tr v-for="(item, index) in items" :key="index">
       <td v-if="showDate">
@@ -35,6 +38,9 @@
       </td>
       <td>
         € {{(item.dish.price * item.amount).toFixed(2)}}
+      </td>
+      <td v-if="showComment">
+        {{item.comment}}
       </td>
     </tr>
   </table>
@@ -56,9 +62,18 @@ export default class OrderItemList extends Vue {
       required: false,
       type: Boolean
     }) public readonly showDate!: boolean;
+
+    @Prop({
+      required: false,
+      type: Boolean
+    }) public readonly showComment!: boolean;
 };
 </script>
 
 <style scoped>
-
+  td {
+    word-wrap: break-word;
+    word-break: break-all;
+    table-layout: fixed;
+  }
 </style>
