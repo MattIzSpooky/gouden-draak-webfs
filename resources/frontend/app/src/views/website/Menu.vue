@@ -62,16 +62,19 @@ export default class Menu extends Vue {
   }
 
   restoreFavorites() {
-    const result = localStorage.getItem('favorites');
-    if (!result) {
+    const matches = document.cookie.match(/favorites=([^;]+)/);
+
+    if (!matches) {
       return;
     }
 
-    this.favorites = JSON.parse(result);
+    this.favorites = JSON.parse(matches[1]);
   }
 
   saveFavorites() {
-    localStorage.setItem('favorites', JSON.stringify(this.favorites));
+    const date = new Date();
+    date.setDate(date.getDate() + 7);
+    document.cookie = `favorites=${JSON.stringify(this.favorites)}; expires=${date.toUTCString()}`;
   }
 }
 </script>
