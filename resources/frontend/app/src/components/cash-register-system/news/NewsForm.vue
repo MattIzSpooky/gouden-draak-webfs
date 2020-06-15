@@ -5,7 +5,7 @@
     </div>
     <form action="#" @submit.prevent="emitForm">
       <form-input name="Titel" id="title" v-model="formData.title" :error="error"/>
-      <form-textarea name="Beschrijving" id="text" v-model="formData.text"/>
+      <form-textarea name="Beschrijving" id="text" v-model="formData.text" :error="error"/>
       <button type="submit" class="btn btn-primary">Opslaan</button>
       <slot></slot>
     </form>
