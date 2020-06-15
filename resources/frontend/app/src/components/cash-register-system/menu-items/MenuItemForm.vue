@@ -6,8 +6,8 @@
     <form action="#" @submit.prevent="emitForm">
       <form-input name="Gerecht naam" id="dishName" v-model="formData.name" :error="error"/>
       <form-input name="Prijs gerecht" type="number" id="dishPrice" min="0" step="0.01" v-model.number="formData.price" :error="error"/>
-      <form-textarea name="Beschrijving" id="dishDescription" v-model="formData.description"/>
-      <form-select name="Gerecht soort" id="dishType" v-model.number="formData.dishTypeId" :dropdown-values="dishTypes">
+      <form-textarea name="Beschrijving" id="dishDescription" v-model="formData.description" :error="error"/>
+      <form-select name="Gerecht soort" id="dishType" v-model.number="formData.dishTypeId" :dropdown-values="dishTypes" :error="error">
         <template v-slot:default>
           <option v-for="type in dishTypes" :key="type.id" :value="type.id">{{type.type}}</option>
         </template>
@@ -15,7 +15,7 @@
       <form-input name="Menu number" type="number" id="menuNumber" min="0" v-model.number="formData.menuNumber" :error="error">
         <button type="button" class="btn btn-primary btn-sm mt-1" @click="clearMenuNumber">Leeg maken</button>
       </form-input>
-      <form-select name="Menu toevoeging" id="menuNumberAddition" v-model.number="formData.addition" :dropdown-values="menuNumberAdditions">
+      <form-select name="Menu toevoeging" id="menuNumberAddition" v-model.number="formData.addition" :dropdown-values="menuNumberAdditions" :error="error">
         <template v-slot:default>
           <option v-for="addition in menuNumberAdditions" :key="addition" :value="addition">{{addition}}</option>
         </template>
