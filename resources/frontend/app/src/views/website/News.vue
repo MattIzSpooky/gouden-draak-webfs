@@ -1,6 +1,6 @@
 <template>
-  <table v-if="paginatedNews" style="width: 100%">
-    <tr v-for="news in paginatedNews.data" :key="news.title" style="padding-top:50px">
+  <table v-if="paginatedData" style="width: 100%">
+    <tr v-for="news in paginatedData.data" :key="news.title" style="padding-top:50px">
       <td align="center" style='border:1px solid black;background:floralwhite'><br>
         <h3>
           {{news.title}}
@@ -15,10 +15,10 @@
     </tr>
     <tr>
       <td align="center">
-        <button v-if="paginatedNews.links.prev" @click="previousPage">
+        <button v-if="paginatedData.links.prev" @click="previousPage">
           vorige
         </button>
-        <button v-if="paginatedNews.links.next" @click="nextPage">
+        <button v-if="paginatedData.links.next" @click="nextPage">
           volgende
         </button>
       </td>
@@ -29,9 +29,12 @@
 <script lang="ts">
 import axios from 'axios';
 import DragonPage from '@/components/website/DragonPage.vue';
-import {Component, Vue} from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 import {Paginated} from '@/types/paginated';
 import {transformToDutchDate} from '@/utils/date';
+import {mixins} from 'vue-class-component';
+import {News as NewsType} from '@/types/news';
+import {PaginationMixin} from '@/mixins/Pagination';
 
 @Component({
   components: {
@@ -41,37 +44,15 @@ import {transformToDutchDate} from '@/utils/date';
     transformToDutchDate
   },
   async beforeRouteEnter(to, _, next) {
-    const response = await axios.get<Paginated<News>>(`/api/news?page=${to.query.page}`);
+    const response = await axios.get<Paginated<NewsType>>(`/api/news?page=${to.query.page}`);
     const paginatedNews = response.data;
 
     next((vm: News) => {
-      vm.paginatedNews = paginatedNews;
+      vm.paginatedData = paginatedNews;
     });
   }
 })
-export default class News extends Vue {
-    private paginatedNews: Paginated<News> | null = null;
-
-    async nextPage() {
-      if (!this.paginatedNews || !this.paginatedNews.links.next) {
-        return;
-      }
-
-      const response = await axios.get<Paginated<News>>(this.paginatedNews.links.next);
-      this.paginatedNews = response.data;
-
-      await this.$router.push({name: 'news', query: {page: this.paginatedNews.meta.current_page.toString()}});
-    }
-
-    async previousPage() {
-      if (!this.paginatedNews || !this.paginatedNews.links.prev) {
-        return;
-      }
-
-      const response = await axios.get<Paginated<News>>(this.paginatedNews.links.prev);
-      this.paginatedNews = response.data;
-
-      await this.$router.push({name: 'news', query: {page: this.paginatedNews.meta.current_page.toString()}});
-    }
+export default class News extends mixins<PaginationMixin<NewsType>>(PaginationMixin) {
+  public readonly routeName = 'news';
 }
 </script>

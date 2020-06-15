@@ -6,30 +6,46 @@ import axios from 'axios';
 @Component
 export class PaginationMixin<T> extends Vue {
   public paginatedData: Paginated<T> | null = null;
+  public routeName = '';
 
-  async nextPage() {
-    await this.$store.commit('network/SET_LOADING', true);
-    if (!this.paginatedData || !this.paginatedData.links.next) {
-      return;
+  created() {
+    if (this.routeName === '') {
+      throw new Error('No route name was set. Cannot paginate.');
     }
-
-    const response = await axios.get<Paginated<T>>(this.paginatedData.links.next);
-    this.paginatedData = response.data;
-
-    await this.$router.push({name: 'news-kassa', query: {page: this.paginatedData.meta.current_page.toString()}});
-    await this.$store.commit('network/SET_LOADING', false);
   }
 
-  async previousPage() {
-    await this.$store.commit('network/SET_LOADING', true);
-    if (!this.paginatedData || !this.paginatedData.links.prev) {
+  public async nextPage() {
+    return this.loaderHOF(async () => {
+      if (!this.paginatedData) {
+        return;
+      }
+      await this.paginate(this.paginatedData.links.next);
+    });
+  }
+
+  public async previousPage() {
+    return this.loaderHOF(async () => {
+      if (!this.paginatedData) {
+        return;
+      }
+      await this.paginate(this.paginatedData.links.prev);
+    });
+  }
+
+  private async paginate(link: string | null) {
+    if (!link) {
       return;
     }
 
-    const response = await axios.get<Paginated<T>>(this.paginatedData.links.prev);
+    const response = await axios.get<Paginated<T>>(link);
     this.paginatedData = response.data;
 
-    await this.$router.push({name: 'news-kassa', query: {page: this.paginatedData.meta.current_page.toString()}});
+    await this.$router.push({name: this.routeName, query: {page: this.paginatedData.meta.current_page.toString()}});
+  }
+
+  private async loaderHOF(func: Function) {
+    await this.$store.commit('network/SET_LOADING', true);
+    await func();
     await this.$store.commit('network/SET_LOADING', false);
   }
 }

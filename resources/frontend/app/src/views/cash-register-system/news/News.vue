@@ -54,6 +54,8 @@ import {PaginationMixin} from '@/mixins/Pagination';
   }
 })
 export default class News extends mixins<PaginationMixin<NewsType>>(PaginationMixin) {
+  public readonly routeName = 'news-kassa';
+
   async newsItemClick(newsItem: NewsType) {
     await this.$router.push({
       name: 'edit-news',
