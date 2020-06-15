@@ -15,8 +15,9 @@ import UserForm from '@/components/cash-register-system/users/UserForm.vue';
 import store from '@/store';
 import axios from 'axios';
 import {ApiResource, ApiValidationError} from '@/types/api';
-import {UserRequest, UserRoleType} from '@/types/user';
+import {UserRoleType} from '@/types/user';
 import router from '@/router';
+import {UserRequest} from '@/types/user-extra';
 
   @Component({
     components: {
