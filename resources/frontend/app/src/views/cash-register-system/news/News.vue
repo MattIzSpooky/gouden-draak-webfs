@@ -47,7 +47,6 @@ import {News as NewsType} from '@/types/news';
 
     next(async(vm: News) => {
       vm.paginatedNewsItems = paginatedNews;
-      console.log(vm.paginatedNewsItems);
       await vm.$store.commit('network/SET_LOADING', false);
     });
   }

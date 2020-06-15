@@ -10,7 +10,7 @@
           € {{totalPrice.toFixed(2)}}
         </p>
         <p class="card-text">
-          <order-item-list :items="order.items"/>
+          <order-item-list :show-comment="true" :items="order.items"/>
         </p>
         <div>
           Order betaald? {{order.paidAt ? 'Ja' : 'Nee'}}
