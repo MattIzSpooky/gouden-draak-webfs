@@ -4,26 +4,8 @@
       {{error.message}}
     </div>
     <form action="#" @submit.prevent="emitForm">
-      <div class="form-group">
-        <label for="title">Titel</label>
-        <input type="text" required v-model="formData.title" class="form-control" id="title"
-               :class="{'is-invalid': error && error.errors.title}">
-        <div v-if="error && error.errors.title">
-          <p v-for="error in error.error.title" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="text">Beschrijving</label>
-        <textarea class="form-control" required v-model="formData.text" id="text" rows="3"
-                  :class="{'is-invalid': error && error.errors.text}"></textarea>
-        <div v-if="error && error.errors.text">
-          <p v-for="error in error.error.text" :key="error" class="text-danger">
-            {{error}}
-          </p>
-        </div>
-      </div>
+      <form-input name="Titel" id="title" v-model="formData.title" :error="error"/>
+      <form-textarea name="Beschrijving" id="text" v-model="formData.text"/>
       <button type="submit" class="btn btn-primary">Opslaan</button>
       <slot></slot>
     </form>
@@ -34,8 +16,11 @@
 import {Component, Emit, Prop, Vue} from 'vue-property-decorator';
 import {ApiValidationError} from '@/types/api';
 import {NewsRequest} from '@/types/news';
-
-  @Component
+import FormInput from '@/components/cash-register-system/common/forms/FormInput.vue';
+import FormTextarea from '@/components/cash-register-system/common/forms/FormTextarea.vue';
+@Component({
+  components: {FormTextarea, FormInput}
+})
 export default class NewsForm extends Vue {
     @Prop({
       type: Object

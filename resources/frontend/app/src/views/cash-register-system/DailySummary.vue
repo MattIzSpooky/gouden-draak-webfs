@@ -1,27 +1,27 @@
 <template>
   <loader>
     <div class="row justify-content-center">
-      <div v-if="summaries" class="col-md-5">
+      <div v-if="paginatedData" class="col-md-5">
         <div class="card m-3">
           <div class="card-header">
             Samenvattingen
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item p-3" v-for="(itemObject, index) in summaries.data" :key="index">
+            <li class="list-group-item p-3" v-for="(itemObject, index) in paginatedData.data" :key="index">
                <button @click="download(itemObject)" class="btn btn-secondary btn-lg btn-block" :href="fileUrl + itemObject.id" target="_blank">{{ itemObject.date }}</button>
             </li>
           </ul>
           <div class="card-footer">
-            <button v-if="summaries.links.prev" type="button" class="btn btn-primary" @click="previousPage">
+            <button v-if="paginatedData.links.prev" type="button" class="btn btn-primary" @click="previousPage">
             vorige
             </button>
-            <button v-if="summaries.links.next" type="button" class="btn btn-primary" @click="nextPage">
+            <button v-if="paginatedData.links.next" type="button" class="btn btn-primary" @click="nextPage">
             volgende            </button>
             <small>
-            Huidige pagina: {{summaries.meta.current_page}}
+            Huidige pagina: {{paginatedData.meta.current_page}}
             </small>
             <small>
-            Laatste pagina: {{summaries.meta.last_page}}
+            Laatste pagina: {{paginatedData.meta.last_page}}
             </small>
           </div>
         </div>
@@ -34,9 +34,11 @@
 import axios from 'axios';
 import store from '@/store/index';
 import { Summary } from '@/types/summary';
-import { Component, Vue } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import Loader from '@/components/cash-register-system/common/Loader.vue';
 import {Paginated} from '@/types/paginated';
+import {mixins} from 'vue-class-component';
+import {PaginationMixin} from '@/mixins/Pagination';
 
   @Component({
     components: {
@@ -49,43 +51,17 @@ import {Paginated} from '@/types/paginated';
       const summaries = response.data;
 
       next(async (vm: DailySummary) => {
-        vm.summaries = summaries;
+        vm.paginatedData = summaries;
 
         await vm.$store.commit('network/SET_LOADING', false);
       });
     }
   })
-export default class DailySummary extends Vue {
-    public summaries: Paginated<Summary> | null = null;
+export default class DailySummary extends mixins<PaginationMixin<Summary>>(PaginationMixin) {
+    public readonly routeName = 'summaries';
 
     get fileUrl() {
       return axios.defaults.baseURL + 'api/summary/';
-    }
-
-    async nextPage() {
-      await this.$store.commit('network/SET_LOADING', true);
-      if (!this.summaries || !this.summaries.links.next) {
-        return;
-      }
-
-      const response = await axios.get<Paginated<Summary>>(this.summaries.links.next);
-      this.summaries = response.data;
-
-      await this.$router.push({name: 'summaries', query: {page: this.summaries.meta.current_page.toString()}});
-      await this.$store.commit('network/SET_LOADING', false);
-    }
-
-    async previousPage() {
-      await this.$store.commit('network/SET_LOADING', true);
-      if (!this.summaries || !this.summaries.links.prev) {
-        return;
-      }
-
-      const response = await axios.get<Paginated<Summary>>(this.summaries.links.prev);
-      this.summaries = response.data;
-
-      await this.$router.push({name: 'summaries', query: {page: this.summaries.meta.current_page.toString()}});
-      await this.$store.commit('network/SET_LOADING', false);
     }
 
     async download(summary: Summary) {

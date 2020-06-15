@@ -1,24 +1,24 @@
 <template>
   <loader>
-    <div class="card m-3" v-if="paginatedOrders">
+    <div class="card m-3" v-if="paginatedData">
       <div class="card-header">
         Orders
       </div>
       <div class="card-body">
-        <order-list :orders="paginatedOrders.data" @rowClick="onOrderClick"/>
+        <order-list :orders="paginatedData.data" @rowClick="onOrderClick"/>
       </div>
       <div class="card-footer">
-        <button v-if="paginatedOrders.links.prev" type="button" class="btn btn-primary" @click="previousPage">
+        <button v-if="paginatedData.links.prev" type="button" class="btn btn-primary" @click="previousPage">
           vorige
         </button>
-        <button v-if="paginatedOrders.links.next" type="button" class="btn btn-primary" @click="nextPage">
+        <button v-if="paginatedData.links.next" type="button" class="btn btn-primary" @click="nextPage">
           volgende
         </button>
         <small>
-          Huidige pagina: {{paginatedOrders.meta.current_page}}
+          Huidige pagina: {{paginatedData.meta.current_page}}
         </small>
         <small>
-          Laatste pagina: {{paginatedOrders.meta.last_page}}
+          Laatste pagina: {{paginatedData.meta.last_page}}
         </small>
       </div>
     </div>
@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 import axios from 'axios';
 import store from '@/store';
 import MenuItemTable from '@/components/cash-register-system/menu-items/MenuItemTable.vue';
@@ -34,6 +34,8 @@ import Loader from '@/components/cash-register-system/common/Loader.vue';
 import {Paginated} from '@/types/paginated';
 import {Order} from '@/types/order';
 import OrderList from '@/components/cash-register-system/orders/OrderList.vue';
+import {mixins} from 'vue-class-component';
+import {PaginationMixin} from '@/mixins/Pagination';
 
   @Component({
     components: {OrderList, MenuItemTable, Loader},
@@ -44,14 +46,14 @@ import OrderList from '@/components/cash-register-system/orders/OrderList.vue';
       const paginatedOrders = response.data;
 
       next(async(vm: Orders) => {
-        vm.paginatedOrders = paginatedOrders;
+        vm.paginatedData = paginatedOrders;
 
         await vm.$store.commit('network/SET_LOADING', false);
       });
     }
   })
-export default class Orders extends Vue {
-    public paginatedOrders: Paginated<Order> | null = null;
+export default class Orders extends mixins<PaginationMixin<Order>>(PaginationMixin) {
+    public readonly routeName = 'orders';
 
     async onOrderClick(order: Order) {
       await this.$router.push({
@@ -60,32 +62,6 @@ export default class Orders extends Vue {
           id: order.id.toString()
         }
       });
-    }
-
-    async nextPage() {
-      await this.$store.commit('network/SET_LOADING', true);
-      if (!this.paginatedOrders || !this.paginatedOrders.links.next) {
-        return;
-      }
-
-      const response = await axios.get<Paginated<Order>>(this.paginatedOrders.links.next);
-      this.paginatedOrders = response.data;
-
-      await this.$router.push({name: 'orders', query: {page: this.paginatedOrders.meta.current_page.toString()}});
-      await this.$store.commit('network/SET_LOADING', false);
-    }
-
-    async previousPage() {
-      await this.$store.commit('network/SET_LOADING', true);
-      if (!this.paginatedOrders || !this.paginatedOrders.links.prev) {
-        return;
-      }
-
-      const response = await axios.get<Paginated<Order>>(this.paginatedOrders.links.prev);
-      this.paginatedOrders = response.data;
-
-      await this.$router.push({name: 'orders', query: {page: this.paginatedOrders.meta.current_page.toString()}});
-      await this.$store.commit('network/SET_LOADING', false);
     }
 };
 </script>

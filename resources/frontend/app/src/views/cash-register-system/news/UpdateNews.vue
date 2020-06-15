@@ -52,7 +52,7 @@ export default class UpdateNews extends Vue {
         return;
       }
       try {
-        await axios.post('/api/news', formData);
+        await axios.put(`/api/news/${this.$route.params.id}`, formData);
         await this.$bvModal.msgBoxConfirm('Het nieuwsbericht is opgeslagen');
         await router.push({name: 'news-kassa'});
       } catch (e) {
