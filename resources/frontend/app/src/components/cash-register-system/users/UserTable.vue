@@ -35,7 +35,7 @@
 
 <script lang="ts">
 import {Component, Emit, Prop, Vue} from 'vue-property-decorator';
-import {User} from '@/types/user';
+import {User} from '@/types/user-extra';
 
   @Component
 export default class UserTable extends Vue {

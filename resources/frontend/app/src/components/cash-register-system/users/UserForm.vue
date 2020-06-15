@@ -26,9 +26,11 @@
 <script lang="ts">
 import {Component, Emit, Prop, Vue} from 'vue-property-decorator';
 import {ApiValidationError} from '@/types/api';
-import {UserRequest, UserRoleType} from '@/types/user';
+import {UserRoleType} from '@/types/user';
 import FormInput from '@/components/cash-register-system/common/forms/FormInput.vue';
 import FormSelect from '@/components/cash-register-system/common/forms/FormSelect.vue';
+import {UserRequest} from '@/types/user-extra';
+
 @Component({
   components: {FormSelect, FormInput}
 })

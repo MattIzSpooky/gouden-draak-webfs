@@ -17,9 +17,9 @@ import {Component, Vue} from 'vue-property-decorator';
 import store from '@/store';
 import axios from 'axios';
 import {ApiResource} from '@/types/api';
-import {User} from '@/types/user';
 import Loader from '@/components/cash-register-system/common/Loader.vue';
 import UserTable from '@/components/cash-register-system/users/UserTable.vue';
+import {User} from '@/types/user-extra';
 
 @Component({
   components: {
