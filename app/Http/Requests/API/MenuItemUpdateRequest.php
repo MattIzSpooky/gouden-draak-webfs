@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\API;
 
+use App\Rules\UniqueMenuItem;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MenuItemUpdateRequest extends FormRequest
@@ -31,7 +32,7 @@ class MenuItemUpdateRequest extends FormRequest
             'menuNumber' => [
                 'required',
                 'numeric',
-                'unique:menu_items,menu_number,' . $this->menu->id . ',id,addition,' . $this->input('addition'),
+                new UniqueMenuItem($this->input('addition'), $this->menu->id),
             ],
             'addition' => [
                 'nullable',
