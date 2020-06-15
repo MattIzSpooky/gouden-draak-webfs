@@ -31,10 +31,11 @@ class MenuItemUpdateRequest extends FormRequest
             'menuNumber' => [
                 'required',
                 'numeric',
+                'unique:menu_items,menu_number,' . $this->menu->id . ',id,addition,' . $this->input('addition'),
             ],
             'addition' => [
                 'nullable',
-                'regex:/^[A-Z]{1}$/',
+                'regex:/^[A-Z]{1,3}$/',
                 'exists:menu_additions,character'
             ]
         ];
