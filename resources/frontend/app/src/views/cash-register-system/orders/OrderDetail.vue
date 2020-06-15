@@ -10,7 +10,7 @@
           € {{totalPrice.toFixed(2)}}
         </p>
         <p class="card-text">
-          <order-item-list :items="order.items"/>
+          <order-item-list :show-comment="true" :items="order.items"/>
         </p>
         <div>
           Order betaald? {{order.paidAt ? 'Ja' : 'Nee'}}
@@ -69,7 +69,8 @@ export default class OrderDetail extends Vue {
       }
 
       const response = await axios.put<ApiResource<Order>>(`/api/orders/${this.$route.params.id}`, {
-        paidAt: new Date().toISOString()
+        paidAt: new Date().toISOString(),
+        tableId: this.order.table.id
       });
 
       this.order.paidAt = response.data.data.paidAt;
