@@ -7,9 +7,10 @@
       <tr v-for="item in promotion.dishes" :key="item.id">
         <td>
           {{item.name}}
-        </td>
-        <td>
-          {{item.description}}
+          <template v-if="item.description">
+            <br/>
+            <small>({{item.description}})</small>
+          </template>
         </td>
       </tr>
     </table>
@@ -28,16 +29,19 @@ import {Component, Prop, Vue} from 'vue-property-decorator';
 import {PromotionalDiscount} from '@/types/promotional-discount';
 import {transformToDutchDate} from '@/utils/date';
 
-  @Component({
-    methods: {
-      transformToDutchDate
-    }
-  })
+@Component({
+  methods: {
+    transformToDutchDate
+  }
+})
 export default class Promotions extends Vue {
     @Prop(Object) public readonly promotion!: PromotionalDiscount;
 }
 </script>
 
 <style scoped>
-
+  td {
+    padding-bottom: 16px;
+    text-align: center;
+  }
 </style>

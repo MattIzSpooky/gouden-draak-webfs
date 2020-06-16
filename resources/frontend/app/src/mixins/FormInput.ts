@@ -23,6 +23,10 @@ export class FormInputMixin extends Vue {
     required: true
   }) public error!: ApiValidationError<never>;
 
+  @Prop({
+    default: false
+  }) public required!: boolean;
+
   @Watch('internalValue')
   @Emit('input')
   internalValueChanged() {

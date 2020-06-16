@@ -1,7 +1,7 @@
 <template>
   <base-form-input :error="error" :id="id" :name="name">
     <template v-slot:input>
-      <input :type="type" required v-model="internalValue" :min="min" :step="step" class="form-control" :id="id"
+      <input :required="required" :type="type" v-model="internalValue" :min="min" :step="step" class="form-control" :id="id"
              :class="{'is-invalid': error && error.errors[id]} || IsInvalid">
     </template>
     <template v-slot:action>
