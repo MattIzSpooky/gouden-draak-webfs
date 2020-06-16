@@ -30,7 +30,7 @@ class MenuItemRequest extends FormRequest
             'description' => ['required', 'max:1500'],
             'dishTypeId' => ['required', 'exists:dish_types,id'],
             'menuNumber' => [
-                'required',
+                'nullable',
                 'numeric',
                 new UniqueMenuItem($this->input('addition')),
             ],

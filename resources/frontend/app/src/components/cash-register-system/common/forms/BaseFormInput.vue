@@ -3,7 +3,7 @@
     <label :for="id">{{name}}</label>
     <slot name="input"/>
     <div v-if="error && error.errors[id]">
-      <p v-for="error in error.error[id]" :key="error" class="text-danger">
+      <p v-for="error in error.errors[id]" :key="error" class="text-danger">
         {{error}}
       </p>
     </div>

@@ -4,15 +4,15 @@
       {{error.message}}
     </div>
     <form action="#" @submit.prevent="onSubmit">
-      <form-input name="Naam" id="name" v-model="formData.name" :error="error"/>
-      <form-input name="Badge nummer" type="number" id="badge" min="0" step="1" v-model.number="formData.badge" :error="error"/>
+      <form-input name="Naam" :required="true" id="name" v-model="formData.name" :error="error"/>
+      <form-input name="Badge nummer" :required="true" type="number" id="badge" min="0" step="1" v-model.number="formData.badge" :error="error"/>
       <form-input name="Wachtwoord" type="password" id="password" v-model="formData.password" :is-invalid="passwordValid" :error="error"/>
       <form-input name="Wachtwoord herhalen"  type="password" id="passwordConfirm" v-model="passwordConfirm" :is-invalid="passwordValid" :error="error">
         <template v-slot:action>
           <small v-if="!passwordValid" class="text-danger">Wachtwoorden zijn ongelijk!</small>
         </template>
       </form-input>
-      <form-select name="Rol" id="role" v-model.number="formData.userRoleId" :error="error">
+      <form-select name="Rol" :required="true" id="role" v-model.number="formData.userRoleId" :error="error">
         <template v-slot:default>
           <option v-for="role in userRoles" :key="role.id" :value="role.id">{{role.dutchName}}</option>
         </template>
