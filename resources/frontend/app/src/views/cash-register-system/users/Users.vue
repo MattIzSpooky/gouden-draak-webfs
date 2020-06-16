@@ -1,6 +1,6 @@
 <template>
   <loader>
-    <router-link class="btn btn-primary" :to="{name: 'new-user'}">Nieuwe gebruiker aanmaken</router-link>
+    <router-link class="btn btn-primary ml-3" :to="{name: 'new-user'}">Nieuwe gebruiker aanmaken</router-link>
     <div class="card m-3">
       <div class="card-header">
         Menu
