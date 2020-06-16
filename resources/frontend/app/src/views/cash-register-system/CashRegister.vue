@@ -197,7 +197,7 @@ export default class CashRegister extends Vue {
   }
 
   .card-order {
-    width: 40rem;
+    width: 35rem;
   }
 
   .order {

@@ -159,7 +159,7 @@ export default class Order extends Vue {
  }
 
  .card-order {
-   width: 40rem;
+   width: 35rem;
  }
 
  .order {
