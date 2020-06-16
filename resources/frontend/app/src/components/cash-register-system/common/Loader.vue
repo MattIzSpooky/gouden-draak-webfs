@@ -5,7 +5,7 @@
         <div class="my-auto loader"/>
       </div>
     </div>
-    <div v-if="!isLoading">
+    <div v-show="!isLoading">
       <slot/>
     </div>
   </div>

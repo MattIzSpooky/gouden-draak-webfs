@@ -1,7 +1,7 @@
 <template>
   <base-form-input :error="error" :id="id" :name="name">
     <template v-slot:input>
-      <textarea class="form-control" required v-model="internalValue" :id="id" :rows="rows"
+      <textarea :required="required"  class="form-control" v-model="internalValue" :id="id" :rows="rows"
                 :class="{'is-invalid': error && error.errors[id]}"></textarea>
     </template>
     <template v-slot:action>

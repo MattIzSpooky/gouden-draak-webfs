@@ -4,23 +4,30 @@
       {{error.message}}
     </div>
     <form action="#" @submit.prevent="emitForm">
-      <form-input name="Gerecht naam" id="dishName" v-model="formData.name" :error="error"/>
-      <form-input name="Prijs gerecht" type="number" id="dishPrice" min="0" step="0.01" v-model.number="formData.price" :error="error"/>
-      <form-textarea name="Beschrijving" id="dishDescription" v-model="formData.description" :error="error"/>
-      <form-select name="Gerecht soort" id="dishType" v-model.number="formData.dishTypeId" :dropdown-values="dishTypes" :error="error">
+      <form-input name="Gerecht naam" :required="true" id="dishName" v-model="formData.name" :error="error"/>
+      <form-input name="Prijs gerecht" :required="true" type="number" id="dishPrice" min="0" step="0.01"
+                  v-model.number="formData.price" :error="error"/>
+      <form-textarea name="Beschrijving" :required="true" id="dishDescription" v-model="formData.description"
+                     :error="error"/>
+      <form-select name="Gerecht soort" :required="true" id="dishType" v-model.number="formData.dishTypeId"
+                   :dropdown-values="dishTypes" :error="error">
         <template v-slot:default>
           <option v-for="type in dishTypes" :key="type.id" :value="type.id">{{type.type}}</option>
         </template>
       </form-select>
-      <form-input name="Menu number" type="number" id="menuNumber" min="0" v-model.number="formData.menuNumber" :error="error">
-        <button type="button" class="btn btn-primary btn-sm mt-1" @click="clearMenuNumber">Leeg maken</button>
+      <form-input name="Menu number" type="number" id="menuNumber" min="0" v-model.number="formData.menuNumber"
+                  :error="error">
+        <template v-slot:action>
+          <button type="button" class="btn btn-primary btn-sm mt-1" @click="clearMenuNumber">Leeg maken</button>
+        </template>
       </form-input>
-      <form-select name="Menu toevoeging" id="menuNumberAddition" v-model.number="formData.addition" :dropdown-values="menuNumberAdditions" :error="error">
+      <form-select name="Menu toevoeging" id="menuNumberAddition" v-model.number="formData.addition" :error="error">
         <template v-slot:default>
           <option v-for="addition in menuNumberAdditions" :key="addition" :value="addition">{{addition}}</option>
         </template>
         <template v-slot:action>
-          <button type="button" class="btn btn-primary btn-sm mt-1" @click="clearMenuNumberAdditions">Leeg maken</button>
+          <button type="button" class="btn btn-primary btn-sm mt-1" @click="clearMenuNumberAdditions">Leeg maken
+          </button>
         </template>
       </form-select>
       <button type="submit" class="btn btn-primary">Opslaan</button>
@@ -37,9 +44,10 @@ import {ApiValidationError} from '@/types/api';
 import FormInput from '@/components/cash-register-system/common/forms/FormInput.vue';
 import FormTextarea from '@/components/cash-register-system/common/forms/FormTextarea.vue';
 import FormSelect from '@/components/cash-register-system/common/forms/FormSelect.vue';
-@Component({
-  components: {FormSelect, FormTextarea, FormInput}
-})
+
+  @Component({
+    components: {FormSelect, FormTextarea, FormInput}
+  })
 export default class DishForm extends Vue {
     @Prop({
       required: true,
