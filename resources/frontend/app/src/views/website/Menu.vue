@@ -74,7 +74,7 @@ export default class Menu extends Vue {
   saveFavorites() {
     const date = new Date();
     date.setDate(date.getDate() + 7);
-    document.cookie = `favorites=${JSON.stringify(this.favorites)}; expires=${date.toUTCString()}`;
+    document.cookie = `favorites=${JSON.stringify(this.favorites)}; expires=${date.toUTCString()}; SameSite=Strict`;
   }
 }
 </script>
