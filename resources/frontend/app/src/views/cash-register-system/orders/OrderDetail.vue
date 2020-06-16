@@ -7,7 +7,7 @@
       <div class="card-body">
         <h5 class="card-title"> Order aangemaakt op {{transformToDutchDate(order.createdAt)}}</h5>
         <p class="card-text">
-          € {{totalPrice.toFixed(2)}}
+          &euro;  {{totalPrice.toFixed(2)}}
         </p>
         <p class="card-text">
           <order-item-list :show-comment="true" :items="order.items"/>

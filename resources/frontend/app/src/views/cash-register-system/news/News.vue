@@ -1,6 +1,6 @@
 <template>
  <loader>
-   <router-link class="btn btn-primary" :to="{name: 'new-news'}">Nieuwe nieuws item aanmaken</router-link>
+   <router-link class="btn btn-primary ml-3" :to="{name: 'new-news'}">Nieuwe nieuws item aanmaken</router-link>
    <div class="card m-3">
      <div class="card-header">
        Nieuws items

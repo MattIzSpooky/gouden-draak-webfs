@@ -63,7 +63,7 @@ export default class Table extends Vue {
       if (!wantsToReOrder) {
         return;
       }
-      console.log(order);
+
       try {
         this.$store.commit('network/SET_LOADING', true);
         const response = await axios.post<ApiResource<Order>>('api/table/orders', {

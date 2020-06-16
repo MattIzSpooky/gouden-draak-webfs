@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content-center p-4">
       <h3>{{name}}</h3>
     </div>
     <table class="table">
@@ -15,7 +15,7 @@
           </p>
         </td>
         <td>
-          € {{item.dish.price.toFixed(2)}}
+          &euro;  {{item.dish.price.toFixed(2)}}
         </td>
         <td>
           <button v-if="!item.deletedAt && hasItemClickListener" type="button" class="btn btn-primary" @click="onMenuItemClick(item)">

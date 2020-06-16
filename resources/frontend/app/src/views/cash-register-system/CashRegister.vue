@@ -15,15 +15,20 @@
       </div>
       <div class="col-md-5">
         <div class="fixed">
-          <div class="card m-3">
+          <div class="card mt-3 mb-3 card-order">
             <div class="card-header">
               Bestelling
             </div>
-            <ul class="list-group list-group-flush order w-100">
+            <ul class="list-group list-group-flush order" v-if="orderedItems.length > 0">
               <li class="list-group-item p-0">
                 <order-table :can-comment="true" @totalValue="onTotalValueChange" :orderedMenuItems="orderedItems"/>
               </li>
-              <li class="list-group-item p-0">
+            </ul>
+            <div v-else class="card-text p-3 text-center">
+              <h3>De bestelling is leeg.</h3>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
                 <div class="form-group">
                   <label for="table">Tafel</label>
                   <select v-model="selectedTableId" class="form-control" id="table">
@@ -42,7 +47,7 @@
                           Totaal:
                         </h3>
                         <h3>
-                          €{{totalPrice.toFixed(2)}}
+                          &euro; {{totalPrice.toFixed(2)}}
                         </h3>
                       </div>
                     </div>
@@ -191,8 +196,12 @@ export default class CashRegister extends Vue {
     position: fixed;
   }
 
+  .card-order {
+    width: 40rem;
+  }
+
   .order {
-    max-height: 400px;
-    overflow: scroll;
+    max-height: 25rem;
+    overflow-y: scroll;
   }
 </style>

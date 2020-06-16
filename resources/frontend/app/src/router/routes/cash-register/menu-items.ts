@@ -11,7 +11,8 @@ export const menuItemRoutes: RouteConfig[] = [
       middleware: [auth],
       roles: [
         UserRole.ADMIN
-      ]
+      ],
+      title: 'Kassa - Menu items'
     }
   },
   {
@@ -22,7 +23,8 @@ export const menuItemRoutes: RouteConfig[] = [
       middleware: [auth],
       roles: [
         UserRole.ADMIN
-      ]
+      ],
+      title: 'Kassa - Nieuwe menu item'
     }
   },
   {
@@ -34,7 +36,8 @@ export const menuItemRoutes: RouteConfig[] = [
       middleware: [auth],
       roles: [
         UserRole.ADMIN
-      ]
+      ],
+      title: 'Kassa - Menu item aanpassen'
     }
   }
 ];

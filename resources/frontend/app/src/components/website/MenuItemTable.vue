@@ -15,7 +15,7 @@
           </small>
         </td>
         <td>
-          € {{item.dish.price.toFixed(2)}}
+          &euro;  {{item.dish.price.toFixed(2)}}
         </td>
         <td>
           <heart v-if="isFavorite(item)"/>
