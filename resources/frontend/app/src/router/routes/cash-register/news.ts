@@ -11,7 +11,8 @@ export const newsRoutes: RouteConfig[] = [
       middleware: [auth],
       roles: [
         UserRole.ADMIN
-      ]
+      ],
+      title: 'Kassa - Nieuws'
     }
   },
   {
@@ -22,7 +23,8 @@ export const newsRoutes: RouteConfig[] = [
       middleware: [auth],
       roles: [
         UserRole.ADMIN
-      ]
+      ],
+      title: 'Kassa - Nieuw niews artikel'
     }
   },
   {
@@ -33,7 +35,8 @@ export const newsRoutes: RouteConfig[] = [
       middleware: [auth],
       roles: [
         UserRole.ADMIN
-      ]
+      ],
+      title: 'Kassa - Nieuws artikel aanpassen'
     },
     props: true
   }

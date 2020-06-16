@@ -9,9 +9,9 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto mr-auto">
           <cash-register-links>
-            <li class="nav-item">
-              <button type="button" class="btn btn-link nav-link" @click="clickSignOut">Log uit</button>
-            </li>
+            <b-nav-item-dropdown :text="user().name">
+              <b-dropdown-item @click="clickSignOut">Log uit</b-dropdown-item>
+            </b-nav-item-dropdown>
           </cash-register-links>
         </b-navbar-nav>
       </b-collapse>
@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
-import {mapActions} from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 import CashRegisterLinks from '@/components/cash-register-system/CashRegisterLinks.vue';
 import {
   BCollapse,
@@ -50,6 +50,9 @@ import {
     methods: {
       ...mapActions({
         signOut: 'auth/signOut'
+      }),
+      ...mapGetters({
+        user: 'auth/user'
       })
     }
   })

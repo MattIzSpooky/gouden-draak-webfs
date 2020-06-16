@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueRouter, { RouteConfig } from 'vue-router';
+import VueRouter, {RouteConfig} from 'vue-router';
 import auth from '@/router/middleware/auth';
 import {RouteMiddlewareFunc, RouteNext, RouterContext} from '@/router/types';
 import {newsRoutes} from '@/router/routes/cash-register/news';
@@ -22,7 +22,10 @@ const routes: Array<RouteConfig> = [
   {
     path: '/login',
     name: 'login',
-    component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/Login.vue')
+    component: () => import(/* webpackChunkName: "cash-register-system" */ '../views/cash-register-system/Login.vue'),
+    meta: {
+      title: 'Kassa - Login'
+    }
   },
   {
     path: '/kassa',
@@ -39,7 +42,8 @@ const routes: Array<RouteConfig> = [
           middleware: [auth],
           roles: [
             UserRole.ADMIN, UserRole.REGISTER, UserRole.WAITRESS
-          ]
+          ],
+          title: 'Kassa'
         }
       },
       {
@@ -50,7 +54,8 @@ const routes: Array<RouteConfig> = [
           middleware: [auth],
           roles: [
             UserRole.ADMIN
-          ]
+          ],
+          title: 'Kassa - Samenvattingen'
         }
       },
       ...menuItemRoutes,
@@ -95,7 +100,7 @@ function nextFactory(context: RouterContext, middleware: Array<RouteMiddlewareFu
     context.next(...parameters);
 
     const nextMiddleware = nextFactory(context, middleware, index + 1);
-    subsequentMiddleware({ ...context, next: nextMiddleware });
+    subsequentMiddleware({...context, next: nextMiddleware});
   };
 }
 
@@ -113,10 +118,20 @@ router.beforeEach(async (to, from, next) => {
     };
     const nextMiddleware = nextFactory(context, middleware, 1);
 
-    return await middleware[0]({ ...context, next: nextMiddleware });
+    return await middleware[0]({...context, next: nextMiddleware});
   }
 
   return next();
+});
+
+router.beforeEach((to, from, next) => {
+  const nearestWithTitle = to.matched.slice().reverse().find(r => r.meta && r.meta.title);
+
+  if (nearestWithTitle) {
+    document.title = nearestWithTitle.meta.title;
+  }
+
+  next();
 });
 
 export default router;

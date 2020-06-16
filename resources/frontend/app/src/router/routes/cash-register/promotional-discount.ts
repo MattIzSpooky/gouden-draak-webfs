@@ -11,7 +11,8 @@ export const promotionalDiscountRoutes: RouteConfig[] = [
       middleware: [auth],
       roles: [
         UserRole.ADMIN, UserRole.WAITRESS
-      ]
+      ],
+      title: 'Kassa - Acties'
     }
   },
   {
@@ -22,7 +23,8 @@ export const promotionalDiscountRoutes: RouteConfig[] = [
       middleware: [auth],
       roles: [
         UserRole.ADMIN, UserRole.WAITRESS
-      ]
+      ],
+      title: 'Kassa - Nieuwe actie'
     }
   },
   {
@@ -33,7 +35,8 @@ export const promotionalDiscountRoutes: RouteConfig[] = [
       middleware: [auth],
       roles: [
         UserRole.ADMIN, UserRole.WAITRESS
-      ]
+      ],
+      title: 'Kassa - Actie bewerken'
     },
     props: true
   }

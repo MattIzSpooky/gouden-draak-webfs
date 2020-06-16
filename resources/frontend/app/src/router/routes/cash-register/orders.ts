@@ -11,7 +11,8 @@ export const orderRoutes: RouteConfig[] = [
       middleware: [auth],
       roles: [
         UserRole.ADMIN
-      ]
+      ],
+      title: 'Kassa - Verkoop overzicht'
     }
   },
   {
@@ -22,7 +23,8 @@ export const orderRoutes: RouteConfig[] = [
       middleware: [auth],
       roles: [
         UserRole.ADMIN, UserRole.REGISTER, UserRole.WAITRESS
-      ]
+      ],
+      title: 'Kassa - Bestellingen'
     }
   },
   {
@@ -33,7 +35,8 @@ export const orderRoutes: RouteConfig[] = [
       middleware: [auth],
       roles: [
         UserRole.ADMIN, UserRole.REGISTER, UserRole.WAITRESS
-      ]
+      ],
+      title: 'Kassa - Bestelling bekijken'
     },
     props: true
   }

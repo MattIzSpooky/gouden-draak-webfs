@@ -4,6 +4,7 @@
       <div class="card-header">
         Login kassa systeem
       </div>
+      <img class="card-img-top w-75 ml-auto mr-auto mt-2" src="../../assets/images/goodpay.png" alt="Goodpay kassa">
       <div class="card-body">
         <div class="alert alert-danger fade show" v-if="hasError">
           Verkeerde inloggegevens.
