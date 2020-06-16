@@ -37,7 +37,7 @@
         {{item.amount}}
       </td>
       <td>
-        € {{(item.dish.price * item.amount).toFixed(2)}}
+        &euro;  {{(item.dish.price * item.amount).toFixed(2)}}
       </td>
       <td v-if="showComment">
         {{item.comment}}

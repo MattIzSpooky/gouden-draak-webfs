@@ -1,16 +1,15 @@
 <template>
-  <table class="table">
+  <table class="table w-100">
     <template v-for="item in orderedMenuItems">
       <tr :key="item.id">
         <td>
-          {{item.menuNumber}}{{item.addition}}
-          <template v-if="item.menuNumber">.</template>
+          {{item.menuNumber}}{{item.addition}}<template v-if="item.menuNumber">.</template>
         </td>
         <td>
           {{item.dish.name}}
         </td>
         <td>
-          € {{item.dish.price.toFixed(2)}}
+          &euro; {{item.dish.price.toFixed(2)}}
         </td>
         <td>
           <input type="number" class="form-control" min="0" v-model.number="item.amount">
@@ -50,11 +49,7 @@ export default class OrderTable extends Vue {
     }) public readonly canComment!: boolean;
 
     @Emit('totalValue')
-    emitTotalValue(value: number) {
-      return value;
-    }
-
-    @Watch('orderedMenuItems', {deep: true})
+    @Watch('orderedMenuItems', {deep: true, immediate: true})
     onOrderedMenuItemsChanged() {
       const toBeRemovedIndex = this.orderedMenuItems.findIndex(i => i.amount <= 0);
 
@@ -62,9 +57,21 @@ export default class OrderTable extends Vue {
         this.orderedMenuItems.splice(toBeRemovedIndex, 1);
       }
 
-      const price = this.orderedMenuItems.reduce(calculateTotalPriceOfOrderedMenuItems, 0);
-
-      this.emitTotalValue(price);
+      return this.orderedMenuItems.reduce(calculateTotalPriceOfOrderedMenuItems, 0);
     }
 };
 </script>
+
+<style lang="scss" scoped>
+  td {
+    width: 10%;
+
+    &:nth-child(2) {
+      width: 20%;
+    }
+
+    &:last-of-type {
+      width: 10%
+    }
+  }
+</style>

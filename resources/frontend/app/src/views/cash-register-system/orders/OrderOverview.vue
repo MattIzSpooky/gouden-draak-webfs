@@ -28,13 +28,13 @@
         <div class="card-body">
           <div class="row">
             <div class="col">
-              <h2> Omzet: €{{totalPrice}}</h2>
+              <h2> Omzet: &euro; {{totalPrice}}</h2>
             </div>
             <div class="col">
-              <h2> BTW: €{{totalPriceTax}}</h2>
+              <h2> BTW: &euro; {{totalPriceTax}}</h2>
             </div>
             <div class="col">
-              <h2> excl. BTW: €{{totalPriceWithoutTax}}</h2>
+              <h2> excl. BTW: &euro; {{totalPriceWithoutTax}}</h2>
             </div>
           </div>
         </div>
