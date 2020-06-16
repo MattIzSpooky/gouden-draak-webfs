@@ -22,7 +22,7 @@
         {{item.title}}
       </td>
       <td>
-        €{{item.price.toFixed(2)}}
+        &euro; {{item.price.toFixed(2)}}
       </td>
       <td>
         {{transformToDutchDate(item.validFrom)}}

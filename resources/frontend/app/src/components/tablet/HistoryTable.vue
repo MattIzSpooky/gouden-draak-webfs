@@ -22,7 +22,7 @@
           {{countOrderItems(order)}}
         </td>
         <td>
-          € {{calculateTotalPriceForOrder(order).toFixed(2)}}
+          &euro;  {{calculateTotalPriceForOrder(order).toFixed(2)}}
         </td>
       </tr>
       <tr :key="index">

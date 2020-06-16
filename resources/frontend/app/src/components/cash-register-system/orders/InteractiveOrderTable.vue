@@ -1,5 +1,5 @@
 <template>
-  <table class="table">
+  <table class="table w-100">
     <template v-for="item in orderedMenuItems">
       <tr :key="item.id">
         <td>
@@ -9,7 +9,7 @@
           {{item.dish.name}}
         </td>
         <td>
-          € {{item.dish.price.toFixed(2)}}
+          &euro; {{item.dish.price.toFixed(2)}}
         </td>
         <td>
           <input type="number" class="form-control" min="0" v-model.number="item.amount">
@@ -49,13 +49,14 @@ export default class OrderTable extends Vue {
     }) public readonly canComment!: boolean;
 
     @Emit('totalValue')
-    @Watch('orderedMenuItems', {deep: true})
+    @Watch('orderedMenuItems', {deep: true, immediate: true})
     onOrderedMenuItemsChanged() {
       const toBeRemovedIndex = this.orderedMenuItems.findIndex(i => i.amount <= 0);
 
       if (toBeRemovedIndex !== -1) {
         this.orderedMenuItems.splice(toBeRemovedIndex, 1);
       }
+
       return this.orderedMenuItems.reduce(calculateTotalPriceOfOrderedMenuItems, 0);
     }
 };

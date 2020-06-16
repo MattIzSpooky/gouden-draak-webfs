@@ -14,15 +14,18 @@
         </div>
       </div>
       <div class="col-md-5">
-        <div class="card m-3 fixed">
+        <div class="card m-3 fixed card-order">
           <div class="card-header">
             Bestelling
           </div>
-          <ul class="list-group list-group-flush order w-100">
+          <ul class="list-group list-group-flush order" v-if="orderedItems.length > 0">
             <li class="list-group-item p-0">
               <order-table @totalValue="onTotalValueChange" :orderedMenuItems="orderedItems"/>
             </li>
           </ul>
+          <div v-else class="card-text p-3 text-center">
+            <h3>De bestelling is leeg.</h3>
+          </div>
           <div class="card-footer">
             <div class="row p-3">
               <div class="col-md-8">
@@ -33,7 +36,7 @@
                         Totaal:
                       </h3>
                       <h3>
-                        €{{totalPrice.toFixed(2)}}
+                        &euro; {{totalPrice.toFixed(2)}}
                       </h3>
                     </div>
                   </div>
@@ -78,14 +81,14 @@ import MenuItemTable from '@/components/cash-register-system/menu-items/MenuItem
 
       const menuItems = response.data;
 
-      next(async (vm: Table) => {
+      next(async (vm: Order) => {
         vm.menu = menuItems.data;
 
         await vm.$store.commit('network/SET_LOADING', false);
       });
     }
   })
-export default class Table extends Vue {
+export default class Order extends Vue {
     public menu: MenuItem[] = [];
     private orderedItems: OrderedMenuItem[] = [];
     private totalPrice = 0;
@@ -129,6 +132,7 @@ export default class Table extends Vue {
 
     onClickDelete() {
       this.orderedItems = [];
+      this.totalPrice = 0;
     }
 
     onMenuItemClick(menuItem: MenuItem) {
@@ -154,8 +158,12 @@ export default class Table extends Vue {
    position: fixed;
  }
 
-  .order {
-    max-height: 400px;
-    overflow: scroll;
-  }
+ .card-order {
+   width: 40rem;
+ }
+
+ .order {
+   max-height: 25rem;
+   overflow-y: scroll;
+ }
 </style>
