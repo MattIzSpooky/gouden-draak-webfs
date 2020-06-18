@@ -63,7 +63,9 @@ class DailyOrdersExport implements
             'time' => $order->created_at->format('H:s'),
             'paidAt' => $order->paid_at->format('H:s'),
             'table' => $order->table->name,
-            'total' => $order->items->sum('dish.price')
+            'total' => $order->items->sum(function ($item) {
+                return $item->dish->price * $item->pivot->amount;
+            }),
         ];
     }
 
